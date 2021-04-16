@@ -4,3 +4,13 @@ spring:
     url: jdbc:mysql://47.105.99.75:3306/name_generator?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
     username: root
     password: 782231
+
+  freemarker:
+    suffix: .ftl
+
+# MyBatis
+mybatis:
+  # 搜索指定包别名
+  type-aliases-package: com.chenhongliang.namegenerator.model
+  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  mapper-locations: classpath*:mapper/**/*Mapper.xml
