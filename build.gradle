@@ -22,6 +22,14 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-freemarker'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.4'
+    // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpcore
+    implementation group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.4.9'
+    // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
+    implementation 'org.apache.httpcomponents:httpclient'
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+    implementation 'org.apache.commons:commons-lang3'
+    // https://mvnrepository.com/artifact/com.alibaba/fastjson
+    implementation group: 'com.alibaba', name: 'fastjson', version: '1.2.76'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'mysql:mysql-connector-java'

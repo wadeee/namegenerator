@@ -8,4 +8,41 @@
         select * from single_character
     </select>
 
+    <select id="isExist" parameterType="String" resultType="Boolean">
+        select count(*)
+        from single_character
+        <where>
+            `character` = #{character}
+        </where>
+    </select>
+
+    <insert id="insert" parameterType="SingleCharacterModel" useGeneratedKeys="true" keyProperty="id">
+        insert into single_character
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            `character`,
+            pinyin,
+            <if test="meaning != null and meaning != ''">meaning,</if>
+            <if test="wuxing != null and wuxing != ''">wuxing,</if>
+            <if test="idiom != null and idiom != ''">idiom,</if>
+            <if test="poetry != null and poetry != ''">poetry,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{character},
+            #{pinyin},
+            <if test="meaning != null and meaning != ''">#{meaning},</if>
+            <if test="wuxing != null and wuxing != ''">#{wuxing},</if>
+            <if test="idiom != null and idiom != ''">#{idiom},</if>
+            <if test="poetry != null and poetry != ''">#{poetry},</if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="SingleCharacterModel">
+        update single_character
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="boy">boy = #{boy},</if>
+            <if test="girl">girl = #{girl},</if>
+        </trim>
+        where `character` = #{character}
+    </update>
+
 </mapper>

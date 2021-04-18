@@ -11,4 +11,9 @@ public interface SingleCharacterMapper
 
 	List<SingleCharacterModel> findAll();
 
+	Boolean isExist(String character);
+
+	int insert(SingleCharacterModel singleCharacterModel);
+
+	int update(SingleCharacterModel singleCharacterModel);
 }
