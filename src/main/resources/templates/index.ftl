@@ -17,109 +17,255 @@
 <body>
 <div id="app">
     <v-app>
-        <v-container fluid>
-            <v-row>
-                <v-col
-                        xs="12"
-                        sm="12"
-                        md="6"
-                        lg="4"
+        <#--        <v-card>-->
+        <v-navigation-drawer
+                absolute
+                permanent>
+            <v-list-item>
+                <v-list-item-content>
+                    <v-list-item-title class="title">
+                        Application
+                    </v-list-item-title>
+                    <v-list-item-subtitle>
+                        subtext
+                    </v-list-item-subtitle>
+                </v-list-item-content>
+            </v-list-item>
+
+            <v-divider></v-divider>
+
+            <v-list
+                    dense
+                    nav
+            >
+                <v-list-item
+                        v-for="item in items"
+                        :key="item.title"
+                        link
                 >
-                    <v-card
-                            class="mx-auto my-12"
+                    <v-list-item-icon>
+                        <v-icon>{{ item.icon }}</v-icon>
+                    </v-list-item-icon>
+
+                    <v-list-item-content>
+                        <v-list-item-title>{{ item.title }}</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-list>
+
+        </v-navigation-drawer>
+        <v-main style="padding: 0px 0px 0px 256px;">
+            <v-container>
+                <v-row>
+                    <v-col
+                            xs="12"
+                            sm="12"
+                            md="6"
+                            lg="4"
                     >
-                        <v-img
-                                height="250"
-                                src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-                        ></v-img>
+                        <v-card
+                                class="mx-auto my-12"
+                        >
+                            <v-img
+                                    height="250"
+                                    src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                            ></v-img>
 
-                        <v-card-title>基装</v-card-title>
+                            <v-card-title>基装</v-card-title>
 
-                        <v-card-text>
-                            <v-form
-                                    ref="formA"
-                                    @submit.prevent="submitA"
-                            >
-                                <v-file-input chips label="空白台账" v-model="originFileA"></v-file-input>
-                                <v-file-input small-chips multiple label="分店" v-model="dataFilesA"></v-file-input>
-                                <v-btn
-                                        text
-                                        type="submit"
+                            <v-card-text>
+                                <v-form
+                                        ref="formA"
+                                        @submit.prevent="submitA"
                                 >
-                                    submit
-                                </v-btn>
-                            </v-form>
-                        </v-card-text>
-                    </v-card>
-                </v-col>
-                <v-col
-                        xs="12"
-                        sm="12"
-                        md="6"
-                        lg="4"
-                >
-                    <v-card
-                            class="mx-auto my-12"
+                                    <v-file-input chips label="空白台账" v-model="originFileA"></v-file-input>
+                                    <v-file-input small-chips multiple label="分店"
+                                                  v-model="dataFilesA"></v-file-input>
+                                    <v-btn
+                                            text
+                                            type="submit"
+                                    >
+                                        submit
+                                    </v-btn>
+                                </v-form>
+                            </v-card-text>
+                        </v-card>
+                    </v-col>
+                    <v-col
+                            xs="12"
+                            sm="12"
+                            md="6"
+                            lg="4"
                     >
-                        <v-img
-                                height="250"
-                                src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-                        ></v-img>
+                        <v-card
+                                class="mx-auto my-12"
+                        >
+                            <v-img
+                                    height="250"
+                                    src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+                            ></v-img>
 
-                        <v-card-title>增项</v-card-title>
+                            <v-card-title>增项</v-card-title>
 
-                        <v-card-text>
-                            <v-form
-                                    ref="formB"
-                                    @submit.prevent="submitB"
-                            >
-                                <v-file-input chips label="增项台账" v-model="originFileB"></v-file-input>
-                                <v-file-input small-chips multiple label="分店" v-model="dataFilesB"></v-file-input>
-                                <v-btn
-                                        text
-                                        type="submit"
+                            <v-card-text>
+                                <v-form
+                                        ref="formB"
+                                        @submit.prevent="submitB"
                                 >
-                                    submit
-                                </v-btn>
-                            </v-form>
-                        </v-card-text>
-                    </v-card>
-                </v-col>
-                <v-col
-                        xs="12"
-                        sm="12"
-                        md="6"
-                        lg="4"
-                >
-                    <v-card
-                            class="mx-auto my-12"
+                                    <v-file-input chips label="增项台账" v-model="originFileB"></v-file-input>
+                                    <v-file-input small-chips multiple label="分店"
+                                                  v-model="dataFilesB"></v-file-input>
+                                    <v-btn
+                                            text
+                                            type="submit"
+                                    >
+                                        submit
+                                    </v-btn>
+                                </v-form>
+                            </v-card-text>
+                        </v-card>
+                    </v-col>
+                    <v-col
+                            xs="12"
+                            sm="12"
+                            md="6"
+                            lg="4"
                     >
-                        <v-img
-                                height="250"
-                                src="https://cdn.vuetifyjs.com/images/cards/house.jpg"
-                        ></v-img>
+                        <v-card
+                                class="mx-auto my-12"
+                        >
+                            <v-img
+                                    height="250"
+                                    src="https://cdn.vuetifyjs.com/images/cards/house.jpg"
+                            ></v-img>
 
-                        <v-card-title>改造维修</v-card-title>
+                            <v-card-title>改造维修</v-card-title>
 
-                        <v-card-text>
-                            <v-form
-                                    ref="formC"
-                                    @submit.prevent="submitC"
-                            >
-                                <v-file-input chips label="台账" v-model="originFileC"></v-file-input>
-                                <v-file-input small-chips multiple label="分店" v-model="dataFilesC"></v-file-input>
-                                <v-btn
-                                        text
-                                        type="submit"
+                            <v-card-text>
+                                <v-form
+                                        ref="formC"
+                                        @submit.prevent="submitC"
                                 >
-                                    submit
-                                </v-btn>
-                            </v-form>
-                        </v-card-text>
-                    </v-card>
-                </v-col>
-            </v-row>
-        </v-container>
+                                    <v-file-input chips label="台账" v-model="originFileC"></v-file-input>
+                                    <v-file-input small-chips multiple label="分店"
+                                                  v-model="dataFilesC"></v-file-input>
+                                    <v-btn
+                                            text
+                                            type="submit"
+                                    >
+                                        submit
+                                    </v-btn>
+                                </v-form>
+                            </v-card-text>
+                        </v-card>
+                    </v-col>
+                </v-row>
+            </v-container>
+        </v-main>
+        <#--        </v-card>-->
+        <#--        <v-container fluid>-->
+        <#--            <v-row>-->
+        <#--                <v-col-->
+        <#--                        xs="12"-->
+        <#--                        sm="12"-->
+        <#--                        md="6"-->
+        <#--                        lg="4"-->
+        <#--                >-->
+        <#--                    <v-card-->
+        <#--                            class="mx-auto my-12"-->
+        <#--                    >-->
+        <#--                        <v-img-->
+        <#--                                height="250"-->
+        <#--                                src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"-->
+        <#--                        ></v-img>-->
+
+        <#--                        <v-card-title>基装</v-card-title>-->
+
+        <#--                        <v-card-text>-->
+        <#--                            <v-form-->
+        <#--                                    ref="formA"-->
+        <#--                                    @submit.prevent="submitA"-->
+        <#--                            >-->
+        <#--                                <v-file-input chips label="空白台账" v-model="originFileA"></v-file-input>-->
+        <#--                                <v-file-input small-chips multiple label="分店" v-model="dataFilesA"></v-file-input>-->
+        <#--                                <v-btn-->
+        <#--                                        text-->
+        <#--                                        type="submit"-->
+        <#--                                >-->
+        <#--                                    submit-->
+        <#--                                </v-btn>-->
+        <#--                            </v-form>-->
+        <#--                        </v-card-text>-->
+        <#--                    </v-card>-->
+        <#--                </v-col>-->
+        <#--                <v-col-->
+        <#--                        xs="12"-->
+        <#--                        sm="12"-->
+        <#--                        md="6"-->
+        <#--                        lg="4"-->
+        <#--                >-->
+        <#--                    <v-card-->
+        <#--                            class="mx-auto my-12"-->
+        <#--                    >-->
+        <#--                        <v-img-->
+        <#--                                height="250"-->
+        <#--                                src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"-->
+        <#--                        ></v-img>-->
+
+        <#--                        <v-card-title>增项</v-card-title>-->
+
+        <#--                        <v-card-text>-->
+        <#--                            <v-form-->
+        <#--                                    ref="formB"-->
+        <#--                                    @submit.prevent="submitB"-->
+        <#--                            >-->
+        <#--                                <v-file-input chips label="增项台账" v-model="originFileB"></v-file-input>-->
+        <#--                                <v-file-input small-chips multiple label="分店" v-model="dataFilesB"></v-file-input>-->
+        <#--                                <v-btn-->
+        <#--                                        text-->
+        <#--                                        type="submit"-->
+        <#--                                >-->
+        <#--                                    submit-->
+        <#--                                </v-btn>-->
+        <#--                            </v-form>-->
+        <#--                        </v-card-text>-->
+        <#--                    </v-card>-->
+        <#--                </v-col>-->
+        <#--                <v-col-->
+        <#--                        xs="12"-->
+        <#--                        sm="12"-->
+        <#--                        md="6"-->
+        <#--                        lg="4"-->
+        <#--                >-->
+        <#--                    <v-card-->
+        <#--                            class="mx-auto my-12"-->
+        <#--                    >-->
+        <#--                        <v-img-->
+        <#--                                height="250"-->
+        <#--                                src="https://cdn.vuetifyjs.com/images/cards/house.jpg"-->
+        <#--                        ></v-img>-->
+
+        <#--                        <v-card-title>改造维修</v-card-title>-->
+
+        <#--                        <v-card-text>-->
+        <#--                            <v-form-->
+        <#--                                    ref="formC"-->
+        <#--                                    @submit.prevent="submitC"-->
+        <#--                            >-->
+        <#--                                <v-file-input chips label="台账" v-model="originFileC"></v-file-input>-->
+        <#--                                <v-file-input small-chips multiple label="分店" v-model="dataFilesC"></v-file-input>-->
+        <#--                                <v-btn-->
+        <#--                                        text-->
+        <#--                                        type="submit"-->
+        <#--                                >-->
+        <#--                                    submit-->
+        <#--                                </v-btn>-->
+        <#--                            </v-form>-->
+        <#--                        </v-card-text>-->
+        <#--                    </v-card>-->
+        <#--                </v-col>-->
+        <#--            </v-row>-->
+        <#--        </v-container>-->
     </v-app>
 </div>
 
@@ -139,63 +285,18 @@
         el: '#app',
         vuetify: new Vuetify({
             theme: {
-                dark: true,
+                dark: false,
             },
         }),
         data: {
-            originFileA: null,
-            dataFilesA: null,
-            originFileB: null,
-            dataFilesB: null,
-            originFileC: null,
-            dataFilesC: null,
+            items: [
+                {title: 'Dashboard', icon: 'mdi-view-dashboard'},
+                {title: 'Photos', icon: 'mdi-image'},
+                {title: 'About', icon: 'mdi-help-box'},
+            ],
+            right: null,
         },
-        methods: {
-            submitA() {
-                let formData = new FormData()
-
-                formData.append("originFileA", this.originFileA)
-
-                for (let file of this.dataFilesA) {
-                    formData.append("dataFilesA", file)
-                }
-
-                axios.post('/a', formData, {responseType: 'blob'}).then(this.downloadFile)
-            },
-            submitB() {
-                let formData = new FormData()
-
-                formData.append("originFileB", this.originFileB)
-
-                for (let file of this.dataFilesB) {
-                    formData.append("dataFilesB", file)
-                }
-
-                axios.post('/b', formData, {responseType: 'blob'}).then(this.downloadFile)
-            },
-            submitC() {
-                let formData = new FormData()
-
-                formData.append("originFileC", this.originFileC)
-
-                for (let file of this.dataFilesC) {
-                    formData.append("dataFilesC", file)
-                }
-
-                axios.post('/c', formData, {responseType: 'blob'}).then(this.downloadFile)
-            },
-            downloadFile(res) {
-                if (res.status == 200) {
-                    let url = window.URL.createObjectURL(new Blob([res.data], {type: res["data"]["type"]}))
-                    let link = document.createElement('a')
-                    link.style.display = 'none'
-                    link.href = url
-                    link.setAttribute('download', "xiaozhi")
-                    document.body.appendChild(link)
-                    link.click()
-                }
-            }
-        },
+        methods: {},
     })
 
 </script>
