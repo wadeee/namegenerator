@@ -15,11 +15,6 @@ public class IndexController {
 
     @GetMapping
     public String index() {
-//        System.out.println(1);
-//        List<SingleCharacterModel>  result = singleCharacterService.findAll();
-//        for (SingleCharacterModel a: result) {
-//            System.out.println(a.toString());
-//        }
         return "/index";
     }
 

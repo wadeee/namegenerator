@@ -15,5 +15,5 @@ public interface SingleCharacterMapper
 
 	int insert(SingleCharacterModel singleCharacterModel);
 
-	int update(SingleCharacterModel singleCharacterModel);
+	int updateSex(List<String> characters, String sex);
 }

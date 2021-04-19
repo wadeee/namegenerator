@@ -41,6 +41,8 @@ public class SingleCharacterServiceImpl implements SingleCharacterService {
                 singleCharacterMapper.insert(getInfoFromApi(character));
             }
         }
+        singleCharacterMapper.updateSex(boyCharacters, "boy");
+        singleCharacterMapper.updateSex(girlCharacters, "girl");
         return "success";
     }
 
@@ -53,7 +55,6 @@ public class SingleCharacterServiceImpl implements SingleCharacterService {
         singleCharacterModel.setCharacter(character);
 
         JSONObject json = chineseSearchService.search(character + "的五行");
-//        System.out.println(json.toString());
         singleCharacterModel.setWuxing(json.getJSONArray("result").getJSONObject(0).getJSONObject("response").getJSONArray("answer").getString(0));
         JSONArray attrs = json.getJSONArray("result").getJSONObject(0).getJSONObject("response").getJSONArray("entity").getJSONObject(0).getJSONArray("attrs");
         for (Object item : attrs) {
@@ -70,7 +71,6 @@ public class SingleCharacterServiceImpl implements SingleCharacterService {
         }
 
         json = chineseSearchService.search(character + "的成语");
-//        System.out.println(json.toString());
         try {
             JSONArray answer = json.getJSONArray("result").getJSONObject(0).getJSONObject("response").getJSONArray("answer");
             if (!answer.get(0).toString().equals("成语")) {
@@ -81,7 +81,6 @@ public class SingleCharacterServiceImpl implements SingleCharacterService {
 
 
         json = chineseSearchService.search(character + "的诗词");
-//        System.out.println(json.toString());
         try {
             JSONArray answer = json.getJSONArray("result").getJSONObject(0).getJSONObject("response").getJSONArray("answer");
             if (!answer.get(0).toString().equals("诗词")) {
@@ -90,7 +89,6 @@ public class SingleCharacterServiceImpl implements SingleCharacterService {
         } catch (Exception e) {
         }
 
-        System.out.println(singleCharacterModel.toString());
         return singleCharacterModel;
     }
 }

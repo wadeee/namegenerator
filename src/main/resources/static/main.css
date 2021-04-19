@@ -1,0 +1,7 @@
+.v-main__wrap {
+    padding: 0px 0px 0px 256px;
+}
+
+.v-list-item:hover {
+    text-decoration: none;
+}
