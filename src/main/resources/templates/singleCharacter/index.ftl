@@ -40,14 +40,19 @@
             <v-dialog
                     v-model="dialog"
                     max-width="480"
+                    scrollable
                     persistent
             >
                 <v-card>
-                    <v-card-title class="headline">
-                        请选择合适的拼音
+                    <v-card-title
+                            class="headline"
+                    >
+                        请选择拼音
                     </v-card-title>
-
-                    <v-card-text>
+                    <v-divider></v-divider>
+                    <v-card-text
+                            style="height: 350px;"
+                    >
                         <v-form
                                 @submit.prevent="submitPinyin"
                         >
@@ -55,26 +60,25 @@
                                 <v-col
                                         v-for="(item, index) in pinyinSelected"
                                 >
-                                <v-select
-                                        v-model="pinyinSelected[index]"
-                                        :items="pinyinMap[index]"
-                                        filled
-                                        :label="index"
-                                ></v-select>
+                                    <v-select
+                                            v-model="pinyinSelected[index]"
+                                            :items="pinyinMap[index]"
+                                            filled
+                                            :label="index"
+                                    ></v-select>
                                 </v-col>
                             </v-row>
                         </v-form>
                     </v-card-text>
-
+                    <v-divider></v-divider>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-
                         <v-btn
-                                color="green darken-1"
-                                text
+                                depressed
+                                color="primary"
                                 @click="submitPinyin"
                         >
-                            选定
+                            确认
                         </v-btn>
                     </v-card-actions>
                 </v-card>
