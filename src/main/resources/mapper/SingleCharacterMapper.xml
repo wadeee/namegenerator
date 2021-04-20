@@ -4,11 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chenhongliang.namegenerator.mapper.SingleCharacterMapper">
 
-    <select id="findAll" resultType="com.chenhongliang.namegenerator.model.SingleCharacterModel">
-        select *
-        from single_character
-    </select>
-
     <select id="isExist" parameterType="String" resultType="Boolean">
         select count(*)
         from single_character
@@ -46,6 +41,12 @@
         <foreach item="item" collection="characters" open="(" close=")" separator=",">
             #{item}
         </foreach>
+    </update>
+
+    <update id="updatePinyin">
+        update single_character
+        set pinyin = #{pinyin}
+        where `character` = #{character}
     </update>
 
 </mapper>

@@ -1,12 +1,12 @@
 package com.chenhongliang.namegenerator.service;
 
-import com.chenhongliang.namegenerator.model.SingleCharacterModel;
-import com.chenhongliang.namegenerator.vo.SingleCharacterVo;
+import com.chenhongliang.namegenerator.form.SingleCharacterForm;
 
 import java.util.List;
+import java.util.Map;
 
 public interface SingleCharacterService {
-    List<SingleCharacterModel> findAll();
+    Map<String, List<String>> addCharacters(SingleCharacterForm singleCharacterForm) throws Exception;
 
-    String addCharacters(SingleCharacterVo singleCharacterVo) throws Exception;
+    String updatePinyin(Map<String, String> pinyinMap);
 }

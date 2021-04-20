@@ -9,4 +9,5 @@
       crossorigin="anonymous">
 <link href="/main.css" rel="stylesheet">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<#--<script src="https://unpkg.com/axios/dist/axios.min.js"></script>-->
+<script src="/axios.min.js"></script>

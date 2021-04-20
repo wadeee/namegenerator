@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chenhongliang.namegenerator.mapper.SingleCharacterManageMapper">
+
+    <select id="allAmount" resultType="Integer">
+        select count(*)
+        from single_character
+    </select>
+
+    <select id="selectByCharacter" parameterType="String" resultType="SingleCharacterModel">
+        select *
+        from single_character
+        where `character` = #{character}
+    </select>
+
+    <update id="updateCharacter" parameterType="SingleCharacterManageForm">
+        update single_character
+        <set>
+            pinyin = #{pinyin},
+            meaning = #{meaning},
+            wuxing = #{wuxing},
+            idiom = #{idiom},
+            poetry = #{poetry},
+            boy = #{boy},
+            girl = #{girl},
+        </set>
+        <where>
+            `character` = #{character}
+        </where>
+    </update>
+
+    <delete id="deleteCharacter" parameterType="String">
+        delete from single_character
+        <where>
+            `character` = #{character}
+        </where>
+    </delete>
+
+</mapper>

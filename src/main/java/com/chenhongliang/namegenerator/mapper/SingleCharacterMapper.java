@@ -8,12 +8,11 @@ import java.util.List;
 @Mapper
 public interface SingleCharacterMapper
 {
-
-	List<SingleCharacterModel> findAll();
-
 	Boolean isExist(String character);
 
-	int insert(SingleCharacterModel singleCharacterModel);
+	Integer insert(SingleCharacterModel singleCharacterModel);
 
-	int updateSex(List<String> characters, String sex);
+	Integer updateSex(List<String> characters, String sex);
+
+	Integer updatePinyin(String character, String pinyin);
 }

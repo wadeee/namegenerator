@@ -6,12 +6,14 @@ import com.chenhongliang.namegenerator.mapper.SingleCharacterMapper;
 import com.chenhongliang.namegenerator.model.SingleCharacterModel;
 import com.chenhongliang.namegenerator.service.ChineseSearchService;
 import com.chenhongliang.namegenerator.service.SingleCharacterService;
-import com.chenhongliang.namegenerator.vo.SingleCharacterVo;
+import com.chenhongliang.namegenerator.form.SingleCharacterForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class SingleCharacterServiceImpl implements SingleCharacterService {
@@ -23,27 +25,36 @@ public class SingleCharacterServiceImpl implements SingleCharacterService {
     private ChineseSearchService chineseSearchService;
 
     @Override
-    public List<SingleCharacterModel> findAll() {
-        return singleCharacterMapper.findAll();
+    public Map<String, List<String>> addCharacters(SingleCharacterForm singleCharacterForm) throws Exception {
+        List<String> boyCharacters = splitString(singleCharacterForm.getBoyCharacters());
+        List<String> girlCharacters = splitString(singleCharacterForm.getGirlCharacters());
+        Map<String, List<String>> pinyinMap = new LinkedHashMap<>();
+        analyseCharacters(boyCharacters, pinyinMap);
+        analyseCharacters(girlCharacters, pinyinMap);
+        singleCharacterMapper.updateSex(boyCharacters, "boy");
+        singleCharacterMapper.updateSex(girlCharacters, "girl");
+        return pinyinMap;
     }
 
     @Override
-    public String addCharacters(SingleCharacterVo singleCharacterVo) throws Exception {
-        List<String> boyCharacters = splitString(singleCharacterVo.getBoyCharacters());
-        List<String> girlCharacters = splitString(singleCharacterVo.getGirlCharacters());
+    public String updatePinyin(Map<String, String> pinyinMap) {
+        for (Map.Entry<String, String> entry : pinyinMap.entrySet()) {
+            singleCharacterMapper.updatePinyin(entry.getKey(), entry.getValue());
+        }
+        return "success";
+    }
+
+    private void analyseCharacters(List<String> boyCharacters, Map<String, List<String>> pinyinMap) throws Exception {
         for (String character : boyCharacters) {
             if (character.length() == 1 && !singleCharacterMapper.isExist(character)) {
-                singleCharacterMapper.insert(getInfoFromApi(character));
+                SingleCharacterModel singleCharacterModel = getInfoFromApi(character);
+                singleCharacterMapper.insert(singleCharacterModel);
+                List<String> pinyinList = Arrays.asList(singleCharacterModel.getPinyin().split("(　|\\s)*(,|，)(　|\\s)*"));
+                if (pinyinList.size() > 1) {
+                    pinyinMap.put(character, pinyinList);
+                }
             }
         }
-        for (String character : girlCharacters) {
-            if (character.length() == 1 && !singleCharacterMapper.isExist(character)) {
-                singleCharacterMapper.insert(getInfoFromApi(character));
-            }
-        }
-        singleCharacterMapper.updateSex(boyCharacters, "boy");
-        singleCharacterMapper.updateSex(girlCharacters, "girl");
-        return "success";
     }
 
     private List<String> splitString(String str) {
@@ -62,7 +73,9 @@ public class SingleCharacterServiceImpl implements SingleCharacterService {
             String label = jsonItem.getString("label");
             switch (label) {
                 case "拼音":
-                    singleCharacterModel.setPinyin(jsonItem.getJSONArray("objects").getJSONObject(0).getString("value"));
+                    String pinyin = jsonItem.getJSONArray("objects").getJSONObject(0).getString("value");
+                    pinyin = pinyin.substring(1, pinyin.length() - 1);
+                    singleCharacterModel.setPinyin(pinyin);
                     break;
                 case "释义":
                     singleCharacterModel.setMeaning(jsonItem.getJSONArray("objects").getJSONObject(0).getString("value"));
@@ -74,7 +87,9 @@ public class SingleCharacterServiceImpl implements SingleCharacterService {
         try {
             JSONArray answer = json.getJSONArray("result").getJSONObject(0).getJSONObject("response").getJSONArray("answer");
             if (!answer.get(0).toString().equals("成语")) {
-                singleCharacterModel.setIdiom(answer.toString());
+                String answerStr = answer.toString();
+                answerStr = answerStr.substring(1, answerStr.length() - 1);
+                singleCharacterModel.setIdiom(answerStr);
             }
         } catch (Exception e) {
         }
@@ -84,7 +99,9 @@ public class SingleCharacterServiceImpl implements SingleCharacterService {
         try {
             JSONArray answer = json.getJSONArray("result").getJSONObject(0).getJSONObject("response").getJSONArray("answer");
             if (!answer.get(0).toString().equals("诗词")) {
-                singleCharacterModel.setPoetry(answer.toString());
+                String answerStr = answer.toString();
+                answerStr = answerStr.substring(1, answerStr.length() - 1);
+                singleCharacterModel.setPoetry(answerStr);
             }
         } catch (Exception e) {
         }

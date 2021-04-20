@@ -39,15 +39,31 @@
         <v-row justify="center">
             <v-dialog
                     v-model="dialog"
-                    max-width="290"
+                    max-width="480"
+                    persistent
             >
                 <v-card>
                     <v-card-title class="headline">
-                        Use Google's location service?
+                        请选择合适的拼音
                     </v-card-title>
 
                     <v-card-text>
-                        Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.
+                        <v-form
+                                @submit.prevent="submitPinyin"
+                        >
+                            <v-row>
+                                <v-col
+                                        v-for="(item, index) in pinyinSelected"
+                                >
+                                <v-select
+                                        v-model="pinyinSelected[index]"
+                                        :items="pinyinMap[index]"
+                                        filled
+                                        :label="index"
+                                ></v-select>
+                                </v-col>
+                            </v-row>
+                        </v-form>
                     </v-card-text>
 
                     <v-card-actions>
@@ -56,17 +72,9 @@
                         <v-btn
                                 color="green darken-1"
                                 text
-                                @click="dialog = false"
+                                @click="submitPinyin"
                         >
-                            Disagree
-                        </v-btn>
-
-                        <v-btn
-                                color="green darken-1"
-                                text
-                                @click="dialog = false"
-                        >
-                            Agree
+                            选定
                         </v-btn>
                     </v-card-actions>
                 </v-card>
@@ -90,12 +98,27 @@
                 girlCharacters: "",
             },
             dialog: false,
+            pinyinMap: {},
+            pinyinSelected: {},
         },
         methods: {
             submit() {
                 axios.post('/single-character', this.singleCharacterVo)
                     .then((response) => {
-                        console.log("返回的值" + response.data)
+                        this.pinyinMap = response.data
+                        for (let [key, val] of Object.entries(this.pinyinMap)) {
+                            this.pinyinSelected[key] = val[0]
+                        }
+                        this.dialog = true;
+                    }).catch((response) => {
+                    console.log("错误" + response)
+                })
+            },
+            submitPinyin() {
+                axios.post('/single-character/pinyin', this.pinyinSelected)
+                    .then((response) => {
+                        this.dialog = false
+                        window.location.href = "/single-character"
                     }).catch((response) => {
                     console.log("错误" + response)
                 })
