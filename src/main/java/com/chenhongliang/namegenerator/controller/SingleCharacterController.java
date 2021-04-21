@@ -1,12 +1,12 @@
 package com.chenhongliang.namegenerator.controller;
 
-import com.chenhongliang.namegenerator.service.SingleCharacterService;
 import com.chenhongliang.namegenerator.form.SingleCharacterForm;
+import com.chenhongliang.namegenerator.service.SingleCharacterService;
+import com.chenhongliang.namegenerator.vo.AddSingleCharacterResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -23,7 +23,7 @@ public class SingleCharacterController {
 
     @PostMapping
     @ResponseBody
-    public Map<String, List<String>> add(@RequestBody SingleCharacterForm singleCharacterForm) throws Exception {
+    public AddSingleCharacterResultVo add(@RequestBody SingleCharacterForm singleCharacterForm) throws Exception {
         return singleCharacterService.addCharacters(singleCharacterForm);
     }
 

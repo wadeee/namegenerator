@@ -18,11 +18,11 @@
                                     @submit.prevent="submit"
                             >
                                 <v-text-field
-                                        v-model="singleCharacterVo.boyCharacters"
+                                        v-model="singleCharacterForm.boyCharacters"
                                         label="男"
                                 ></v-text-field>
                                 <v-text-field
-                                        v-model="singleCharacterVo.girlCharacters"
+                                        v-model="singleCharacterForm.girlCharacters"
                                         label="女"
                                 ></v-text-field>
                                 <v-btn
@@ -84,6 +84,23 @@
                 </v-card>
             </v-dialog>
         </v-row>
+        <v-snackbar
+                v-model="snackbar.show"
+                :multi-line="snackbar.multiLine"
+                :timeout="snackbar.timeout"
+        >
+            {{ snackbar.message }}
+            <template v-slot:action="{ attrs }">
+                <v-btn
+                        color="red"
+                        text
+                        v-bind="attrs"
+                        @click="snackbar.show = false"
+                >
+                    关闭
+                </v-btn>
+            </template>
+        </v-snackbar>
     </v-app>
 </div>
 
@@ -97,35 +114,48 @@
             },
         }),
         data: {
-            singleCharacterVo: {
+            singleCharacterForm: {
                 boyCharacters: "",
                 girlCharacters: "",
             },
             dialog: false,
             pinyinMap: {},
             pinyinSelected: {},
+            charactersAddFailed: {},
+            snackbar: {
+                message: null,
+                show: false,
+                timeout: 10000,
+                multiLine: true,
+            },
         },
         methods: {
             submit() {
-                axios.post('/single-character', this.singleCharacterVo)
+                axios.post('/single-character', this.singleCharacterForm)
                     .then((response) => {
-                        this.pinyinMap = response.data
-                        for (let [key, val] of Object.entries(this.pinyinMap)) {
-                            this.pinyinSelected[key] = val[0]
+                        this.snackbar.message = response.data.charactersAddFailed.join(', ') + ' 添加失败'
+                        this.charactersAddFailed = response.data.charactersAddFailed
+                        if (response.status == 200) {
+                            this.pinyinMap = response.data.pinyinSelectMap
+                            for (let [key, val] of Object.entries(this.pinyinMap)) {
+                                this.pinyinSelected[key] = val[0]
+                            }
+                            if (Object.keys(this.pinyinMap).length>0) {
+                                this.dialog = true
+                            } else if (this.charactersAddFailed.length>0) {
+                                this.snackbar.show = true
+                            }
                         }
-                        this.dialog = true;
-                    }).catch((response) => {
-                    console.log("错误" + response)
-                })
+                    })
             },
             submitPinyin() {
                 axios.post('/single-character/pinyin', this.pinyinSelected)
                     .then((response) => {
                         this.dialog = false
-                        window.location.href = "/single-character"
-                    }).catch((response) => {
-                    console.log("错误" + response)
-                })
+                        if (this.charactersAddFailed.length>0) {
+                            this.snackbar.show = true
+                        }
+                    })
             },
         },
     })

@@ -1,5 +1,7 @@
 package com.chenhongliang.namegenerator.service.impl;
 
+import com.chenhongliang.namegenerator.exception.NoCharacterException;
+import com.chenhongliang.namegenerator.exception.NotCorrectSizeException;
 import com.chenhongliang.namegenerator.form.SingleCharacterManageForm;
 import com.chenhongliang.namegenerator.mapper.SingleCharacterManageMapper;
 import com.chenhongliang.namegenerator.mapper.SingleCharacterMapper;
@@ -25,8 +27,11 @@ public class SingleCharacterManageServiceImpl implements SingleCharacterManageSe
     @Override
     public SingleCharacterManageForm getCharacterInfo(String character) {
         System.out.println(character);
+        if (character.length() != 1) {
+            throw new NotCorrectSizeException();
+        }
         if (!singleCharacterMapper.isExist(character)) {
-            return null;
+            throw new NoCharacterException();
         }
         SingleCharacterModel result = singleCharacterManageMapper.selectByCharacter(character);
         System.out.println(result.toString());

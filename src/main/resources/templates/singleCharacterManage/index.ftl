@@ -124,6 +124,23 @@
                 </v-card>
             </v-dialog>
         </v-row>
+        <v-snackbar
+                v-model="snackbar.show"
+                :multi-line="snackbar.multiLine"
+                :timeout="snackbar.timeout"
+        >
+            {{ snackbar.errorMessage }}
+            <template v-slot:action="{ attrs }">
+                <v-btn
+                        color="red"
+                        text
+                        v-bind="attrs"
+                        @click="snackbar.show = false"
+                >
+                    关闭
+                </v-btn>
+            </template>
+        </v-snackbar>
     </v-app>
 </div>
 
@@ -152,26 +169,39 @@
                 girl: false,
             },
             dialog: false,
+            snackbar: {
+                errorMessage: null,
+                show: false,
+                timeout: 10000,
+                multiLine: false,
+            },
         },
         methods: {
             submit() {
                 axios.post('/single-character-manage', this.searchInfo)
                     .then((response) => {
-                        if (response.data != '') {
-                            this.charaterInfo = response.data
-                            this.dialog = true
+                        console.log(response)
+                        switch (response.status) {
+                            case 204:
+                                this.snackbar.errorMessage = "'" + this.searchInfo.character + "'字未录入字库"
+                                this.snackbar.show = true
+                                return
+                            case 205:
+                                this.snackbar.errorMessage = "请输入一个字符"
+                                this.snackbar.show = true
+                                return
+                            case 200:
+                                this.charaterInfo = response.data
+                                this.snackbar.show = false
+                                this.dialog = true
                         }
-                    }).catch((response) => {
-                    console.log("错误" + response)
-                })
+                    })
             },
             updateCharacter() {
                 axios.post('/single-character-manage/update', this.charaterInfo)
                     .then((response) => {
                         this.dialog = false
-                    }).catch((response) => {
-                    console.log("错误" + response)
-                })
+                    })
             },
             deleteCharacter() {
                 axios.post('/single-character-manage/delete', this.searchInfo)
@@ -179,9 +209,7 @@
                         console.log(response.data)
                         this.dialog = false
                         window.location.href = "/single-character-manage"
-                    }).catch((response) => {
-                    console.log("错误" + response)
-                })
+                    })
             },
         },
     })
