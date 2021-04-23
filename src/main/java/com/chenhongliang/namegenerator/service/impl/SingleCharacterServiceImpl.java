@@ -2,12 +2,13 @@ package com.chenhongliang.namegenerator.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.chenhongliang.namegenerator.form.SingleCharacterForm;
 import com.chenhongliang.namegenerator.mapper.SingleCharacterMapper;
 import com.chenhongliang.namegenerator.model.SingleCharacterModel;
 import com.chenhongliang.namegenerator.service.ChineseSearchService;
 import com.chenhongliang.namegenerator.service.SingleCharacterService;
-import com.chenhongliang.namegenerator.form.SingleCharacterForm;
 import com.chenhongliang.namegenerator.vo.AddSingleCharacterResultVo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -68,7 +69,7 @@ public class SingleCharacterServiceImpl implements SingleCharacterService {
     }
 
     private List<String> splitString(String str) {
-        return Arrays.asList(str.split("(　|\\s)*(,|，)(　|\\s)*"));
+        return Arrays.asList(str.split("(　|\\s)*(,|，|　|\\s)(　|\\s)*"));
     }
 
     private SingleCharacterModel getInfoFromApi(String character) throws Exception {
@@ -111,11 +112,16 @@ public class SingleCharacterServiceImpl implements SingleCharacterService {
         json = chineseSearchService.search(character + "的诗词");
         try {
             JSONArray answer = json.getJSONArray("result").getJSONObject(0).getJSONObject("response").getJSONArray("answer");
-            if (!answer.get(0).toString().equals("诗词")) {
-                String answerStr = answer.toString();
-                answerStr = answerStr.substring(1, answerStr.length() - 1);
-                singleCharacterModel.setPoetry(answerStr);
+            JSONArray entityList = json.getJSONArray("result").getJSONObject(0).getJSONObject("response").getJSONArray("entity");
+            List<String> poetryList = new LinkedList<>();
+
+            for (Object entity : entityList) {
+                JSONObject jsonEntity = (JSONObject) entity;
+                String author = jsonEntity.getJSONArray("attrs").getJSONObject(1).getJSONArray("objects").getJSONObject(0).getString("value");
+                String poemLine = jsonEntity.getString("name");
+                poetryList.add(poemLine + " —— " + author);
             }
+            singleCharacterModel.setPoetry(StringUtils.join(poetryList, "\n"));
         } catch (Exception e) {
         }
 

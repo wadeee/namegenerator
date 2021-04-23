@@ -26,7 +26,6 @@ public class SingleCharacterManageServiceImpl implements SingleCharacterManageSe
 
     @Override
     public SingleCharacterManageForm getCharacterInfo(String character) {
-        System.out.println(character);
         if (character.length() != 1) {
             throw new NotCorrectSizeException();
         }
@@ -34,7 +33,6 @@ public class SingleCharacterManageServiceImpl implements SingleCharacterManageSe
             throw new NoCharacterException();
         }
         SingleCharacterModel result = singleCharacterManageMapper.selectByCharacter(character);
-        System.out.println(result.toString());
         SingleCharacterManageForm singleCharacterManageForm = new SingleCharacterManageForm();
         singleCharacterManageForm.setCharacter(result.getCharacter());
         singleCharacterManageForm.setMeaning(result.getMeaning());
@@ -44,7 +42,6 @@ public class SingleCharacterManageServiceImpl implements SingleCharacterManageSe
         singleCharacterManageForm.setBoy(result.getBoy());
         singleCharacterManageForm.setGirl(result.getGirl());
         singleCharacterManageForm.setIdiom(result.getIdiom());
-        System.out.println(singleCharacterManageForm.toString());
         return singleCharacterManageForm;
     }
 

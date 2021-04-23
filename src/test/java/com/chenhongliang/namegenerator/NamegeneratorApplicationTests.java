@@ -19,7 +19,6 @@ class NamegeneratorApplicationTests {
 
     @Test
     void contextLoads() throws Exception {
-        System.out.println("".length());
     }
 
 }

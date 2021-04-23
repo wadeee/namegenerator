@@ -30,7 +30,6 @@ public class SingleCharacterController {
     @PostMapping("/pinyin")
     @ResponseBody
     public String pinyin(@RequestBody Map<String, String> pinyinMap) {
-        System.out.println(pinyinMap.toString());
         singleCharacterService.updatePinyin(pinyinMap);
         return "success";
     }

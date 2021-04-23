@@ -84,7 +84,24 @@
                 </v-card>
             </v-dialog>
         </v-row>
-        <v-snackbar
+        <v-Snackbar
+                v-model="errorSnackbar.show"
+                :multi-line="errorSnackbar.multiLine"
+                :timeout="errorSnackbar.timeout"
+        >
+            {{ errorSnackbar.message }}
+            <template v-slot:action="{ attrs }">
+                <v-btn
+                        color="red"
+                        text
+                        v-bind="attrs"
+                        @click="errorSnackbar.show = false"
+                >
+                    关闭
+                </v-btn>
+            </template>
+        </v-Snackbar>
+        <v-Snackbar
                 v-model="snackbar.show"
                 :multi-line="snackbar.multiLine"
                 :timeout="snackbar.timeout"
@@ -100,7 +117,7 @@
                     关闭
                 </v-btn>
             </template>
-        </v-snackbar>
+        </v-Snackbar>
     </v-app>
 </div>
 
@@ -122,18 +139,24 @@
             pinyinMap: {},
             pinyinSelected: {},
             charactersAddFailed: {},
-            snackbar: {
+            errorSnackbar: {
                 message: null,
                 show: false,
                 timeout: 10000,
                 multiLine: true,
+            },
+            snackbar: {
+                message: "所有字均上传成功",
+                show: false,
+                timeout: 10000,
+                multiLine: false,
             },
         },
         methods: {
             submit() {
                 axios.post('/single-character', this.singleCharacterForm)
                     .then((response) => {
-                        this.snackbar.message = response.data.charactersAddFailed.join(', ') + ' 添加失败'
+                        this.errorSnackbar.message = response.data.charactersAddFailed.join(', ') + ' 添加失败'
                         this.charactersAddFailed = response.data.charactersAddFailed
                         if (response.status == 200) {
                             this.pinyinMap = response.data.pinyinSelectMap
@@ -143,6 +166,8 @@
                             if (Object.keys(this.pinyinMap).length>0) {
                                 this.dialog = true
                             } else if (this.charactersAddFailed.length>0) {
+                                this.errorSnackbar.show = true
+                            } else {
                                 this.snackbar.show = true
                             }
                         }
@@ -153,9 +178,23 @@
                     .then((response) => {
                         this.dialog = false
                         if (this.charactersAddFailed.length>0) {
+                            this.errorSnackbar.show = true
+                        } else {
                             this.snackbar.show = true
                         }
                     })
+            },
+        },
+        watch: {
+            'snackbar.show': function () {
+                if (this.snackbar.show) {
+                    this.errorSnackbar.show = false
+                }
+            },
+            'errorSnackbar.show': function () {
+                if (this.errorSnackbar.show) {
+                    this.snackbar.show = false
+                }
             },
         },
     })
