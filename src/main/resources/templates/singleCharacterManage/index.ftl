@@ -125,14 +125,31 @@
             </v-dialog>
         </v-row>
         <v-snackbar
-                v-model="snackbar.show"
-                :multi-line="snackbar.multiLine"
-                :timeout="snackbar.timeout"
+                v-model="errorSnackbar.show"
+                :multi-line="errorSnackbar.multiLine"
+                :timeout="errorSnackbar.timeout"
         >
-            {{ snackbar.errorMessage }}
+            {{ errorSnackbar.message }}
             <template v-slot:action="{ attrs }">
                 <v-btn
                         color="red"
+                        text
+                        v-bind="attrs"
+                        @click="errorSnackbar.show = false"
+                >
+                    关闭
+                </v-btn>
+            </template>
+        </v-snackbar>
+        <v-Snackbar
+                v-model="snackbar.show"
+                :multi-line="snackbar.multiLine"
+                :timeout="snackbar.timeout"
+                color="blue-grey"
+        >
+            {{ snackbar.message }}
+            <template v-slot:action="{ attrs }">
+                <v-btn
                         text
                         v-bind="attrs"
                         @click="snackbar.show = false"
@@ -140,7 +157,7 @@
                     关闭
                 </v-btn>
             </template>
-        </v-snackbar>
+        </v-Snackbar>
     </v-app>
 </div>
 
@@ -169,8 +186,14 @@
                 girl: false,
             },
             dialog: false,
+            errorSnackbar: {
+                message: null,
+                show: false,
+                timeout: 10000,
+                multiLine: false,
+            },
             snackbar: {
-                errorMessage: null,
+                message: null,
                 show: false,
                 timeout: 10000,
                 multiLine: false,
@@ -180,19 +203,18 @@
             submit() {
                 axios.post('/single-character-manage', this.searchInfo)
                     .then((response) => {
-                        console.log(response)
                         switch (response.status) {
                             case 204:
-                                this.snackbar.errorMessage = "'" + this.searchInfo.character + "'字未录入字库"
-                                this.snackbar.show = true
+                                this.errorSnackbar.message = "'" + this.searchInfo.character + "'字未录入字库"
+                                this.errorSnackbar.show = true
                                 return
                             case 205:
-                                this.snackbar.errorMessage = "请输入一个字符"
-                                this.snackbar.show = true
+                                this.errorSnackbar.message = "请输入一个字符"
+                                this.errorSnackbar.show = true
                                 return
                             case 200:
                                 this.charaterInfo = response.data
-                                this.snackbar.show = false
+                                this.errorSnackbar.show = false
                                 this.dialog = true
                         }
                     })
@@ -201,15 +223,37 @@
                 axios.post('/single-character-manage/update', this.charaterInfo)
                     .then((response) => {
                         this.dialog = false
+                        this.snackbar.message = this.searchInfo.character + " 字已更新"
+                        this.snackbar.show = true
                     })
             },
             deleteCharacter() {
                 axios.post('/single-character-manage/delete', this.searchInfo)
                     .then((response) => {
-                        console.log(response.data)
                         this.dialog = false
-                        window.location.href = "/single-character-manage"
+                        // window.location.href = "/single-character-manage"
+                        this.errorSnackbar.message = this.searchInfo.character + " 字已删除"
+                        this.errorSnackbar.show = true
+                        this.updateAmount()
                     })
+            },
+            updateAmount() {
+                axios.get('/single-character-manage/get-amount')
+                    .then((response) => {
+                        this.characterAmount = response.data.amount
+                    })
+            }
+        },
+        watch: {
+            'snackbar.show': function () {
+                if (this.snackbar.show) {
+                    this.errorSnackbar.show = false
+                }
+            },
+            'errorSnackbar.show': function () {
+                if (this.errorSnackbar.show) {
+                    this.snackbar.show = false
+                }
             },
         },
     })

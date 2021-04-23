@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -20,6 +21,14 @@ public class SingleCharacterManageController {
     public String index(Model model) {
         model.addAttribute("characterAmount", singleCharacterManageService.getCharacterAmount());
         return "singleCharacterManage/index";
+    }
+
+    @GetMapping("/get-amount")
+    @ResponseBody
+    public Map<String, Integer> amount() {
+        Map<String, Integer> result = new HashMap<>();
+        result.put("amount", singleCharacterManageService.getCharacterAmount());
+        return result;
     }
 
     @PostMapping
