@@ -7,18 +7,14 @@
     <select id="isExist" parameterType="String" resultType="Boolean">
         select count(*)
         from single_character
-        <where>
-            del_flag = false
+        where del_flag = false
             and `character` = #{character}
-        </where>
     </select>
 
     <select id="isEverExist" parameterType="String" resultType="Boolean">
         select count(*)
         from single_character
-        <where>
-            and `character` = #{character}
-        </where>
+        where `character` = #{character}
     </select>
 
     <insert id="insert" parameterType="SingleCharacterModel" useGeneratedKeys="true" keyProperty="id">

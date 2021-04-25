@@ -7,18 +7,14 @@
     <select id="allAmount" resultType="Integer">
         select count(*)
         from single_character
-        <where>
-            del_flag = false
-        </where>
+        where del_flag = false
     </select>
 
     <select id="selectByCharacter" parameterType="String" resultType="SingleCharacterModel">
         select *
         from single_character
-        <where>
-            del_flag = false
+        where del_flag = false
             and `character` = #{character}
-        </where>
     </select>
 
     <update id="updateCharacter" parameterType="SingleCharacterManageForm">
@@ -32,17 +28,13 @@
             male = #{male},
             female = #{female},
         </set>
-        <where>
-            `character` = #{character}
-        </where>
+        where `character` = #{character}
     </update>
 
     <update id="deleteCharacter" parameterType="String">
         update single_character
         set del_flag = true
-        <where>
-            `character` = #{character}
-        </where>
+        where `character` = #{character}
     </update>
 
 </mapper>
