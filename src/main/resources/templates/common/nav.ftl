@@ -23,7 +23,7 @@
                 href="/single-character"
         >
             <v-list-item-icon>
-                <v-icon>mdi-view-dashboard</v-icon>
+                <v-icon>mdi-at</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
                 <v-list-item-title>字库上传</v-list-item-title>
@@ -35,7 +35,7 @@
                 active
         >
             <v-list-item-icon>
-                <v-icon>mdi-view-dashboard</v-icon>
+                <v-icon>mdi-google-assistant</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
                 <v-list-item-title>字库管理</v-list-item-title>
@@ -47,7 +47,7 @@
                 active
         >
             <v-list-item-icon>
-                <v-icon>mdi-view-dashboard</v-icon>
+                <v-icon>mdi-google-circles</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
                 <v-list-item-title>名库上传</v-list-item-title>

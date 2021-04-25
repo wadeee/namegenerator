@@ -139,8 +139,8 @@
         computed: {
             pinyin: function () {
                 let temp = []
-                for (let [key, val] of Object.entries(this.pinyinSelected)) {
-                    temp.push(val)
+                for (let i = 0; i < this.nameLibraryForm.name.length; i++) {
+                    temp.push(this.pinyinSelected[this.nameLibraryForm.name[i]])
                 }
                 return temp.join(' ')
             },
