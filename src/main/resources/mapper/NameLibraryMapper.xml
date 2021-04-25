@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chenhongliang.namegenerator.mapper.NameLibraryMapper">
+
+    <select id="isExist" parameterType="String" resultType="Boolean">
+        select count(*)
+        from name_library
+        where del_flag = false
+          and name = #{name}
+    </select>
+
+    <select id="isEverExist" parameterType="String" resultType="Boolean">
+        select count(*)
+        from name_library
+        where name = #{name}
+    </select>
+
+    <insert id="insert" parameterType="NameLibraryModel" useGeneratedKeys="true" keyProperty="id">
+        insert into name_library
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            name,
+            pinyin,
+            <if test="meaning != null and meaning != ''">meaning,</if>
+            <if test="wuxing != null and wuxing != ''">wuxing,</if>
+            <if test="source != null and source != ''">`source`,</if>
+            <if test="male != null and male != ''">`male`,</if>
+            <if test="female != null and female != ''">`female`,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{name},
+            #{pinyin},
+            <if test="meaning != null and meaning != ''">#{meaning},</if>
+            <if test="wuxing != null and wuxing != ''">#{wuxing},</if>
+            <if test="source != null and source != ''">#{source},</if>
+            <if test="male != null and male != ''">#{male},</if>
+            <if test="female != null and female != ''">#{female},</if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="NameLibraryModel" >
+        update name_library
+        <set>
+            <if test="pinyin != null and pinyin != ''">meaning = #{pinyin},</if>
+            <if test="meaning != null and meaning != ''">meaning = #{meaning},</if>
+            <if test="wuxing != null and wuxing != ''">wuxing = #{wuxing},</if>
+            <if test="source != null and source != ''">`source` = #{source},</if>
+            male = #{male},
+            female = #{female},
+        </set>
+        where name = #{name}
+    </update>
+
+    <update id="updateDelFlag">
+        update name_library
+        set del_flag = #{delFlag}
+        where name = #{name}
+    </update>
+
+    <update id="updateSex">
+        update name_library
+        set male   = #{male},
+            female = #{female}
+        where name = #{name}
+    </update>
+
+    <update id="updatePinyin">
+        update name_library
+        set pinyin = #{pinyin}
+        where `name` = #{name}
+    </update>
+
+</mapper>
