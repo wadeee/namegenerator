@@ -223,6 +223,12 @@
                     this.snackbar.show = false
                 }
             },
+            'dialog': function () {
+                if (this.dialog) {
+                    this.errorSnackbar.show = false
+                    this.snackbar.show = false
+                }
+            },
         },
     })
 
