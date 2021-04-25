@@ -84,40 +84,8 @@
                 </v-card>
             </v-dialog>
         </v-row>
-        <v-Snackbar
-                v-model="errorSnackbar.show"
-                :multi-line="errorSnackbar.multiLine"
-                :timeout="errorSnackbar.timeout"
-        >
-            {{ errorSnackbar.message }}
-            <template v-slot:action="{ attrs }">
-                <v-btn
-                        color="red"
-                        text
-                        v-bind="attrs"
-                        @click="errorSnackbar.show = false"
-                >
-                    关闭
-                </v-btn>
-            </template>
-        </v-Snackbar>
-        <v-Snackbar
-                v-model="snackbar.show"
-                :multi-line="snackbar.multiLine"
-                :timeout="snackbar.timeout"
-                color="blue-grey"
-        >
-            {{ snackbar.message }}
-            <template v-slot:action="{ attrs }">
-                <v-btn
-                        text
-                        v-bind="attrs"
-                        @click="snackbar.show = false"
-                >
-                    关闭
-                </v-btn>
-            </template>
-        </v-Snackbar>
+        <#include "/common/snakbar.ftl">
+        <#include "/common/errorSnakbar.ftl">
     </v-app>
 </div>
 
@@ -160,6 +128,7 @@
                         this.charactersAddFailed = response.data.charactersAddFailed
                         if (response.status == 200) {
                             this.pinyinMap = response.data.pinyinSelectMap
+                            this.pinyinSelected = {}
                             for (let [key, val] of Object.entries(this.pinyinMap)) {
                                 this.pinyinSelected[key] = val[0]
                             }
@@ -193,6 +162,12 @@
             },
             'errorSnackbar.show': function () {
                 if (this.errorSnackbar.show) {
+                    this.snackbar.show = false
+                }
+            },
+            'dialog': function () {
+                if (this.dialog) {
+                    this.errorSnackbar.show = false
                     this.snackbar.show = false
                 }
             },

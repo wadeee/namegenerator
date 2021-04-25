@@ -124,40 +124,8 @@
                 </v-card>
             </v-dialog>
         </v-row>
-        <v-snackbar
-                v-model="errorSnackbar.show"
-                :multi-line="errorSnackbar.multiLine"
-                :timeout="errorSnackbar.timeout"
-        >
-            {{ errorSnackbar.message }}
-            <template v-slot:action="{ attrs }">
-                <v-btn
-                        color="red"
-                        text
-                        v-bind="attrs"
-                        @click="errorSnackbar.show = false"
-                >
-                    关闭
-                </v-btn>
-            </template>
-        </v-snackbar>
-        <v-Snackbar
-                v-model="snackbar.show"
-                :multi-line="snackbar.multiLine"
-                :timeout="snackbar.timeout"
-                color="blue-grey"
-        >
-            {{ snackbar.message }}
-            <template v-slot:action="{ attrs }">
-                <v-btn
-                        text
-                        v-bind="attrs"
-                        @click="snackbar.show = false"
-                >
-                    关闭
-                </v-btn>
-            </template>
-        </v-Snackbar>
+        <#include "/common/snakbar.ftl">
+        <#include "/common/errorSnakbar.ftl">
     </v-app>
 </div>
 
