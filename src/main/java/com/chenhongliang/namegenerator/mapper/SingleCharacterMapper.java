@@ -10,7 +10,11 @@ public interface SingleCharacterMapper
 {
 	Boolean isExist(String character);
 
+	Boolean isEverExist(String character);
+
 	Integer insert(SingleCharacterModel singleCharacterModel);
+
+	Integer updateDelFlag(String character, Boolean delFlag);
 
 	Integer updateSex(List<String> characters, String sex);
 

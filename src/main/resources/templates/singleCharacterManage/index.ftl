@@ -87,11 +87,11 @@
                                     v-model="charaterInfo.poetry"
                             ></v-textarea>
                             <v-checkbox
-                                    v-model="charaterInfo.boy"
+                                    v-model="charaterInfo.male"
                                     label="男"
                             ></v-checkbox>
                             <v-checkbox
-                                    v-model="charaterInfo.girl"
+                                    v-model="charaterInfo.female"
                                     label="女"
                             ></v-checkbox>
                         </v-form>
@@ -150,8 +150,8 @@
                 pinyin: null,
                 poetry: null,
                 wuxing: null,
-                boy: false,
-                girl: false,
+                male: false,
+                female: false,
             },
             dialog: false,
             errorSnackbar: {

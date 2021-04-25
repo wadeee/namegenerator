@@ -18,11 +18,11 @@
                                     @submit.prevent="submit"
                             >
                                 <v-text-field
-                                        v-model="singleCharacterForm.boyCharacters"
+                                        v-model="singleCharacterForm.maleCharacters"
                                         label="男"
                                 ></v-text-field>
                                 <v-text-field
-                                        v-model="singleCharacterForm.girlCharacters"
+                                        v-model="singleCharacterForm.femaleCharacters"
                                         label="女"
                                 ></v-text-field>
                                 <v-btn
@@ -100,8 +100,8 @@
         }),
         data: {
             singleCharacterForm: {
-                boyCharacters: "",
-                girlCharacters: "",
+                maleCharacters: "",
+                femaleCharacters: "",
             },
             dialog: false,
             pinyinMap: {},

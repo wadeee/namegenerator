@@ -25,15 +25,15 @@ public class SingleCharacterServiceImpl implements SingleCharacterService {
 
     @Override
     public AddSingleCharacterResultVo addCharacters(SingleCharacterForm singleCharacterForm) throws Exception {
-        List<String> boyCharacters = splitString(singleCharacterForm.getBoyCharacters());
-        List<String> girlCharacters = splitString(singleCharacterForm.getGirlCharacters());
+        List<String> maleCharacters = splitString(singleCharacterForm.getMaleCharacters());
+        List<String> femaleCharacters = splitString(singleCharacterForm.getFemaleCharacters());
         AddSingleCharacterResultVo addSingleCharacterResultVo = new AddSingleCharacterResultVo();
         Map<String, List<String>> pinyinSelectMap = new LinkedHashMap<>();
         List<String> charactersAddFailed = new LinkedList<>();
-        analyseCharacters(boyCharacters, pinyinSelectMap, charactersAddFailed);
-        analyseCharacters(girlCharacters, pinyinSelectMap, charactersAddFailed);
-        singleCharacterMapper.updateSex(boyCharacters, "boy");
-        singleCharacterMapper.updateSex(girlCharacters, "girl");
+        analyseCharacters(maleCharacters, pinyinSelectMap, charactersAddFailed);
+        analyseCharacters(femaleCharacters, pinyinSelectMap, charactersAddFailed);
+        singleCharacterMapper.updateSex(maleCharacters, "male");
+        singleCharacterMapper.updateSex(femaleCharacters, "female");
         addSingleCharacterResultVo.setPinyinSelectMap(pinyinSelectMap);
         addSingleCharacterResultVo.setCharactersAddFailed(charactersAddFailed);
         return addSingleCharacterResultVo;
@@ -47,22 +47,26 @@ public class SingleCharacterServiceImpl implements SingleCharacterService {
         return "success";
     }
 
-    private void analyseCharacters(List<String> boyCharacters,
+    private void analyseCharacters(List<String> maleCharacters,
                                    Map<String, List<String>> pinyinSelectMap,
                                    List<String> charactersAddFailed) throws Exception {
-        for (String character : boyCharacters) {
+        for (String character : maleCharacters) {
             if (character.length()>1) {
                 charactersAddFailed.add(character);
-            }else if (character.length() == 1 && !singleCharacterMapper.isExist(character)) {
-                SingleCharacterModel singleCharacterModel = getInfoFromApi(character);
-                try {
-                    singleCharacterMapper.insert(singleCharacterModel);
-                    List<String> pinyinList = Arrays.asList(singleCharacterModel.getPinyin().split("(　|\\s)*(,|，)(　|\\s)*"));
-                    if (pinyinList.size() > 1) {
-                        pinyinSelectMap.put(character, pinyinList);
+            }else if (character.length() == 1) {
+                if (singleCharacterMapper.isEverExist(character)) {
+                    singleCharacterMapper.updateDelFlag(character, false);
+                } else {
+                    SingleCharacterModel singleCharacterModel = getInfoFromApi(character);
+                    try {
+                        singleCharacterMapper.insert(singleCharacterModel);
+                        List<String> pinyinList = Arrays.asList(singleCharacterModel.getPinyin().split("(　|\\s)*(,|，)(　|\\s)*"));
+                        if (pinyinList.size() > 1) {
+                            pinyinSelectMap.put(character, pinyinList);
+                        }
+                    } catch (Exception e) {
+                        charactersAddFailed.add(character);
                     }
-                } catch (Exception e) {
-                    charactersAddFailed.add(character);
                 }
             }
         }

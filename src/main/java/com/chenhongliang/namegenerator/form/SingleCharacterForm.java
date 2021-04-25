@@ -10,6 +10,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SingleCharacterForm implements Serializable {
-    private String boyCharacters;
-    private String girlCharacters;
+    private String maleCharacters;
+    private String femaleCharacters;
 }

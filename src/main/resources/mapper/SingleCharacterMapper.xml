@@ -8,7 +8,16 @@
         select count(*)
         from single_character
         <where>
-            `character` = #{character}
+            del_flag = false
+            and `character` = #{character}
+        </where>
+    </select>
+
+    <select id="isEverExist" parameterType="String" resultType="Boolean">
+        select count(*)
+        from single_character
+        <where>
+            and `character` = #{character}
         </where>
     </select>
 
@@ -32,11 +41,17 @@
         </trim>
     </insert>
 
+    <update id="updateDelFlag">
+        update single_character
+        set del_flag = #{delFlag}
+        where `character` = #{character}
+    </update>
+
     <update id="updateSex">
         update single_character
         set
-        <if test="sex == 'boy'">boy = true</if>
-        <if test="sex == 'girl'">girl = true</if>
+        <if test="sex == 'male'">male = true</if>
+        <if test="sex == 'female'">female = true</if>
         where `character` in
         <foreach item="item" collection="characters" open="(" close=")" separator=",">
             #{item}

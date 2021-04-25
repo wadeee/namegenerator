@@ -10,8 +10,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SingleCharacterManageForm implements Serializable {
-    private Boolean boy;
-    private Boolean girl;
+    private Boolean male;
+    private Boolean female;
     private String character;
     private String pinyin;
     private String meaning;

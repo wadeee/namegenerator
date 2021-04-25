@@ -39,8 +39,8 @@ public class SingleCharacterManageServiceImpl implements SingleCharacterManageSe
         singleCharacterManageForm.setPoetry(result.getPoetry());
         singleCharacterManageForm.setWuxing(result.getWuxing());
         singleCharacterManageForm.setPinyin(result.getPinyin());
-        singleCharacterManageForm.setBoy(result.getBoy());
-        singleCharacterManageForm.setGirl(result.getGirl());
+        singleCharacterManageForm.setMale(result.getMale());
+        singleCharacterManageForm.setFemale(result.getFemale());
         singleCharacterManageForm.setIdiom(result.getIdiom());
         return singleCharacterManageForm;
     }
