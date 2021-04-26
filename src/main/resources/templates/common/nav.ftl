@@ -53,6 +53,18 @@
                 <v-list-item-title>名库上传</v-list-item-title>
             </v-list-item-content>
         </v-list-item>
+        <v-list-item
+                link
+                href="/name-library-manage"
+                active
+        >
+            <v-list-item-icon>
+                <v-icon>mdi-google-circles</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+                <v-list-item-title>名库管理</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
     </v-list>
 
 </v-navigation-drawer>

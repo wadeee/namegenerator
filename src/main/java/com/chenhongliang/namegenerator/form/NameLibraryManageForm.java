@@ -9,13 +9,12 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SingleCharacterManageForm implements Serializable {
-    private String character;
+public class NameLibraryManageForm implements Serializable {
+    private String name;
     private String pinyin;
     private String meaning;
     private String wuxing;
-    private String idiom;
-    private String poetry;
+    private String source;
     private Boolean male;
     private Boolean female;
 }

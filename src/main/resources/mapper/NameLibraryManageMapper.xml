@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chenhongliang.namegenerator.mapper.NameLibraryManageMapper">
+
+    <select id="allAmount" resultType="Integer">
+        select count(*)
+        from name_library
+        where del_flag = false
+    </select>
+
+    <select id="selectByName" parameterType="String" resultType="NameLibraryModel">
+        select *
+        from name_library
+        where del_flag = false
+            and `name` = #{name}
+    </select>
+
+    <update id="updateName" parameterType="NameLibraryManageForm">
+        update name_library
+        <set>
+            pinyin = #{pinyin},
+            meaning = #{meaning},
+            wuxing = #{wuxing},
+            source = #{source},
+            male = #{male},
+            female = #{female},
+        </set>
+        where `name` = #{name}
+    </update>
+
+    <update id="deleteName" parameterType="String">
+        update name_library
+        set del_flag = true
+        where `name` = #{name}
+    </update>
+
+</mapper>

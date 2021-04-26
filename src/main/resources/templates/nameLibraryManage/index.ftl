@@ -11,19 +11,19 @@
             <v-container>
                 <v-row>
                     <v-col>
-                        <v-card-title>字库管理</v-card-title>
+                        <v-card-title>名库管理</v-card-title>
                         <v-card-text>
                             <v-form
                                     @submit.prevent="submit"
                             >
                                 <v-text-field
-                                        v-model="characterAmount"
-                                        label="单字总量"
+                                        v-model="nameAmount"
+                                        label="名字总量"
                                         disabled
                                 ></v-text-field>
                                 <v-text-field
-                                        v-model="searchInfo.character"
-                                        label="查找单字"
+                                        v-model="searchInfo.name"
+                                        label="查找名字"
                                 ></v-text-field>
                                 <v-btn
                                         type="submit"
@@ -45,7 +45,7 @@
                 <v-card>
                     <v-card-title
                             class="headline"
-                            v-text="charaterInfo.character"
+                            v-text="nameInfo.name"
                     >
                     </v-card-title>
                     <v-divider></v-divider>
@@ -53,45 +53,40 @@
                             style="height: 470px;"
                     >
                         <v-form
-                                @submit.prevent="updateCharacter"
+                                @submit.prevent="updateName"
                         >
                             <v-text-field
                                     filled
-                                    v-model="charaterInfo.character"
-                                    label="文字"
+                                    v-model="nameInfo.name"
+                                    label="名字"
                                     disabled
                             ></v-text-field>
                             <v-text-field
                                     filled
-                                    v-model="charaterInfo.pinyin"
+                                    v-model="nameInfo.pinyin"
                                     label="拼音"
                             ></v-text-field>
                             <v-textarea
                                     filled
-                                    label="字义"
-                                    v-model="charaterInfo.meaning"
+                                    label="寓意"
+                                    v-model="nameInfo.meaning"
                             ></v-textarea>
                             <v-text-field
                                     filled
-                                    v-model="charaterInfo.wuxing"
+                                    v-model="nameInfo.wuxing"
                                     label="五行"
-                            ></v-text-field>
-                            <v-text-field
-                                    filled
-                                    v-model="charaterInfo.idiom"
-                                    label="成语"
                             ></v-text-field>
                             <v-textarea
                                     filled
-                                    label="诗词"
-                                    v-model="charaterInfo.poetry"
+                                    v-model="nameInfo.source"
+                                    label="出处"
                             ></v-textarea>
                             <v-checkbox
-                                    v-model="charaterInfo.male"
+                                    v-model="nameInfo.male"
                                     label="男"
                             ></v-checkbox>
                             <v-checkbox
-                                    v-model="charaterInfo.female"
+                                    v-model="nameInfo.female"
                                     label="女"
                             ></v-checkbox>
                         </v-form>
@@ -109,14 +104,14 @@
                         <v-btn
                                 depressed
                                 color="error"
-                                @click="deleteCharacter"
+                                @click="deleteName"
                         >
                             删除
                         </v-btn>
                         <v-btn
                                 depressed
                                 color="primary"
-                                @click="updateCharacter"
+                                @click="updateName"
                         >
                             确认
                         </v-btn>
@@ -139,16 +134,15 @@
             },
         }),
         data: {
-            characterAmount: ${characterAmount},
+            nameAmount: ${nameAmount},
             searchInfo: {
-                character: "",
+                name: '',
             },
-            charaterInfo: {
-                character: null,
-                idiom: null,
+            nameInfo: {
+                name: null,
                 meaning: null,
                 pinyin: null,
-                poetry: null,
+                source: null,
                 wuxing: null,
                 male: false,
                 female: false,
@@ -169,45 +163,41 @@
         },
         methods: {
             submit() {
-                axios.post('/single-character-manage', this.searchInfo)
+                axios.post('/name-library-manage', this.searchInfo)
                     .then((response) => {
                         switch (response.status) {
                             case 204:
-                                this.errorSnackbar.message = "'" + this.searchInfo.character + "'字未录入字库"
-                                this.errorSnackbar.show = true
-                                return
-                            case 205:
-                                this.errorSnackbar.message = "请输入一个字符"
+                                this.errorSnackbar.message = "'" + this.searchInfo.name + "'名字未录入名库"
                                 this.errorSnackbar.show = true
                                 return
                             case 200:
-                                this.charaterInfo = response.data
+                                this.nameInfo = response.data
                                 this.errorSnackbar.show = false
                                 this.dialog = true
                         }
                     })
             },
-            updateCharacter() {
-                axios.post('/single-character-manage/update', this.charaterInfo)
+            updateName() {
+                axios.post('/name-library-manage/update', this.nameInfo)
                     .then((response) => {
                         this.dialog = false
-                        this.snackbar.message = this.searchInfo.character + " 字已更新"
+                        this.snackbar.message = this.searchInfo.name + " 名字已更新"
                         this.snackbar.show = true
                     })
             },
-            deleteCharacter() {
-                axios.post('/single-character-manage/delete', this.searchInfo)
+            deleteName() {
+                axios.post('/name-library-manage/delete', this.searchInfo)
                     .then((response) => {
                         this.dialog = false
-                        this.errorSnackbar.message = this.searchInfo.character + " 字已删除"
+                        this.errorSnackbar.message = this.searchInfo.name + " 名字已删除"
                         this.errorSnackbar.show = true
                         this.updateAmount()
                     })
             },
             updateAmount() {
-                axios.get('/single-character-manage/get-amount')
+                axios.get('/name-library-manage/get-amount')
                     .then((response) => {
-                        this.characterAmount = response.data.amount
+                        this.nameAmount = response.data.amount
                     })
             }
         },
