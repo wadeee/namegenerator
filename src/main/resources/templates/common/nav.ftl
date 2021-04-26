@@ -59,7 +59,7 @@
                 active
         >
             <v-list-item-icon>
-                <v-icon>mdi-google-circles</v-icon>
+                <v-icon>mdi-animation</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
                 <v-list-item-title>名库管理</v-list-item-title>
