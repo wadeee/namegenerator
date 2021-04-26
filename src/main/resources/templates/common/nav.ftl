@@ -65,6 +65,18 @@
                 <v-list-item-title>名库管理</v-list-item-title>
             </v-list-item-content>
         </v-list-item>
+        <v-list-item
+                link
+                href="/order"
+                active
+        >
+            <v-list-item-icon>
+                <v-icon>mdi-blur-linear</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+                <v-list-item-title>添加订单</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
     </v-list>
 
 </v-navigation-drawer>

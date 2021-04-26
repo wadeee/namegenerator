@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chenhongliang.namegenerator.mapper.OrderMapper">
+
+
+    <insert id="insert" parameterType="OrderModel" useGeneratedKeys="true" keyProperty="id">
+        insert into `order`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderNumber != null and orderNumber != ''">order_number,</if>
+            <if test="salesman != null and salesman != ''">salesman,</if>
+            <if test="wechatMachine != null and wechatMachine != ''">wechat_machine,</if>
+            <if test="nameGiver != null and nameGiver != ''">name_giver,</if>
+            <if test="bills != null and bills != ''">bills,</if>
+            <if test="plan != null and plan != ''">plan,</if>
+            delivery_time,
+            <if test="lastname != null and lastname != ''">lastname,</if>
+            <if test="sex != null and sex != ''">sex,</if>
+            <if test="nameSize != null and nameSize != ''">name_size,</if>
+            birthday,
+            <if test="bannedPinyin != null and bannedPinyin != ''">banned_pinyin,</if>
+            <if test="bannedCharacter != null and bannedCharacter != ''">banned_character,</if>
+            <if test="generation != null and generation != ''">generation,</if>
+            <if test="style != null and style != ''">`style`,</if>
+            <if test="notes != null and notes != ''">notes,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderNumber != null and orderNumber != ''">#{orderNumber},</if>
+            <if test="salesman != null and salesman != ''">#{salesman},</if>
+            <if test="wechatMachine != null and wechatMachine != ''">#{wechatMachine},</if>
+            <if test="nameGiver != null and nameGiver != ''">#{nameGiver},</if>
+            <if test="bills != null and bills != ''">#{bills},</if>
+            <if test="plan != null and plan != ''">#{plan},</if>
+            #{deliveryTime},
+            <if test="lastname != null and lastname != ''">#{lastname},</if>
+            <if test="sex != null and sex != ''">#{sex},</if>
+            <if test="nameSize != null and nameSize != ''">#{nameSize},</if>
+            #{birthday},
+            <if test="bannedPinyin != null and bannedPinyin != ''">#{bannedPinyin},</if>
+            <if test="bannedCharacter != null and bannedCharacter != ''">#{bannedCharacter},</if>
+            <if test="generation != null and generation != ''">#{generation},</if>
+            <if test="style != null and style != ''">#{style},</if>
+            <if test="notes != null and notes != ''">#{notes},</if>
+        </trim>
+    </insert>
+</mapper>
