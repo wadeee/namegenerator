@@ -1,7 +1,7 @@
 #!/bin/sh
 
 ## build the jar ##
-gradle bootJar
+gradle bootJar --no-daemon
 
 ## stop mysqld ##
 #systemctl stop mysqld
