@@ -14,3 +14,8 @@ mybatis:
   type-aliases-package: com.chenhongliang.namegenerator.model, com.chenhongliang.namegenerator.form, com.chenhongliang.namegenerator.vo
   # 配置mapper的扫描，找到所有的mapper.xml映射文件
   mapper-locations: classpath*:mapper/**/*Mapper.xml
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true

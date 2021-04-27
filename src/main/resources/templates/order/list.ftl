@@ -437,7 +437,8 @@
             refreshList() {
                 axios.get('/order/list-data')
                     .then((response) => {
-                        this.orderList = response.data
+                        this.orderList = response.data.list
+                        console.log(this.orderList)
                         for (let item of this.orderList) {
                             item.deliveryTime = item.deliveryTime.substr(0,16).replace('T',' ')
                         }

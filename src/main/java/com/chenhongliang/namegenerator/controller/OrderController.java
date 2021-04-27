@@ -4,11 +4,10 @@ import com.chenhongliang.namegenerator.form.OrderForm;
 import com.chenhongliang.namegenerator.model.OrderModel;
 import com.chenhongliang.namegenerator.service.OrderService;
 import com.chenhongliang.namegenerator.vo.OrderListVo;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/order")
@@ -35,8 +34,8 @@ public class OrderController {
 
     @GetMapping("/list-data")
     @ResponseBody
-    public List<OrderListVo> listData() {
-        return orderService.orderList();
+    public PageInfo<OrderListVo> listData() {
+        return orderService.orderList(1, 17);
     }
 
     @GetMapping("/detail/{id}")

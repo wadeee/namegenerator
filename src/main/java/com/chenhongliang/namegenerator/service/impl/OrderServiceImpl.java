@@ -5,6 +5,8 @@ import com.chenhongliang.namegenerator.mapper.OrderMapper;
 import com.chenhongliang.namegenerator.model.OrderModel;
 import com.chenhongliang.namegenerator.service.OrderService;
 import com.chenhongliang.namegenerator.vo.OrderListVo;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,8 +53,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderListVo> orderList() {
-        return orderMapper.getList();
+    public PageInfo<OrderListVo> orderList(Integer pageNo, Integer pageSize) {
+        PageHelper.startPage(pageNo,pageSize);
+        List<OrderListVo> orderList = orderMapper.getList();
+        PageInfo<OrderListVo> pageInfo = new PageInfo<>(orderList);
+        return pageInfo;
     }
 
     @Override
