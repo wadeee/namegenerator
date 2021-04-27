@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @Controller
 @RequestMapping("/order")
 public class OrderController {
@@ -32,10 +34,10 @@ public class OrderController {
         return "order/list";
     }
 
-    @GetMapping("/list-data")
+    @PostMapping("/list-data")
     @ResponseBody
-    public PageInfo<OrderListVo> listData() {
-        return orderService.orderList(1, 17);
+    public PageInfo<OrderListVo> listData(@RequestBody Map<String, Integer> requestInfo) {
+        return orderService.orderList(requestInfo.get("pageNo"), 17);
     }
 
     @GetMapping("/detail/{id}")

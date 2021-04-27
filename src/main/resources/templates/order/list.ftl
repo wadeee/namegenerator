@@ -38,10 +38,12 @@
                 </v-row>
             </v-container>
             <v-row justify="center">
-                <v-pagination
-                        v-model="page"
-                        :length="6"
-                ></v-pagination>
+                <v-col cols="8">
+                    <v-pagination
+                            v-model="pageNo"
+                            :length="pageSize"
+                    ></v-pagination>
+                </v-col>
             </v-row>
             <v-row justify="center">
                 <v-dialog
@@ -417,6 +419,8 @@
                 59,
                 60,
             ],
+            pageNo: 1,
+            pageSize: 1,
             snackbar: {
                 message: "上传成功",
                 show: false,
@@ -435,10 +439,12 @@
         },
         methods: {
             refreshList() {
-                axios.get('/order/list-data')
+                axios.post('/order/list-data', {'pageNo': this.pageNo})
                     .then((response) => {
+                        console.log(response.data)
+                        this.pageNo = response.data.pageNum
+                        this.pageSize = response.data.pages
                         this.orderList = response.data.list
-                        console.log(this.orderList)
                         for (let item of this.orderList) {
                             item.deliveryTime = item.deliveryTime.substr(0,16).replace('T',' ')
                         }
@@ -473,6 +479,9 @@
             'nameSizeArray': function () {
                 this.editForm.nameSize = this.nameSizeArray.join(', ')
             },
+            'pageNo': function () {
+                this.refreshList()
+            }
         },
     })
 
