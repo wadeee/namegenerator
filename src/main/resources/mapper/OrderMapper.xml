@@ -3,7 +3,29 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chenhongliang.namegenerator.mapper.OrderMapper">
-
+    
+    <resultMap id="OrderModelMap" type="OrderModel">
+        <id column="id" property="id"/>
+        <id column="order_number" property="orderNumber"/>
+        <id column="salesman" property="salesman"/>
+        <id column="wechat_machine" property="wechatMachine"/>
+        <id column="name_giver" property="nameGiver"/>
+        <id column="bills" property="bills"/>
+        <id column="plan" property="plan"/>
+        <id column="delivery_time" property="deliveryTime"/>
+        <id column="lastname" property="lastname"/>
+        <id column="sex" property="sex"/>
+        <id column="name_size" property="nameSize"/>
+        <id column="birthday" property="birthday"/>
+        <id column="birthday_hour" property="birthdayHour"/>
+        <id column="birthday_minute" property="birthdayMinute"/>
+        <id column="banned_pinyin" property="bannedPinyin"/>
+        <id column="banned_character" property="bannedCharacter"/>
+        <id column="generation" property="generation"/>
+        <id column="style" property="style"/>
+        <id column="notes" property="notes"/>
+        <id column="status" property="status"/>
+    </resultMap>
 
     <insert id="insert" parameterType="OrderModel" useGeneratedKeys="true" keyProperty="id">
         insert into `order`
@@ -18,7 +40,9 @@
             <if test="lastname != null and lastname != ''">lastname,</if>
             <if test="sex != null and sex != ''">sex,</if>
             <if test="nameSize != null and nameSize != ''">name_size,</if>
-            birthday,
+            <if test="birthday != null and birthday != ''">birthday,</if>
+            <if test="birthdayHour != null and birthdayHour != ''">birthday_hour,</if>
+            <if test="birthdayMinute != null and birthdayMinute != ''">birthday_minute,</if>
             <if test="bannedPinyin != null and bannedPinyin != ''">banned_pinyin,</if>
             <if test="bannedCharacter != null and bannedCharacter != ''">banned_character,</if>
             <if test="generation != null and generation != ''">generation,</if>
@@ -37,7 +61,9 @@
             <if test="lastname != null and lastname != ''">#{lastname},</if>
             <if test="sex != null and sex != ''">#{sex},</if>
             <if test="nameSize != null and nameSize != ''">#{nameSize},</if>
-            #{birthday},
+            <if test="birthday != null and birthday != ''">#{birthday},</if>
+            <if test="birthdayHour != null and birthdayHour != ''">#{birthdayHour},</if>
+            <if test="birthdayMinute != null and birthdayMinute != ''">#{birthdayMinute},</if>
             <if test="bannedPinyin != null and bannedPinyin != ''">#{bannedPinyin},</if>
             <if test="bannedCharacter != null and bannedCharacter != ''">#{bannedCharacter},</if>
             <if test="generation != null and generation != ''">#{generation},</if>
@@ -46,4 +72,49 @@
             <if test="status != null and status != ''">#{status},</if>
         </trim>
     </insert>
+
+    <select id="getList" resultType="OrderListVo">
+        select
+            id,
+            order_number orderNumber,
+            plan,
+            delivery_time deliveryTime,
+            status
+        from `order`
+        order by order_number
+    </select>
+
+    <select id="getDetail" parameterType="String" resultMap="OrderModelMap">
+        select
+            *
+        from `order`
+        where id = #{id}
+    </select>
+
+    <update id="updateOrder" parameterType="OrderModel">
+        update `order`
+        <set>
+            <if test="orderNumber != null and orderNumber != ''">order_number = #{orderNumber},</if>
+            <if test="salesman != null and salesman != ''">salesman = #{salesman},</if>
+            <if test="wechatMachine != null and wechatMachine != ''">wechat_machine = #{wechatMachine},</if>
+            <if test="nameGiver != null and nameGiver != ''">name_giver = #{nameGiver},</if>
+            <if test="bills != null and bills != ''">bills = #{bills},</if>
+            <if test="plan != null and plan != ''">plan = #{plan},</if>
+            delivery_time = #{deliveryTime},
+            <if test="lastname != null and lastname != ''">lastname = #{lastname},</if>
+            <if test="sex != null and sex != ''">sex = #{sex},</if>
+            <if test="nameSize != null and nameSize != ''">name_size = #{nameSize},</if>
+            <if test="birthday != null and birthday != ''">birthday = #{birthday},</if>
+            <if test="birthdayHour != null and birthdayHour != ''">birthday_hour = #{birthdayHour},</if>
+            <if test="birthdayMinute != null and birthdayMinute != ''">birthday_minute = #{birthdayMinute},</if>
+            <if test="bannedPinyin != null and bannedPinyin != ''">banned_pinyin = #{bannedPinyin},</if>
+            <if test="bannedCharacter != null and bannedCharacter != ''">banned_character = #{bannedCharacter},</if>
+            <if test="generation != null and generation != ''">generation = #{generation},</if>
+            <if test="style != null and style != ''">`style` = #{style},</if>
+            <if test="notes != null and notes != ''">notes = #{notes},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+        </set>
+        where id = #{id}
+    </update>
+
 </mapper>

@@ -11,54 +11,101 @@
             <v-container>
                 <v-row>
                     <v-col>
-                        <v-card-title>添加订单</v-card-title>
-
-                        <v-card-text>
+                        <v-data-table
+                                :headers="headers"
+                                :items="orderList"
+                                :items-per-page="17"
+                                class="elevation-1"
+                                hide-default-footer
+                        >
+                            <template v-slot:item.actions="{ item }">
+                                <v-btn
+                                        outlined
+                                        small
+                                        color="teal"
+                                        @click="editOrder(item)"
+                                >修改</v-btn>
+                                <v-btn
+                                        v-if="item.status != '已交付'"
+                                        outlined
+                                        small
+                                        color="indigo"
+                                        @click="commentOrder(item)"
+                                >调整</v-btn>
+                            </template>
+                        </v-data-table>
+                    </v-col>
+                </v-row>
+            </v-container>
+            <v-row justify="center">
+                <v-pagination
+                        v-model="page"
+                        :length="6"
+                ></v-pagination>
+            </v-row>
+            <v-row justify="center">
+                <v-dialog
+                        v-model="editDialog"
+                        scrollable
+                        max-width="800"
+                >
+                    <v-card>
+                        <v-card-title
+                                class="headline"
+                                v-text="editForm.orderNumber + '订单详情'"
+                        >
+                        </v-card-title>
+                        <v-divider></v-divider>
+                        <v-card-text
+                                style="height: 570px;"
+                        >
                             <v-form
-                                    @submit.prevent="submit"
+                                    @submit.prevent="updateOrder"
                             >
                                 <v-text-field
-                                        v-model="orderForm.orderNumber"
+                                        filled
+                                        v-model="editForm.orderNumber"
                                         label="订单编号"
+                                        disabled
                                 ></v-text-field>
                                 <v-select
-                                        v-model="orderForm.salesman"
+                                        v-model="editForm.salesman"
                                         :items="salesmans"
                                         filled
                                         label="销售姓名"
                                 ></v-select>
                                 <v-text-field
-                                        v-model="orderForm.wechatMachine"
+                                        v-model="editForm.wechatMachine"
                                         label="微信机号"
                                 ></v-text-field>
                                 <v-select
-                                        v-model="orderForm.nameGiver"
+                                        v-model="editForm.nameGiver"
                                         :items="nameGivers"
                                         filled
                                         label="指定起名师"
                                 ></v-select>
                                 <v-text-field
-                                        v-model="orderForm.bills"
+                                        v-model="editForm.bills"
                                         label="订单金额"
                                 ></v-text-field>
                                 <v-select
-                                        v-model="orderForm.plan"
+                                        v-model="editForm.plan"
                                         :items="plans"
                                         filled
                                         label="套餐选择"
                                 ></v-select>
-                                <v-select
-                                        v-model="orderForm.tillDeliveryTime"
-                                        :items="tillDeliveryTimes"
-                                        filled
-                                        label="应交付时间(小时)"
-                                ></v-select>
                                 <v-text-field
-                                        v-model="orderForm.lastname"
+                                        filled
+                                        disabled
+                                        v-model="editForm.deliveryTime"
+                                        label="应交付时间"
+                                ></v-text-field>
+                                <v-text-field
+                                        v-model="editForm.lastname"
                                         label="姓氏"
                                 ></v-text-field>
                                 <v-select
-                                        v-model="orderForm.sex"
+                                        v-model="editForm.sex"
                                         :items="sexes"
                                         filled
                                         label="性别"
@@ -80,7 +127,7 @@
                                 >
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-text-field
-                                                v-model="orderForm.birthday"
+                                                v-model="editForm.birthday"
                                                 label="生日"
                                                 prepend-icon="mdi-calendar"
                                                 readonly
@@ -89,55 +136,68 @@
                                         ></v-text-field>
                                     </template>
                                     <v-date-picker
-                                            v-model="orderForm.birthday"
+                                            v-model="editForm.birthday"
                                             @input="dateMenu = false"
                                             locale="zh-cn"
                                     ></v-date-picker>
                                 </v-menu>
                                 <v-select
-                                        v-model="orderForm.birthdayHour"
+                                        v-model="editForm.birthdayHour"
                                         :items="hours"
                                         label="时(生日)"
                                         required
                                 ></v-select>
                                 <v-select
-                                        v-model="orderForm.birthdayMinute"
+                                        v-model="editForm.birthdayMinute"
                                         :items="minutes"
                                         label="分(生日)"
                                         required
                                 ></v-select>
                                 <v-text-field
-                                        v-model="orderForm.bannedPinyin"
+                                        v-model="editForm.bannedPinyin"
                                         label="禁用拼音"
                                 ></v-text-field>
                                 <v-text-field
-                                        v-model="orderForm.bannedCharacter"
+                                        v-model="editForm.bannedCharacter"
                                         label="讨厌的字"
                                 ></v-text-field>
                                 <v-text-field
-                                        v-model="orderForm.generation"
+                                        v-model="editForm.generation"
                                         label="第二个字固定字（字辈）"
                                 ></v-text-field>
                                 <v-textarea
                                         filled
                                         label="风格要求"
-                                        v-model="orderForm.style"
+                                        v-model="editForm.style"
                                 ></v-textarea>
                                 <v-textarea
                                         filled
                                         label="其他需求"
-                                        v-model="orderForm.notes"
+                                        v-model="editForm.notes"
                                 ></v-textarea>
-                                <v-btn
-                                        type="submit"
-                                >
-                                    上传
-                                </v-btn>
                             </v-form>
                         </v-card-text>
-                    </v-col>
-                </v-row>
-            </v-container>
+                        <v-divider></v-divider>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+
+                            <v-btn
+                                    depressed
+                                    @click="editDialog = false"
+                            >
+                                关闭
+                            </v-btn>
+                            <v-btn
+                                    depressed
+                                    color="primary"
+                                    @click="updateOrder"
+                            >
+                                确认
+                            </v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+            </v-row>
         </v-main>
         <#include "/common/snakbar.ftl">
         <#include "/common/errorSnakbar.ftl">
@@ -154,26 +214,59 @@
             },
         }),
         data: {
-            orderForm: {
+            headers: [
+                {
+                    text: '订单编号',
+                    align: 'start',
+                    sortable: false,
+                    value: 'orderNumber',
+                },
+                {
+                    text: '套餐',
+                    value: 'plan',
+                    sortable: false,
+                },
+                {
+                    text: '应交付时间',
+                    value: 'deliveryTime',
+                    sortable: false,
+                },
+                {
+                    text: '状态',
+                    value: 'status',
+                    sortable: false,
+                },
+                {
+                    text: '操作',
+                    value: 'actions',
+                    sortable: false,
+                },
+            ],
+            orderList: [
+            ],
+            editForm: {
+                id: null,
                 orderNumber: null,
-                salesman: "销售A",
+                salesman: null,
                 wechatMachine: null,
-                nameGiver: "起名师A",
+                nameGiver: null,
                 bills: null,
-                plan: "八字起名套餐3【选择本套餐请求红铟八字判断喜用五行及命局接口】",
-                tillDeliveryTime: 48,
+                plan: null,
+                deliveryTime: null,
                 lastname: null,
-                sex: "未知",
-                nameSize: "二字名",
+                sex: null,
+                nameSize: null,
                 birthday: null,
-                birthdayHour: 1,
-                birthdayMinute: 1,
+                birthdayHour: null,
+                birthdayMinute: null,
                 bannedPinyin: null,
                 bannedCharacter: null,
                 generation: null,
                 style: null,
                 notes: null,
             },
+            editDialog: false,
+            commentDialog: false,
             dateMenu: false,
             nameSizeArray: ["二字名"],
             nameSizes: ["二字名", "三字名", "四字名",],
@@ -337,43 +430,47 @@
                 multiLine: false,
             },
         },
-        computed: {
-            pinyin: function () {
-                let temp = []
-                for (let i = 0; i < this.nameLibraryForm.name.length; i++) {
-                    temp.push(this.pinyinSelected[this.nameLibraryForm.name[i]])
-                }
-                return temp.join(' ')
-            },
+        created() {
+            this.refreshList()
         },
         methods: {
-            submit() {
-                console.log(this.orderForm)
-                axios.post('/order', this.orderForm)
+            refreshList() {
+                axios.get('/order/list-data')
+                    .then((response) => {
+                        this.orderList = response.data
+                        for (let item of this.orderList) {
+                            item.deliveryTime = item.deliveryTime.substr(0,16).replace('T',' ')
+                        }
+                    })
+            },
+            editOrder(item) {
+                axios.get('/order/detail/' + item.id )
+                    .then((response) => {
+                        this.editForm = response.data
+                        this.nameSizeArray = this.editForm.nameSize.split(', ')
+                        this.editDialog = true
+                    })
+            },
+            commentOrder(item) {
+            },
+            updateOrder() {
+                axios.post('/order/update', this.editForm)
                     .then((response) => {
                         if (response.status == 200) {
-                            this.snackbar.message = "订单已生成"
+                            this.refreshList()
+                            this.editDialog = false
+                            this.snackbar.message = "订单修改成功"
                             this.snackbar.show = true
                         } else {
-                            this.errorSnackbar.message = "订单生成失败"
+                            this.errorSnackbar.message = "订单修改失败"
                             this.errorSnackbar.show = true
                         }
                     })
             },
         },
         watch: {
-            'snackbar.show': function () {
-                if (this.snackbar.show) {
-                    this.errorSnackbar.show = false
-                }
-            },
-            'errorSnackbar.show': function () {
-                if (this.errorSnackbar.show) {
-                    this.snackbar.show = false
-                }
-            },
             'nameSizeArray': function () {
-                this.orderForm.nameSize = this.nameSizeArray.join(', ')
+                this.editForm.nameSize = this.nameSizeArray.join(', ')
             },
         },
     })

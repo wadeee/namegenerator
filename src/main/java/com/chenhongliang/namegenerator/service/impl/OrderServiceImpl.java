@@ -4,11 +4,13 @@ import com.chenhongliang.namegenerator.form.OrderForm;
 import com.chenhongliang.namegenerator.mapper.OrderMapper;
 import com.chenhongliang.namegenerator.model.OrderModel;
 import com.chenhongliang.namegenerator.service.OrderService;
+import com.chenhongliang.namegenerator.vo.OrderListVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -29,6 +31,8 @@ public class OrderServiceImpl implements OrderService {
         orderModel.setSex(orderForm.getSex());
         orderModel.setNameSize(orderForm.getNameSize());
         orderModel.setBirthday(orderForm.getBirthday());
+        orderModel.setBirthdayHour(orderForm.getBirthdayHour());
+        orderModel.setBirthdayMinute(orderForm.getBirthdayMinute());
         orderModel.setBannedPinyin(orderForm.getBannedPinyin());
         orderModel.setBannedCharacter(orderForm.getBannedCharacter());
         orderModel.setGeneration(orderForm.getGeneration());
@@ -45,4 +49,21 @@ public class OrderServiceImpl implements OrderService {
 
         return true;
     }
+
+    @Override
+    public List<OrderListVo> orderList() {
+        return orderMapper.getList();
+    }
+
+    @Override
+    public OrderModel getDetail(String id) {
+        return orderMapper.getDetail(id);
+    }
+
+    @Override
+    public Boolean updateOrder(OrderModel orderModel) {
+        return orderMapper.updateOrder(orderModel);
+    }
+
+
 }
