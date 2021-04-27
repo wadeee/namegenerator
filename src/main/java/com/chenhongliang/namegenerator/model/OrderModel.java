@@ -29,5 +29,6 @@ public class OrderModel implements Serializable {
     private String generation;
     private String style;
     private String notes;
+    private String status;
 
 }

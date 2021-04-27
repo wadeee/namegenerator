@@ -34,6 +34,7 @@ public class OrderServiceImpl implements OrderService {
         orderModel.setGeneration(orderForm.getGeneration());
         orderModel.setStyle(orderForm.getStyle());
         orderModel.setNotes(orderForm.getNotes());
+        orderModel.setStatus("待交付");
 
         Date dateNow = new Date();
         Calendar cal = Calendar.getInstance();

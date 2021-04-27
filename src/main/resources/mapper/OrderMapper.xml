@@ -24,6 +24,7 @@
             <if test="generation != null and generation != ''">generation,</if>
             <if test="style != null and style != ''">`style`,</if>
             <if test="notes != null and notes != ''">notes,</if>
+            <if test="status != null and status != ''">status,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="orderNumber != null and orderNumber != ''">#{orderNumber},</if>
@@ -42,6 +43,7 @@
             <if test="generation != null and generation != ''">#{generation},</if>
             <if test="style != null and style != ''">#{style},</if>
             <if test="notes != null and notes != ''">#{notes},</if>
+            <if test="status != null and status != ''">#{status},</if>
         </trim>
     </insert>
 </mapper>
