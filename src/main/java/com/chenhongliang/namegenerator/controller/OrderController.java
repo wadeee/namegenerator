@@ -37,7 +37,7 @@ public class OrderController {
     @PostMapping("/list-data")
     @ResponseBody
     public PageInfo<OrderListVo> listData(@RequestBody Map<String, Integer> requestInfo) {
-        return orderService.orderList(requestInfo.get("pageNo"), 17);
+        return orderService.orderList(requestInfo.get("pageNo"), 16);
     }
 
     @GetMapping("/detail/{id}")

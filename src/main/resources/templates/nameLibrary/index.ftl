@@ -48,56 +48,56 @@
                         </v-card-text>
                     </v-col>
                 </v-row>
+                <v-row justify="center">
+                    <v-dialog
+                            v-model="dialog"
+                            max-width="480"
+                            scrollable
+                            persistent
+                    >
+                        <v-card>
+                            <v-card-title
+                                    class="headline"
+                            >
+                                请选择拼音
+                            </v-card-title>
+                            <v-divider></v-divider>
+                            <v-card-text
+                                    style="height: 350px;"
+                            >
+                                <v-form
+                                        @submit.prevent="submitPinyin"
+                                >
+                                    <v-row>
+                                        <v-col
+                                                v-for="(item, index) in pinyinSelected"
+                                        >
+                                            <v-select
+                                                    v-model="pinyinSelected[index]"
+                                                    :items="pinyinMap[index]"
+                                                    filled
+                                                    :label="index"
+                                            ></v-select>
+                                        </v-col>
+                                    </v-row>
+                                </v-form>
+                            </v-card-text>
+                            <v-divider></v-divider>
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn
+                                        depressed
+                                        color="primary"
+                                        @click="submitPinyin"
+                                >
+                                    确认
+                                </v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-dialog>
+                </v-row>
             </v-container>
         </v-main>
-        <v-row justify="center">
-            <v-dialog
-                    v-model="dialog"
-                    max-width="480"
-                    scrollable
-                    persistent
-            >
-                <v-card>
-                    <v-card-title
-                            class="headline"
-                    >
-                        请选择拼音
-                    </v-card-title>
-                    <v-divider></v-divider>
-                    <v-card-text
-                            style="height: 350px;"
-                    >
-                        <v-form
-                                @submit.prevent="submitPinyin"
-                        >
-                            <v-row>
-                                <v-col
-                                        v-for="(item, index) in pinyinSelected"
-                                >
-                                    <v-select
-                                            v-model="pinyinSelected[index]"
-                                            :items="pinyinMap[index]"
-                                            filled
-                                            :label="index"
-                                    ></v-select>
-                                </v-col>
-                            </v-row>
-                        </v-form>
-                    </v-card-text>
-                    <v-divider></v-divider>
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn
-                                depressed
-                                color="primary"
-                                @click="submitPinyin"
-                        >
-                            确认
-                        </v-btn>
-                    </v-card-actions>
-                </v-card>
-            </v-dialog>
-        </v-row>
         <#include "/common/snakbar.ftl">
         <#include "/common/errorSnakbar.ftl">
     </v-app>

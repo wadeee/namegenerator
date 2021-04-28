@@ -1,5 +1,5 @@
 <v-navigation-drawer
-        absolute
+        app
         permanent>
     <v-list-item>
         <v-list-item-content>
@@ -83,7 +83,7 @@
                 active
         >
             <v-list-item-icon>
-                <v-icon>mdi-blur-linear</v-icon>
+                <v-icon>mdi-view-list</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
                 <v-list-item-title>订单列表</v-list-item-title>

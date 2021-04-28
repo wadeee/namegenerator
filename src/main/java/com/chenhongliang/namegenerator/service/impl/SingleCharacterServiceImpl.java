@@ -65,6 +65,7 @@ public class SingleCharacterServiceImpl implements SingleCharacterService {
                             pinyinSelectMap.put(character, pinyinList);
                         }
                     } catch (Exception e) {
+                        e.printStackTrace();
                         charactersAddFailed.add(character);
                     }
                 }
