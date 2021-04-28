@@ -1,7 +1,9 @@
 package com.chenhongliang.namegenerator.service.impl;
 
+import com.chenhongliang.namegenerator.form.OrderCommentForm;
 import com.chenhongliang.namegenerator.form.OrderForm;
 import com.chenhongliang.namegenerator.mapper.OrderMapper;
+import com.chenhongliang.namegenerator.model.OrderCommentModel;
 import com.chenhongliang.namegenerator.model.OrderModel;
 import com.chenhongliang.namegenerator.service.OrderService;
 import com.chenhongliang.namegenerator.vo.OrderListVo;
@@ -68,6 +70,17 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Boolean updateOrder(OrderModel orderModel) {
         return orderMapper.updateOrder(orderModel);
+    }
+
+    @Override
+    public List<OrderCommentModel> getComments(String orderId) {
+        System.out.println(orderId);
+        return orderMapper.getComments(orderId);
+    }
+
+    @Override
+    public Boolean addComment(OrderCommentForm orderCommentForm) {
+        return orderMapper.addComment(orderCommentForm);
     }
 
 

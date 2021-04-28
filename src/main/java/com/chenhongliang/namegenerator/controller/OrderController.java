@@ -1,6 +1,8 @@
 package com.chenhongliang.namegenerator.controller;
 
+import com.chenhongliang.namegenerator.form.OrderCommentForm;
 import com.chenhongliang.namegenerator.form.OrderForm;
+import com.chenhongliang.namegenerator.model.OrderCommentModel;
 import com.chenhongliang.namegenerator.model.OrderModel;
 import com.chenhongliang.namegenerator.service.OrderService;
 import com.chenhongliang.namegenerator.vo.OrderListVo;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -52,5 +55,16 @@ public class OrderController {
         return orderService.updateOrder(orderModel);
     }
 
+    @GetMapping("/comments/{id}")
+    @ResponseBody
+    public List<OrderCommentModel> comments(@PathVariable("id") String id) {
+        return orderService.getComments(id);
+    }
+
+    @PostMapping("/comments/add")
+    @ResponseBody
+    public Boolean addComment(@RequestBody OrderCommentForm orderCommentForm) {
+        return orderService.addComment(orderCommentForm);
+    }
 
 }

@@ -1,5 +1,7 @@
 package com.chenhongliang.namegenerator.mapper;
 
+import com.chenhongliang.namegenerator.form.OrderCommentForm;
+import com.chenhongliang.namegenerator.model.OrderCommentModel;
 import com.chenhongliang.namegenerator.model.OrderModel;
 import com.chenhongliang.namegenerator.vo.OrderListVo;
 import org.apache.ibatis.annotations.Mapper;
@@ -16,4 +18,8 @@ public interface OrderMapper
 	OrderModel getDetail(String id);
 
 	Boolean updateOrder(OrderModel orderModel);
+
+	List<OrderCommentModel> getComments(String orderId);
+
+	Boolean addComment(OrderCommentForm orderCommentForm);
 }
