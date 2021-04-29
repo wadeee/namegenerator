@@ -9,17 +9,16 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 @Mapper
-public interface OrderMapper
-{
-	Integer insert(OrderModel orderModel);
+public interface OrderMapper {
+    Integer insert(OrderModel orderModel);
 
-	List<OrderListVo> getList();
+    List<OrderListVo> getList();
 
-	OrderModel getDetail(String id);
+    OrderModel getDetail(String id);
 
-	Boolean updateOrder(OrderModel orderModel);
+    Boolean updateOrder(OrderModel orderModel);
 
-	List<OrderCommentModel> getComments(String orderId);
+    List<OrderCommentModel> getComments(String orderId);
 
-	Boolean addComment(OrderCommentForm orderCommentForm);
+    Boolean addComment(OrderCommentForm orderCommentForm);
 }

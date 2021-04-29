@@ -5,13 +5,12 @@ import com.chenhongliang.namegenerator.model.NameLibraryModel;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface NameLibraryManageMapper
-{
-	Integer allAmount();
+public interface NameLibraryManageMapper {
+    Integer allAmount();
 
-	NameLibraryModel selectByName(String name);
+    NameLibraryModel selectByName(String name);
 
-	Integer updateName(NameLibraryManageForm nameLibraryManageForm);
+    Integer updateName(NameLibraryManageForm nameLibraryManageForm);
 
-	Integer deleteName(String name);
+    Integer deleteName(String name);
 }

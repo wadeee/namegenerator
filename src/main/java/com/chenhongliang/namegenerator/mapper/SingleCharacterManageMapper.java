@@ -5,13 +5,12 @@ import com.chenhongliang.namegenerator.model.SingleCharacterModel;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface SingleCharacterManageMapper
-{
-	Integer allAmount();
+public interface SingleCharacterManageMapper {
+    Integer allAmount();
 
-	SingleCharacterModel selectByCharacter(String character);
+    SingleCharacterModel selectByCharacter(String character);
 
-	Integer updateCharacter(SingleCharacterManageForm singleCharacterManageForm);
+    Integer updateCharacter(SingleCharacterManageForm singleCharacterManageForm);
 
-	Integer deleteCharacter(String character);
+    Integer deleteCharacter(String character);
 }
