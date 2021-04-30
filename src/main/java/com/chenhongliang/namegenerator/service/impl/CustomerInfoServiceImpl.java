@@ -29,7 +29,7 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         Date birthday = DateUtils.stringToDate(customerInfoForm.getBirthday());
         Calendar cal = Calendar.getInstance();
         cal.setTime(birthday);
-        cal.add(Calendar.DATE, 15);
+        cal.add(Calendar.DATE, -15);
 
         customerInfoModel.setVisitDate(DateUtils.dateToString(cal.getTime()));
 
