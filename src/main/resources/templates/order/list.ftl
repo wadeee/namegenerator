@@ -630,7 +630,6 @@
             refreshList() {
                 axios.post('/order/list-data', {'pageNo': this.pageNo})
                     .then((response) => {
-                        console.log(response.data)
                         this.pageNo = response.data.pageNum
                         this.pageSize = response.data.pages
                         this.orderList = response.data.list

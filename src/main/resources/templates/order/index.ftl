@@ -348,7 +348,6 @@
         },
         methods: {
             submit() {
-                console.log(this.orderForm)
                 axios.post('/order', this.orderForm)
                     .then((response) => {
                         if (response.status == 200) {

@@ -74,7 +74,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderCommentModel> getComments(String orderId) {
-        System.out.println(orderId);
         return orderMapper.getComments(orderId);
     }
 

@@ -29,7 +29,6 @@ public class ChineseSearchServiceImpl implements ChineseSearchService {
         HttpResponse response = HttpUtils.doPost(host, path, headers, queries, json);
 
         String result = EntityUtils.toString(response.getEntity()).replace("@", "");
-        System.out.println(result);
 
         return JSON.parseObject(result);
     }
