@@ -89,6 +89,18 @@
                 <v-list-item-title>订单列表</v-list-item-title>
             </v-list-item-content>
         </v-list-item>
+        <v-list-item
+                link
+                href="/customer-info"
+                active
+        >
+            <v-list-item-icon>
+                <v-icon>mdi-view-list</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+                <v-list-item-title>客户信息录入</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
     </v-list>
 
 </v-navigation-drawer>
