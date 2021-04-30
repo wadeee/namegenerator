@@ -13,4 +13,6 @@ public interface CustomerInfoMapper {
 
     List<CustomerInfoVo> getList();
 
+    Boolean delete(String id);
+
 }

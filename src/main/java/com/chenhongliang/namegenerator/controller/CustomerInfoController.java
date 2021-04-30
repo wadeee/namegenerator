@@ -28,10 +28,21 @@ public class CustomerInfoController {
         return customerInfoService.insert(customerInfoForm);
     }
 
+    @GetMapping("/list")
+    public String list() {
+        return "customerInfo/list";
+    }
+
     @PostMapping("/list-data")
     @ResponseBody
     public PageInfo<CustomerInfoVo> listData(@RequestBody Map<String, Integer> requestInfo) {
         return customerInfoService.cutomerInfoList(requestInfo.get("pageNo"), 16);
+    }
+
+    @GetMapping("/delete/{id}")
+    @ResponseBody
+    public Boolean listData(@PathVariable("id") String id) {
+        return customerInfoService.delete(id);
     }
 
 

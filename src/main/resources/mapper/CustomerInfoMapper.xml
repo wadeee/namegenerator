@@ -28,9 +28,14 @@
             wechat,
             wechat_machine wechatMachine,
             salesman,
-            visit_date visitDate,
+            visit_date visitDate
         from customer_info
         order by visit_date
     </select>
+
+    <delete id="delete" parameterType="String">
+        delete from customer_info
+        where id = #{id}
+    </delete>
 
 </mapper>

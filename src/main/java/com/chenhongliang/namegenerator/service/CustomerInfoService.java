@@ -10,4 +10,5 @@ public interface CustomerInfoService {
 
     PageInfo<CustomerInfoVo> cutomerInfoList(Integer pageNo, Integer pageSize);
 
+    Boolean delete(String id);
 }

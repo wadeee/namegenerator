@@ -47,4 +47,9 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         PageInfo<CustomerInfoVo> pageInfo = new PageInfo<>(customerInfoVoList);
         return pageInfo;
     }
+
+    @Override
+    public Boolean delete(String id) {
+        return customerInfoMapper.delete(id);
+    }
 }

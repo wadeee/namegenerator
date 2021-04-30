@@ -95,7 +95,7 @@
                 active
         >
             <v-list-item-icon>
-                <v-icon>mdi-view-list</v-icon>
+                <v-icon>mdi-account-multiple-plus-outline</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
                 <v-list-item-title>客户信息录入</v-list-item-title>
@@ -107,7 +107,7 @@
                 active
         >
             <v-list-item-icon>
-                <v-icon>mdi-view-list</v-icon>
+                <v-icon>mdi-account-outline</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
                 <v-list-item-title>客户列表</v-list-item-title>
