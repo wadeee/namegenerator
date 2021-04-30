@@ -5,11 +5,15 @@ import com.chenhongliang.namegenerator.mapper.CustomerInfoMapper;
 import com.chenhongliang.namegenerator.model.CustomerInfoModel;
 import com.chenhongliang.namegenerator.service.CustomerInfoService;
 import com.chenhongliang.namegenerator.util.DateUtils;
+import com.chenhongliang.namegenerator.vo.CustomerInfoVo;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class CustomerInfoServiceImpl implements CustomerInfoService {
@@ -34,5 +38,13 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         customerInfoModel.setVisitDate(DateUtils.dateToString(cal.getTime()));
 
         return customerInfoMapper.insert(customerInfoModel);
+    }
+
+    @Override
+    public PageInfo<CustomerInfoVo> cutomerInfoList(Integer pageNo, Integer pageSize) {
+        PageHelper.startPage(pageNo,pageSize);
+        List<CustomerInfoVo> customerInfoVoList = customerInfoMapper.getList();
+        PageInfo<CustomerInfoVo> pageInfo = new PageInfo<>(customerInfoVoList);
+        return pageInfo;
     }
 }

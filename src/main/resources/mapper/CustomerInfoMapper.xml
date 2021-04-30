@@ -22,4 +22,15 @@
         </trim>
     </insert>
 
+    <select id="getList" resultType="CustomerInfoVo">
+        select
+            id,
+            wechat,
+            wechat_machine wechatMachine,
+            salesman,
+            visit_date visitDate,
+        from customer_info
+        order by visit_date
+    </select>
+
 </mapper>
