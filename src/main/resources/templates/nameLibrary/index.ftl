@@ -113,6 +113,7 @@
             },
         }),
         data: {
+            visitCnt: null,
             nameLibraryForm: {
                 name: null,
                 meaning: null,
@@ -184,6 +185,13 @@
                     this.snackbar.show = false
                 }
             },
+        },
+        created() {
+            axios.get('/getVisitCnt')
+                .then((response) => {
+                    console.log(response.data)
+                    this.visitCnt = response.data;
+                })
         },
     })
 

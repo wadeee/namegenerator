@@ -89,30 +89,38 @@
                 <v-list-item-title>订单列表</v-list-item-title>
             </v-list-item-content>
         </v-list-item>
-<#--        <v-list-item-->
-<#--                link-->
-<#--                href="/customer-info"-->
-<#--                active-->
-<#--        >-->
-<#--            <v-list-item-icon>-->
-<#--                <v-icon>mdi-account-multiple-plus-outline</v-icon>-->
-<#--            </v-list-item-icon>-->
-<#--            <v-list-item-content>-->
-<#--                <v-list-item-title>客户信息录入</v-list-item-title>-->
-<#--            </v-list-item-content>-->
-<#--        </v-list-item>-->
-<#--        <v-list-item-->
-<#--                link-->
-<#--                href="/customer-info/list"-->
-<#--                active-->
-<#--        >-->
-<#--            <v-list-item-icon>-->
-<#--                <v-icon>mdi-account-outline</v-icon>-->
-<#--            </v-list-item-icon>-->
-<#--            <v-list-item-content>-->
-<#--                <v-list-item-title>客户列表</v-list-item-title>-->
-<#--            </v-list-item-content>-->
-<#--        </v-list-item>-->
+        <v-list-item
+                link
+                href="/customer-info"
+                active
+        >
+            <v-list-item-icon>
+                <v-icon>mdi-account-multiple-plus-outline</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+                <v-list-item-title>客户信息录入</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+                link
+                href="/customer-info/list"
+                active
+        >
+            <v-list-item-icon>
+                <v-badge
+                        color="green"
+                        :content="visitCnt"
+                        :value="visitCnt>0"
+                        offset-x="5"
+                        offset-y="15"
+                >
+                <v-icon>mdi-account-outline</v-icon>
+                </v-badge>
+            </v-list-item-icon>
+            <v-list-item-content>
+                <v-list-item-title>客户列表</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
     </v-list>
 
 </v-navigation-drawer>

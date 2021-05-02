@@ -15,4 +15,6 @@ public interface CustomerInfoMapper {
 
     Boolean delete(String id);
 
+    Integer getVisitCnt(String visitDate);
+
 }

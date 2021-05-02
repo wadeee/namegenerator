@@ -38,4 +38,11 @@
         where id = #{id}
     </delete>
 
+    <select id="getVisitCnt" resultType="Integer">
+        select
+            count(*)
+        from customer_info
+        where visit_date = #{visitDate}
+    </select>
+
 </mapper>

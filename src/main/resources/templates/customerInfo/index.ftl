@@ -81,6 +81,7 @@
             },
         }),
         data: {
+            visitCnt: null,
             customerInfoForm: {
                 wechat: null,
                 wechatMachine: null,
@@ -125,6 +126,13 @@
                     this.snackbar.show = false
                 }
             },
+        },
+        created() {
+            axios.get('/getVisitCnt')
+                .then((response) => {
+                    console.log(response.data)
+                    this.visitCnt = response.data;
+                })
         },
     })
 

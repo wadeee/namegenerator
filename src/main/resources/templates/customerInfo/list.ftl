@@ -54,6 +54,7 @@
             },
         }),
         data: {
+            visitCnt: null,
             headers: [
                 {
                     text: '微信号',
@@ -100,9 +101,6 @@
                 multiLine: false,
             },
         },
-        created() {
-            this.refreshList()
-        },
         methods: {
             refreshList() {
                 axios.post('/customer-info/list-data', {'pageNo': this.pageNo})
@@ -127,6 +125,14 @@
             'pageNo': function () {
                 this.refreshList()
             }
+        },
+        created() {
+            this.refreshList()
+            axios.get('/getVisitCnt')
+                .then((response) => {
+                    console.log(response.data)
+                    this.visitCnt = response.data;
+                })
         },
     })
 

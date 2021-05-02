@@ -52,4 +52,9 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
     public Boolean delete(String id) {
         return customerInfoMapper.delete(id);
     }
+
+    @Override
+    public Integer getVisitCnt() {
+        return customerInfoMapper.getVisitCnt(DateUtils.dateToString(new Date()));
+    }
 }

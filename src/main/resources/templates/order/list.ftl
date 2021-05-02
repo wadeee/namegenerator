@@ -400,6 +400,7 @@
             },
         }),
         data: {
+            visitCnt: null,
             headers: [
                 {
                     text: '订单编号',
@@ -623,9 +624,6 @@
                 multiLine: false,
             },
         },
-        created() {
-            this.refreshList()
-        },
         methods: {
             refreshList() {
                 axios.post('/order/list-data', {'pageNo': this.pageNo})
@@ -694,6 +692,14 @@
             'pageNo': function () {
                 this.refreshList()
             }
+        },
+        created() {
+            this.refreshList()
+            axios.get('/getVisitCnt')
+                .then((response) => {
+                    console.log(response.data)
+                    this.visitCnt = response.data;
+                })
         },
     })
 

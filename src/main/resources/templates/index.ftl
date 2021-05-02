@@ -23,8 +23,16 @@
         }),
         data: {
             right: null,
+            visitCnt: null,
         },
         methods: {},
+        created() {
+            axios.get('/getVisitCnt')
+                .then((response) => {
+                    console.log(response.data)
+                    this.visitCnt = response.data;
+                })
+        },
     })
 
 </script>

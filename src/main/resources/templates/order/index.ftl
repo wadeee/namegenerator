@@ -154,6 +154,7 @@
             },
         }),
         data: {
+            visitCnt: null,
             orderForm: {
                 orderNumber: null,
                 salesman: "销售A",
@@ -374,6 +375,13 @@
             'nameSizeArray': function () {
                 this.orderForm.nameSize = this.nameSizeArray.join(', ')
             },
+        },
+        created() {
+            axios.get('/getVisitCnt')
+                .then((response) => {
+                    console.log(response.data)
+                    this.visitCnt = response.data;
+                })
         },
     })
 
