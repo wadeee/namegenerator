@@ -114,11 +114,35 @@
                         offset-x="5"
                         offset-y="15"
                 >
-                <v-icon>mdi-account-outline</v-icon>
+                    <v-icon>mdi-account-outline</v-icon>
                 </v-badge>
             </v-list-item-icon>
             <v-list-item-content>
                 <v-list-item-title>客户列表</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+                link
+                href="/order/list/delivering"
+                active
+        >
+            <v-list-item-icon>
+                <v-icon>mdi-account-outline</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+                <v-list-item-title>待交付列表</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+                link
+                href="/order/list/trimming"
+                active
+        >
+            <v-list-item-icon>
+                <v-icon>mdi-account-outline</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+                <v-list-item-title>待调整列表</v-list-item-title>
             </v-list-item-content>
         </v-list-item>
     </v-list>

@@ -81,7 +81,7 @@
             delivery_time deliveryTime,
             status
         from `order`
-        order by order_number
+        order by id
     </select>
 
     <select id="getDetail" parameterType="String" resultMap="OrderModelMap">
@@ -136,5 +136,17 @@
         set status = #{status}
         where id = #{id}
     </update>
+
+    <select id="getListByStatus" resultType="OrderListVo">
+        select
+            id,
+            order_number orderNumber,
+            plan,
+            delivery_time deliveryTime,
+            status
+        from `order`
+        where status like concat('%', #{status}, '%')
+        order by id
+    </select>
 
 </mapper>

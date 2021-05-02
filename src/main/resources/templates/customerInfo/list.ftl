@@ -130,7 +130,6 @@
             this.refreshList()
             axios.get('/getVisitCnt')
                 .then((response) => {
-                    console.log(response.data)
                     this.visitCnt = response.data;
                 })
         },

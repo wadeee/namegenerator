@@ -67,4 +67,28 @@ public class OrderController {
         return orderService.addComment(orderCommentForm);
     }
 
+    @GetMapping("/list/delivering")
+    public String deliveringList() {
+        return "order/deliveringList";
+    }
+
+    @PostMapping("/list-data/delivering")
+    @ResponseBody
+    public PageInfo<OrderListVo> listDataDelivering(@RequestBody Map<String, Integer> requestInfo) {
+        return orderService.orderDeliveringList(requestInfo.get("pageNo"), 16);
+    }
+
+    @GetMapping("/list/trimming")
+    public String trimmingList() {
+        return "order/trimmingList";
+    }
+
+    @PostMapping("/list-data/trimming")
+    @ResponseBody
+    public PageInfo<OrderListVo> listDataTrimming(@RequestBody Map<String, Integer> requestInfo) {
+        return orderService.orderTrimmingList(requestInfo.get("pageNo"), 16);
+    }
+
+
+
 }

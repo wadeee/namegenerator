@@ -22,4 +22,8 @@ public interface OrderService {
     List<OrderCommentModel> getComments(String orderId);
 
     Boolean addComment(OrderCommentForm orderCommentForm);
+
+    PageInfo<OrderListVo> orderDeliveringList(Integer pageNo, Integer pageSize);
+
+    PageInfo<OrderListVo> orderTrimmingList(Integer pageNo, Integer pageSize);
 }

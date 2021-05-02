@@ -83,5 +83,21 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.addComment(orderCommentForm);
     }
 
+    @Override
+    public PageInfo<OrderListVo> orderDeliveringList(Integer pageNo, Integer pageSize) {
+        PageHelper.startPage(pageNo,pageSize);
+        List<OrderListVo> orderList = orderMapper.getListByStatus("待交付");
+        PageInfo<OrderListVo> pageInfo = new PageInfo<>(orderList);
+        return pageInfo;
+    }
+
+    @Override
+    public PageInfo<OrderListVo> orderTrimmingList(Integer pageNo, Integer pageSize) {
+        PageHelper.startPage(pageNo,pageSize);
+        List<OrderListVo> orderList = orderMapper.getListByStatus("调整");
+        PageInfo<OrderListVo> pageInfo = new PageInfo<>(orderList);
+        return pageInfo;
+    }
+
 
 }
