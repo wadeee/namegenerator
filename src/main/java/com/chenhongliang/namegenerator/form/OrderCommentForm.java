@@ -12,4 +12,5 @@ import java.io.Serializable;
 public class OrderCommentForm implements Serializable {
     private String orderId;
     private String comment;
+    private String commentCnt;
 }

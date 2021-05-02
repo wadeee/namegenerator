@@ -21,4 +21,6 @@ public interface OrderMapper {
     List<OrderCommentModel> getComments(String orderId);
 
     Boolean addComment(OrderCommentForm orderCommentForm);
+
+    Boolean updateStatus(String id, String status);
 }

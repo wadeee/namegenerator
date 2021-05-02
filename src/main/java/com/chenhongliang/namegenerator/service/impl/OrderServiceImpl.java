@@ -79,6 +79,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Boolean addComment(OrderCommentForm orderCommentForm) {
+        orderMapper.updateStatus(orderCommentForm.getOrderId(), "调整-" + orderCommentForm.getCommentCnt().toString());
         return orderMapper.addComment(orderCommentForm);
     }
 

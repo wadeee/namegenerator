@@ -455,6 +455,7 @@
             commentForm: {
                 orderId: null,
                 comment: null,
+                commentCnt: 0,
             },
             comments: [],
             editDialog: false,
@@ -653,6 +654,7 @@
                 axios.get('/order/comments/' + item.id )
                     .then((response) => {
                         this.comments = response.data
+                        this.commentForm.commentCnt = this.comments.length + 1
                         this.commentsDialog = true
                     })
             },
@@ -674,6 +676,7 @@
                 axios.post('/order/comments/add', this.commentForm)
                     .then((response) => {
                         if (response.status == 200) {
+                            this.refreshList()
                             this.commentsDialog = false
                             this.snackbar.message = "订单调整成功"
                             this.snackbar.show = true

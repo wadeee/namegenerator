@@ -131,4 +131,10 @@
         values (#{orderId}, #{comment})
     </insert>
 
+    <update id="updateStatus" parameterType="String">
+        update `order`
+        set status = #{status}
+        where id = #{id}
+    </update>
+
 </mapper>
