@@ -49,6 +49,7 @@
             <if test="style != null and style != ''">`style`,</if>
             <if test="notes != null and notes != ''">notes,</if>
             <if test="status != null and status != ''">status,</if>
+            <if test="wuxing != null and wuxing != ''">wuxing,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="orderNumber != null and orderNumber != ''">#{orderNumber},</if>
@@ -70,6 +71,7 @@
             <if test="style != null and style != ''">#{style},</if>
             <if test="notes != null and notes != ''">#{notes},</if>
             <if test="status != null and status != ''">#{status},</if>
+            <if test="wuxing != null and wuxing != ''">#{wuxing},</if>
         </trim>
     </insert>
 
@@ -148,5 +150,11 @@
         where status like concat('%', #{status}, '%')
         order by id
     </select>
+
+    <insert id="addGeneratedName" parameterType="OrderGeneratedNameModel">
+        insert into order_generated_name
+            (order_id, name, pinyin, meaning, source, namelib_type)
+        values (#{orderId}, #{name}, #{pinyin}, #{meaning}, #{source}, false)
+    </insert>
 
 </mapper>

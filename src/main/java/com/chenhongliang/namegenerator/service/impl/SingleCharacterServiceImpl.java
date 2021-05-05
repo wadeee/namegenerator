@@ -7,6 +7,7 @@ import com.chenhongliang.namegenerator.mapper.SingleCharacterMapper;
 import com.chenhongliang.namegenerator.model.SingleCharacterModel;
 import com.chenhongliang.namegenerator.service.ChineseSearchService;
 import com.chenhongliang.namegenerator.service.SingleCharacterService;
+import com.chenhongliang.namegenerator.util.PinyinUtils;
 import com.chenhongliang.namegenerator.vo.AddSingleCharacterResultVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class SingleCharacterServiceImpl implements SingleCharacterService {
     @Override
     public String updatePinyin(Map<String, String> pinyinMap) {
         for (Map.Entry<String, String> entry : pinyinMap.entrySet()) {
-            singleCharacterMapper.updatePinyin(entry.getKey(), entry.getValue());
+            singleCharacterMapper.updatePinyin(entry.getKey(), entry.getValue(), PinyinUtils.atonalPinyin(entry.getValue()));
         }
         return "success";
     }
@@ -59,6 +60,7 @@ public class SingleCharacterServiceImpl implements SingleCharacterService {
                 } else {
                     SingleCharacterModel singleCharacterModel = getInfoFromApi(character);
                     try {
+                        singleCharacterModel.setAtonalPinyin(PinyinUtils.atonalPinyin(singleCharacterModel.getPinyin()));
                         singleCharacterMapper.insert(singleCharacterModel);
                         List<String> pinyinList = Arrays.asList(singleCharacterModel.getPinyin().split("(　|\\s)*(,|，)(　|\\s)*"));
                         if (pinyinList.size() > 1) {

@@ -67,8 +67,39 @@
 
     <update id="updatePinyin">
         update name_library
-        set pinyin = #{pinyin}
+        set
+            pinyin = #{pinyin},
+            atonal_pinyin = #{atonalPinyin}
         where `name` = #{name}
     </update>
+
+    <select id="constrainedNames" resultType="NameLibraryModel">
+        select *
+        from name_library
+        <where>
+            <if test='sex == "男"'>male = true</if>
+            <if test='sex == "女"'>and female = true</if>
+            <if test="bannedPinyin != null and bannedPinyin.size > 0">
+                <foreach item="item" collection="bannedPinyin" separator=",">
+                    and pinyin not like concat('%', #{item}, ' %')
+                </foreach>
+            </if>
+            <if test="bannedCharacter != null and bannedCharacter.size > 0">
+                <foreach item="item" collection="bannedCharacter" separator=",">
+                    and `name` not like concat('%', #{item}, '%')
+                </foreach>
+            </if>
+            <if test="wuxing != null and wuxing.size > 0">
+                and
+                <foreach item="item" collection="wuxing" open="(" close=")" separator=" or ">
+                    wuxing like concat('%', #{item}, '%')
+                </foreach>
+            </if>
+            <if test="generation != null and generation != ''">
+                and `name` like concat(#{generation}, '%')
+            </if>
+            and length(`name`) = #{nameSize}
+        </where>
+    </select>
 
 </mapper>

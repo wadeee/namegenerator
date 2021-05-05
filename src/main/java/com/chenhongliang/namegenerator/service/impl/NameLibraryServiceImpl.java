@@ -8,6 +8,7 @@ import com.chenhongliang.namegenerator.mapper.NameLibraryMapper;
 import com.chenhongliang.namegenerator.model.NameLibraryModel;
 import com.chenhongliang.namegenerator.service.ChineseSearchService;
 import com.chenhongliang.namegenerator.service.NameLibraryService;
+import com.chenhongliang.namegenerator.util.PinyinUtils;
 import com.chenhongliang.namegenerator.vo.AddNameLibraryResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,7 +59,7 @@ public class NameLibraryServiceImpl implements NameLibraryService {
 
     @Override
     public Boolean updatePinyin(NameLibraryPinyinForm nameLibraryPinyinForm) {
-        nameLibraryMapper.updatePinyin(nameLibraryPinyinForm.getName(), nameLibraryPinyinForm.getPinyin());
+        nameLibraryMapper.updatePinyin(nameLibraryPinyinForm.getName(), nameLibraryPinyinForm.getPinyin(), PinyinUtils.atonalPinyin(nameLibraryPinyinForm.getPinyin()));
         return true;
     }
 

@@ -1,5 +1,6 @@
 package com.chenhongliang.namegenerator.mapper;
 
+import com.chenhongliang.namegenerator.form.NameConstrainForm;
 import com.chenhongliang.namegenerator.model.SingleCharacterModel;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -17,5 +18,7 @@ public interface SingleCharacterMapper {
 
     Integer updateSex(List<String> characters, String sex);
 
-    Integer updatePinyin(String character, String pinyin);
+    Integer updatePinyin(String character, String pinyin, String atonalPinyin);
+
+    List<SingleCharacterModel> constrainedCharacters(NameConstrainForm nameConstrainForm);
 }

@@ -2,6 +2,7 @@ package com.chenhongliang.namegenerator.mapper;
 
 import com.chenhongliang.namegenerator.form.OrderCommentForm;
 import com.chenhongliang.namegenerator.model.OrderCommentModel;
+import com.chenhongliang.namegenerator.model.OrderGeneratedNameModel;
 import com.chenhongliang.namegenerator.model.OrderModel;
 import com.chenhongliang.namegenerator.vo.OrderListVo;
 import org.apache.ibatis.annotations.Mapper;
@@ -25,4 +26,6 @@ public interface OrderMapper {
     Boolean updateStatus(String id, String status);
 
     List<OrderListVo> getListByStatus(String status);
+
+    Boolean addGeneratedName(OrderGeneratedNameModel orderGeneratedNameModel);
 }

@@ -9,17 +9,12 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SingleCharacterModel implements Serializable {
-
+public class OrderGeneratedNameModel implements Serializable {
     private Integer id;
-    private String character;
+    private Integer orderId;
+    private String name;
     private String pinyin;
-    private String atonalPinyin;
     private String meaning;
-    private String wuxing;
-    private String idiom;
-    private String poetry;
-    private Boolean male;
-    private Boolean female;
-
+    private String source;
+    private Boolean namelibType;
 }

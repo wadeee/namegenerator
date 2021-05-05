@@ -1,7 +1,10 @@
 package com.chenhongliang.namegenerator.mapper;
 
+import com.chenhongliang.namegenerator.form.NameConstrainForm;
 import com.chenhongliang.namegenerator.model.NameLibraryModel;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 @Mapper
 public interface NameLibraryMapper {
@@ -17,5 +20,7 @@ public interface NameLibraryMapper {
 
     Integer updateSex(String name, Boolean male, Boolean female);
 
-    Integer updatePinyin(String name, String pinyin);
+    Integer updatePinyin(String name, String pinyin, String atonalPinyin);
+
+    List<NameLibraryModel> constrainedNames(NameConstrainForm nameConstrainForm);
 }

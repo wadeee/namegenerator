@@ -32,5 +32,6 @@ public class OrderModel implements Serializable {
     private String style;
     private String notes;
     private String status;
+    private String wuxing;
 
 }

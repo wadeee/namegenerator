@@ -22,6 +22,7 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
             `character`,
             pinyin,
+            atonal_pinyin,
             <if test="meaning != null and meaning != ''">meaning,</if>
             <if test="wuxing != null and wuxing != ''">wuxing,</if>
             <if test="idiom != null and idiom != ''">idiom,</if>
@@ -30,6 +31,7 @@
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             #{character},
             #{pinyin},
+            #{atonalPinyin},
             <if test="meaning != null and meaning != ''">#{meaning},</if>
             <if test="wuxing != null and wuxing != ''">#{wuxing},</if>
             <if test="idiom != null and idiom != ''">#{idiom},</if>
@@ -56,8 +58,37 @@
 
     <update id="updatePinyin">
         update single_character
-        set pinyin = #{pinyin}
+        set
+            pinyin = #{pinyin},
+            atonal_pinyin = #{atonalPinyin}
         where `character` = #{character}
     </update>
+
+    <select id="constrainedCharacters" parameterType="NameConstrainForm" resultType="SingleCharacterModel">
+        select *
+        from single_character
+        <where>
+            <if test='sex == "男"'>male = true</if>
+            <if test='sex == "女"'>and female = true</if>
+            <if test="bannedPinyin != null and bannedPinyin.size > 0">
+                and pinyin not in
+                <foreach item="item" collection="bannedPinyin" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="bannedCharacter != null and bannedCharacter.size > 0">
+                and `character` not in
+                <foreach item="item" collection="bannedCharacter" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="wuxing != null and wuxing.size > 0">
+                and wuxing in
+                <foreach item="item" collection="wuxing" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
 
 </mapper>
