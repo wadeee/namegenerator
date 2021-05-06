@@ -154,7 +154,7 @@
     <insert id="addGeneratedName" parameterType="OrderGeneratedNameModel">
         insert into order_generated_name
             (order_id, name, pinyin, meaning, source, namelib_type)
-        values (#{orderId}, #{name}, #{pinyin}, #{meaning}, #{source}, false)
+        values (#{orderId}, #{name}, #{pinyin}, #{meaning}, #{source}, #{namelibType})
     </insert>
 
 </mapper>

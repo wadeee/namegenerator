@@ -9,6 +9,14 @@
         <#include "/common/nav.ftl">
         <v-main>
             <v-container>
+                <v-progress-linear
+                        v-model="progress.value"
+                        :active="progress.show"
+                        :indeterminate="progress.query"
+                        :query="progress.query"
+                        fixed
+                        bottom
+                ></v-progress-linear>
                 <v-row>
                     <v-col>
                         <v-card-title>添加订单</v-card-title>
@@ -337,6 +345,11 @@
                 timeout: 10000,
                 multiLine: false,
             },
+            progress: {
+                value: 0,
+                show: false,
+                query: true,
+            }
         },
         computed: {
             pinyin: function () {
@@ -349,10 +362,12 @@
         },
         methods: {
             submit() {
+                this.progress.show = true
                 axios.post('/order', this.orderForm)
                     .then((response) => {
                         if (response.status == 200) {
                             this.snackbar.message = "订单已生成"
+                            this.progress.show = false
                             this.snackbar.show = true
                         } else {
                             this.errorSnackbar.message = "订单生成失败"

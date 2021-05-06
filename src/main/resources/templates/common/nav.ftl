@@ -127,7 +127,7 @@
                 active
         >
             <v-list-item-icon>
-                <v-icon>mdi-account-outline</v-icon>
+                <v-icon>mdi-view-agenda</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
                 <v-list-item-title>待交付列表</v-list-item-title>
@@ -139,7 +139,7 @@
                 active
         >
             <v-list-item-icon>
-                <v-icon>mdi-account-outline</v-icon>
+                <v-icon>mdi-view-dashboard</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
                 <v-list-item-title>待调整列表</v-list-item-title>

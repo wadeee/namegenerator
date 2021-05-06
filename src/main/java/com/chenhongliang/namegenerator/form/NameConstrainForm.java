@@ -18,4 +18,8 @@ public class NameConstrainForm implements Serializable {
     private List<String> bannedCharacter;
     private String generation;
     private List<String> wuxing;
+
+    public NameConstrainForm(NameConstrainForm nameConstrainForm) {
+        this(nameConstrainForm.getSex(), nameConstrainForm.getLastname(), nameConstrainForm.getNameSize(), nameConstrainForm.getBannedPinyin(), nameConstrainForm.getBannedCharacter(), nameConstrainForm.getGeneration(), nameConstrainForm.getWuxing());
+    }
 }

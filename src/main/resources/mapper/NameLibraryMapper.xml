@@ -98,7 +98,7 @@
             <if test="generation != null and generation != ''">
                 and `name` like concat(#{generation}, '%')
             </if>
-            and length(`name`) = #{nameSize}
+            and length(`name`) = #{nameSize}*3
         </where>
     </select>
 

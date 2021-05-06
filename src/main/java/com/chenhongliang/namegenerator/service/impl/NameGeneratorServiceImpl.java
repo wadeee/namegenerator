@@ -10,10 +10,7 @@ import com.chenhongliang.namegenerator.service.NameGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 @Service
 public class NameGeneratorServiceImpl implements NameGeneratorService {
@@ -24,9 +21,24 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
     @Autowired
     private NameLibraryMapper nameLibraryMapper;
 
+    static NameConstrainForm preCharacterForm = new NameConstrainForm();
+
+    static NameConstrainForm preNameLibraryForm = new NameConstrainForm();
+
+    static List<SingleCharacterModel> constrainedCharacters = new ArrayList<>();
+
+    static List<NameLibraryModel> constrainedNames = new ArrayList<>();
+
+    static long preRandSeed = new Date().getTime();
+
+
     @Override
     public OrderGeneratedNameModel newNameFromCharacter(NameConstrainForm nameConstrainForm) {
-        List<SingleCharacterModel> constrainedCharacters = singleCharacterMapper.constrainedCharacters(nameConstrainForm);
+        if (!nameConstrainForm.toString().equals(preCharacterForm.toString())) {
+            constrainedCharacters = singleCharacterMapper.constrainedCharacters(nameConstrainForm);
+        }
+        preCharacterForm = new NameConstrainForm(nameConstrainForm);
+        if (constrainedCharacters.size() <= 0) return null;
         OrderGeneratedNameModel result = new OrderGeneratedNameModel();
         result.setName((Objects.isNull(nameConstrainForm.getLastname()) ? "" : nameConstrainForm.getLastname()) + (Objects.isNull(nameConstrainForm.getGeneration()) ? "" : nameConstrainForm.getGeneration()));
         result.setPinyin("");
@@ -46,7 +58,10 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
 
     @Override
     public OrderGeneratedNameModel newNameFromNameLibrary(NameConstrainForm nameConstrainForm) {
-        List<NameLibraryModel> constrainedNames = nameLibraryMapper.constrainedNames(nameConstrainForm);
+        if (!nameConstrainForm.toString().equals(preNameLibraryForm.toString())) {
+            constrainedNames = nameLibraryMapper.constrainedNames(nameConstrainForm);
+        }
+        preNameLibraryForm = new NameConstrainForm(nameConstrainForm);
         if (constrainedNames.size() <= 0) return null;
         NameLibraryModel selectedName = randomSelect(constrainedNames);
         OrderGeneratedNameModel result = new OrderGeneratedNameModel();
@@ -59,12 +74,17 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
     }
 
     private <T> T randomSelect(List<T> constrainedCharacters) {
-        Random rand = new Random(new Date().getTime());
-        try {
-            Thread.sleep(1500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        Long randSeed = new Date().getTime();
+        if (randSeed.equals(preRandSeed)) {
+            try {
+                Thread.sleep(5);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            randSeed = new Date().getTime();
         }
+        preRandSeed = randSeed;
+        Random rand = new Random(randSeed);
         return constrainedCharacters.get(rand.nextInt(constrainedCharacters.size()));
     }
 }

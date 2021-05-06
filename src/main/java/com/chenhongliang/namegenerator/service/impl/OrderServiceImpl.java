@@ -76,28 +76,31 @@ public class OrderServiceImpl implements OrderService {
             nameSizeList.add(3);
         }
         nameConstrainForm.setGeneration(orderForm.getGeneration());
-        nameConstrainForm.setWuxing(Arrays.asList(orderModel.getWuxing().split(" ")));
+        if (!Objects.isNull(orderModel.getWuxing())) {
+            nameConstrainForm.setWuxing(Arrays.asList(orderModel.getWuxing().split(" ")));
+        }
         nameConstrainForm.setBannedCharacter(splitString(orderForm.getBannedCharacter()));
         nameConstrainForm.setBannedPinyin(splitString(orderForm.getBannedPinyin()));
         List<OrderGeneratedNameModel> generatedCharacterNameList = new ArrayList<>();
-//        while (generatedCharacterNameList.size() < 20) {
-//            Random rand = new Random(new Date().getTime());
-//            nameConstrainForm.setNameSize(nameSizeList.get(rand.nextInt(nameSizeList.size())));
-//            OrderGeneratedNameModel generatedName = nameGeneratorService.newNameFromCharacter(nameConstrainForm);
-//            generatedName.setOrderId(orderId);
-//            Boolean flag = true;
-//            for (OrderGeneratedNameModel temp : generatedCharacterNameList) {
-//                if (generatedName.getName().equals(temp.getName())) {
-//                    flag = false;
-//                }
-//            }
-//            if (flag) {
-//                generatedCharacterNameList.add(generatedName);
-//            }
-//        }
-//        for (OrderGeneratedNameModel temp : generatedCharacterNameList) {
-//            orderMapper.addGeneratedName(temp);
-//        }
+        while (generatedCharacterNameList.size() < 20) {
+            Random rand = new Random(new Date().getTime());
+            nameConstrainForm.setNameSize(nameSizeList.get(rand.nextInt(nameSizeList.size())));
+            OrderGeneratedNameModel generatedName = nameGeneratorService.newNameFromCharacter(nameConstrainForm);
+            if (Objects.isNull(generatedName)) continue;
+            generatedName.setOrderId(orderId);
+            Boolean flag = true;
+            for (OrderGeneratedNameModel temp : generatedCharacterNameList) {
+                if (generatedName.getName().equals(temp.getName())) {
+                    flag = false;
+                }
+            }
+            if (flag) {
+                generatedCharacterNameList.add(generatedName);
+            }
+        }
+        for (OrderGeneratedNameModel temp : generatedCharacterNameList) {
+            orderMapper.addGeneratedName(temp);
+        }
 
         List<OrderGeneratedNameModel> generatedNameLibraryNameList = new ArrayList<>();
         while (generatedNameLibraryNameList.size() < 20) {
@@ -113,7 +116,7 @@ public class OrderServiceImpl implements OrderService {
                 }
             }
             if (flag) {
-                generatedCharacterNameList.add(generatedName);
+                generatedNameLibraryNameList.add(generatedName);
             }
 
         }
