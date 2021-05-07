@@ -464,8 +464,8 @@
             nameSizeArray: ["二字名"],
             nameSizes: ["二字名", "三字名", "四字名",],
             sexes: ["男", "女", "未知"],
-            salesmans: ["销售A", "销售B", "销售C", "销售D"],
-            nameGivers: ["起名师A", "起名师B", "起名师C", "起名师D"],
+            salesmans: ["婷婷", "肖鑫"],
+            nameGivers: ["陈嘉清", "江钰婷"],
             plans: [
                 "寓意起名套餐1",
                 "寓意起名套餐2",

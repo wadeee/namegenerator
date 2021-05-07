@@ -153,8 +153,16 @@
 
     <insert id="addGeneratedName" parameterType="OrderGeneratedNameModel">
         insert into order_generated_name
-            (order_id, name, pinyin, meaning, source, namelib_type)
-        values (#{orderId}, #{name}, #{pinyin}, #{meaning}, #{source}, #{namelibType})
+            (order_id, name, pinyin, wuxing, meaning, source, namelib_type)
+        values (#{orderId}, #{name}, #{pinyin}, #{wuxing}, #{meaning}, #{source}, #{namelibType})
     </insert>
+
+    <select id="getGeneratedNames" resultType="OrderGeneratedNameModel">
+        select *
+        from order_generated_name
+        where
+            order_id = #{orderId}
+            and namelib_type = #{namelibType}
+    </select>
 
 </mapper>

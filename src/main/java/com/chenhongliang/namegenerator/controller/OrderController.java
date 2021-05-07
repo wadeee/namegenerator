@@ -9,8 +9,10 @@ import com.chenhongliang.namegenerator.vo.OrderListVo;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -89,6 +91,25 @@ public class OrderController {
         return orderService.orderTrimmingList(requestInfo.get("pageNo"), 16);
     }
 
+    @GetMapping("/run/{id}")
+    public String run(@PathVariable("id") String id, Model model) {
+//        model.addAttribute("orderInfo", orderService.getDetail(id));
+//        model.addAttribute("comments", orderService.getComments(id));
+//        model.addAttribute("generatedCharacterNames", orderService.getGeneratedNames(id, false));
+//        model.addAttribute("generatedNameLibraryNames", orderService.getGeneratedNames(id, true));
+        model.addAttribute("id", id);
+        return "order/run";
+    }
 
+    @GetMapping("/run/detail/{id}")
+    @ResponseBody
+    public Map<String, Object> runDetail(@PathVariable("id") String id) {
+        Map<String, Object> result = new HashMap<>();
+        result.put("orderInfo", orderService.getDetail(id));
+        result.put("comments", orderService.getComments(id));
+        result.put("generatedCharacterNames", orderService.getGeneratedNames(id, false));
+        result.put("generatedNameLibraryNames", orderService.getGeneratedNames(id, true));
+        return result;
+    }
 
 }

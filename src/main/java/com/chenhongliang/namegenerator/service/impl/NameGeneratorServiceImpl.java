@@ -42,6 +42,7 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
         OrderGeneratedNameModel result = new OrderGeneratedNameModel();
         result.setName((Objects.isNull(nameConstrainForm.getLastname()) ? "" : nameConstrainForm.getLastname()) + (Objects.isNull(nameConstrainForm.getGeneration()) ? "" : nameConstrainForm.getGeneration()));
         result.setPinyin("");
+        result.setWuxing("");
         result.setMeaning("");
         result.setSource("");
         result.setNamelibType(false);
@@ -50,6 +51,7 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
             SingleCharacterModel selectedCharacter = randomSelect(constrainedCharacters);
             result.setName(result.getName() + selectedCharacter.getCharacter());
             result.setPinyin(result.getPinyin() + (i > 0 ? " " : "") + selectedCharacter.getPinyin());
+            result.setWuxing(result.getWuxing() + (i > 0 ? " " : "") + selectedCharacter.getWuxing());
             result.setMeaning(result.getMeaning() + (i > 0 ? "\n" : "") + selectedCharacter.getMeaning());
             result.setSource(result.getSource() + (i > 0 ? "\n" : "") + selectedCharacter.getIdiom() + "\n" + selectedCharacter.getPoetry());
         }
@@ -66,9 +68,10 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
         NameLibraryModel selectedName = randomSelect(constrainedNames);
         OrderGeneratedNameModel result = new OrderGeneratedNameModel();
         result.setName((Objects.isNull(nameConstrainForm.getLastname()) ? "" : nameConstrainForm.getLastname()) + selectedName.getName());
+        result.setPinyin(selectedName.getPinyin());
+        result.setWuxing(selectedName.getWuxing());
         result.setMeaning(selectedName.getMeaning());
         result.setSource(selectedName.getSource());
-        result.setPinyin(selectedName.getPinyin());
         result.setNamelibType(true);
         return result;
     }

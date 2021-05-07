@@ -3,6 +3,7 @@ package com.chenhongliang.namegenerator.service;
 import com.chenhongliang.namegenerator.form.OrderCommentForm;
 import com.chenhongliang.namegenerator.form.OrderForm;
 import com.chenhongliang.namegenerator.model.OrderCommentModel;
+import com.chenhongliang.namegenerator.model.OrderGeneratedNameModel;
 import com.chenhongliang.namegenerator.model.OrderModel;
 import com.chenhongliang.namegenerator.vo.OrderListVo;
 import com.github.pagehelper.PageInfo;
@@ -26,4 +27,6 @@ public interface OrderService {
     PageInfo<OrderListVo> orderDeliveringList(Integer pageNo, Integer pageSize);
 
     PageInfo<OrderListVo> orderTrimmingList(Integer pageNo, Integer pageSize);
+
+    List<OrderGeneratedNameModel> getGeneratedNames(String orderId, Boolean namelibType);
 }

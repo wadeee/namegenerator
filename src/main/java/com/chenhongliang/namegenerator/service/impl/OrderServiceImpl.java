@@ -177,5 +177,10 @@ public class OrderServiceImpl implements OrderService {
         return pageInfo;
     }
 
+    @Override
+    public List<OrderGeneratedNameModel> getGeneratedNames(String orderId, Boolean namelibType) {
+        return orderMapper.getGeneratedNames(orderId, namelibType);
+    }
+
 
 }

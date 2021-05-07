@@ -14,6 +14,7 @@ public class OrderGeneratedNameModel implements Serializable {
     private Integer orderId;
     private String name;
     private String pinyin;
+    private String wuxing;
     private String meaning;
     private String source;
     private Boolean namelibType;

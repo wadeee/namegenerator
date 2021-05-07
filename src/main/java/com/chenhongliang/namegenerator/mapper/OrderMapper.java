@@ -28,4 +28,6 @@ public interface OrderMapper {
     List<OrderListVo> getListByStatus(String status);
 
     Boolean addGeneratedName(OrderGeneratedNameModel orderGeneratedNameModel);
+
+    List<OrderGeneratedNameModel> getGeneratedNames(String orderId, Boolean namelibType);
 }
