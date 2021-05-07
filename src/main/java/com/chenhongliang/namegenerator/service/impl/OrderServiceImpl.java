@@ -66,13 +66,13 @@ public class OrderServiceImpl implements OrderService {
         nameConstrainForm.setLastname(orderForm.getLastname());
         nameConstrainForm.setSex(orderForm.getSex());
         List<Integer> nameSizeList = new ArrayList<>();
-        if (orderForm.getNameSize().indexOf("二字名") >= 0) {
+        if (orderForm.getNameSize().contains("二字名")) {
             nameSizeList.add(1);
         }
-        if (orderForm.getNameSize().indexOf("三字名") >= 0) {
+        if (orderForm.getNameSize().contains("三字名")) {
             nameSizeList.add(2);
         }
-        if (orderForm.getNameSize().indexOf("四字名") >= 0) {
+        if (orderForm.getNameSize().contains("四字名")) {
             nameSizeList.add(3);
         }
         nameConstrainForm.setGeneration(orderForm.getGeneration());

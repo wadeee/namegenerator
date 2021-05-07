@@ -19,15 +19,16 @@ public class SingleCharacterManageController {
 
     @GetMapping
     public String index(Model model) {
-        model.addAttribute("characterAmount", singleCharacterManageService.getCharacterAmount());
+//        model.addAttribute("characterAmount", singleCharacterManageService.getCharacterAmount());
         return "singleCharacterManage/index";
     }
 
     @GetMapping("/get-amount")
     @ResponseBody
-    public Map<String, Integer> amount() {
-        Map<String, Integer> result = new HashMap<>();
+    public Map<String, Object> amount() {
+        Map<String, Object> result = new HashMap<>();
         result.put("amount", singleCharacterManageService.getCharacterAmount());
+        result.put("allCharacters", singleCharacterManageService.allCharacters());
         return result;
     }
 

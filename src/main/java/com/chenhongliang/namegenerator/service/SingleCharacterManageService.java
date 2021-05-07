@@ -2,6 +2,8 @@ package com.chenhongliang.namegenerator.service;
 
 import com.chenhongliang.namegenerator.form.SingleCharacterManageForm;
 
+import java.util.List;
+
 public interface SingleCharacterManageService {
 
     Integer getCharacterAmount();
@@ -11,4 +13,6 @@ public interface SingleCharacterManageService {
     Integer updateCharacterInfo(SingleCharacterManageForm singleCharacterManageForm);
 
     Integer deleteCharacterInfo(String character);
+
+    List<String> allCharacters();
 }

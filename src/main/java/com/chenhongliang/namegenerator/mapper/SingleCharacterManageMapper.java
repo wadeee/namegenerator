@@ -4,6 +4,8 @@ import com.chenhongliang.namegenerator.form.SingleCharacterManageForm;
 import com.chenhongliang.namegenerator.model.SingleCharacterModel;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface SingleCharacterManageMapper {
     Integer allAmount();
@@ -13,4 +15,6 @@ public interface SingleCharacterManageMapper {
     Integer updateCharacter(SingleCharacterManageForm singleCharacterManageForm);
 
     Integer deleteCharacter(String character);
+
+    List<String> allCharacters();
 }

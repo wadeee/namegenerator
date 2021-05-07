@@ -34,6 +34,34 @@
                         </v-card-text>
                     </v-col>
                 </v-row>
+                <v-row>
+                    <v-col>
+                        <v-card-text>
+<#--                            <v-avatar-->
+<#--                                    v-for="item of allCharacters"-->
+<#--                                    :key="index"-->
+<#--                                    tile-->
+<#--                                    color="teal lighten-5"-->
+<#--                                    @click="searchCharacter(item)"-->
+<#--                                    size="56"-->
+<#--                                    style="margin: 5px"-->
+<#--                            >-->
+<#--                                {{item}}-->
+<#--                            </v-avatar>-->
+                            <v-chip
+                                    v-for="item of allCharacters"
+                                    :key="index"
+                                    color="teal lighten-5"
+                                    @click="searchCharacter(item)"
+                                    label
+                                    large
+                                    style="margin: 5px"
+                            >
+                                {{item}}
+                            </v-chip>
+                        </v-card-text>
+                    </v-col>
+                </v-row>
                 <v-row justify="center">
                     <v-dialog
                             v-model="dialog"
@@ -140,7 +168,7 @@
         }),
         data: {
             visitCnt: null,
-            characterAmount: ${characterAmount},
+            characterAmount: null,
             searchInfo: {
                 character: "",
             },
@@ -154,6 +182,7 @@
                 male: false,
                 female: false,
             },
+            allCharacters: [],
             dialog: false,
             errorSnackbar: {
                 message: null,
@@ -188,6 +217,10 @@
                         }
                     })
             },
+            searchCharacter(ch) {
+                this.searchInfo.character = ch
+                this.submit()
+            },
             updateCharacter() {
                 axios.post('/single-character-manage/update', this.charaterInfo)
                     .then((response) => {
@@ -202,13 +235,14 @@
                         this.dialog = false
                         this.errorSnackbar.message = this.searchInfo.character + " 字已删除"
                         this.errorSnackbar.show = true
-                        this.updateAmount()
+                        this.updatePage()
                     })
             },
-            updateAmount() {
+            updatePage() {
                 axios.get('/single-character-manage/get-amount')
                     .then((response) => {
                         this.characterAmount = response.data.amount
+                        this.allCharacters = response.data.allCharacters
                     })
             }
         },
@@ -231,6 +265,7 @@
             },
         },
         created() {
+            this.updatePage()
             axios.get('/getVisitCnt')
                 .then((response) => {
                     this.visitCnt = response.data;

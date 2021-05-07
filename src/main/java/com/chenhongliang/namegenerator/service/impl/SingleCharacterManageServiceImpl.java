@@ -10,6 +10,8 @@ import com.chenhongliang.namegenerator.service.SingleCharacterManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SingleCharacterManageServiceImpl implements SingleCharacterManageService {
 
@@ -54,5 +56,10 @@ public class SingleCharacterManageServiceImpl implements SingleCharacterManageSe
     @Override
     public Integer deleteCharacterInfo(String character) {
         return singleCharacterManageMapper.deleteCharacter(character);
+    }
+
+    @Override
+    public List<String> allCharacters() {
+        return singleCharacterManageMapper.allCharacters();
     }
 }

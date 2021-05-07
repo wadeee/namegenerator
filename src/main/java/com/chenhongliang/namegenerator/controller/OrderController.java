@@ -93,10 +93,6 @@ public class OrderController {
 
     @GetMapping("/run/{id}")
     public String run(@PathVariable("id") String id, Model model) {
-//        model.addAttribute("orderInfo", orderService.getDetail(id));
-//        model.addAttribute("comments", orderService.getComments(id));
-//        model.addAttribute("generatedCharacterNames", orderService.getGeneratedNames(id, false));
-//        model.addAttribute("generatedNameLibraryNames", orderService.getGeneratedNames(id, true));
         model.addAttribute("id", id);
         return "order/run";
     }

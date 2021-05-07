@@ -37,4 +37,10 @@
         where `character` = #{character}
     </update>
 
+    <select id="allCharacters" resultType="String">
+        select `character`
+        from single_character
+        order by id desc
+    </select>
+
 </mapper>
