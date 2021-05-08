@@ -1,5 +1,7 @@
 #!/bin/sh
 
+chmod +x ./inst.sh
+
 ## build the jar ##
 gradle bootJar --no-daemon
 
