@@ -2,6 +2,7 @@ package com.chenhongliang.namegenerator.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.chenhongliang.namegenerator.exception.NotCorrectSizeException;
 import com.chenhongliang.namegenerator.mapper.SingleCharacterManageMapper;
 import com.chenhongliang.namegenerator.mapper.SingleCharacterMapper;
 import com.chenhongliang.namegenerator.model.SingleCharacterModel;
@@ -31,21 +32,22 @@ public class SingleCharacterServiceImpl implements SingleCharacterService {
 
     @Override
     public SingleCharacterModel addCharacter(String character) throws Exception {
-        SingleCharacterModel singleCharacterModel = null;
-        if (character.length() == 1) {
-            if (singleCharacterMapper.isEverExist(character)) {
-                singleCharacterMapper.updateDelFlag(character, false);
-                singleCharacterModel = singleCharacterManageMapper.selectByCharacter(character);
-            } else {
-                singleCharacterModel = getInfoFromApi(character);
-                singleCharacterModel.setFemale(false);
-                singleCharacterModel.setMale(false);
-                try {
-                    singleCharacterModel.setAtonalPinyin(PinyinUtils.atonalPinyin(singleCharacterModel.getPinyin()));
-                    singleCharacterMapper.insert(singleCharacterModel);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        if (character.length() != 1) {
+            throw new NotCorrectSizeException();
+        }
+        SingleCharacterModel singleCharacterModel;
+        if (singleCharacterMapper.isEverExist(character)) {
+            singleCharacterMapper.updateDelFlag(character, false);
+            singleCharacterModel = singleCharacterManageMapper.selectByCharacter(character);
+        } else {
+            singleCharacterModel = getInfoFromApi(character);
+            singleCharacterModel.setFemale(false);
+            singleCharacterModel.setMale(false);
+            try {
+                singleCharacterModel.setAtonalPinyin(PinyinUtils.atonalPinyin(singleCharacterModel.getPinyin()));
+                singleCharacterMapper.insert(singleCharacterModel);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return singleCharacterModel;

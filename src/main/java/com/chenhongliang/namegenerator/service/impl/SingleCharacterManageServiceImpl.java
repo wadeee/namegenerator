@@ -31,8 +31,6 @@ public class SingleCharacterManageServiceImpl implements SingleCharacterManageSe
         if (character.length() != 1) {
             throw new NotCorrectSizeException();
         }
-        System.out.println(character);
-        System.out.println(singleCharacterMapper.isExist(character));
         if (!singleCharacterMapper.isExist(character)) {
             throw new NoCharacterException();
         }

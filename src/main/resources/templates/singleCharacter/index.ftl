@@ -162,11 +162,18 @@
             submit() {
                 axios.post('/single-character', this.searchInfo)
                     .then((response) => {
-                        this.charaterInfo = response.data
-                        this.pinyins = this.charaterInfo.pinyin.split(/，/)
-                        this.charaterInfo.pinyin = this.pinyins[0]
-                        this.errorSnackbar.show = false
-                        this.dialog = true
+                        switch (response.status) {
+                            case 205:
+                                this.errorSnackbar.message = "请输入一个字符"
+                                this.errorSnackbar.show = true
+                                return
+                            case 200:
+                                this.charaterInfo = response.data
+                                this.pinyins = this.charaterInfo.pinyin.split(/，/)
+                                this.charaterInfo.pinyin = this.pinyins[0]
+                                this.errorSnackbar.show = false
+                                this.dialog = true
+                        }
                     })
             },
             updateCharacter() {
