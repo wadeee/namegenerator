@@ -18,12 +18,8 @@
                                     @submit.prevent="submit"
                             >
                                 <v-text-field
-                                        v-model="singleCharacterForm.maleCharacters"
-                                        label="男"
-                                ></v-text-field>
-                                <v-text-field
-                                        v-model="singleCharacterForm.femaleCharacters"
-                                        label="女"
+                                        v-model="searchInfo.character"
+                                        label="字符"
                                 ></v-text-field>
                                 <v-btn
                                         type="submit"
@@ -37,45 +33,78 @@
                 <v-row justify="center">
                     <v-dialog
                             v-model="dialog"
-                            max-width="480"
                             scrollable
-                            persistent
+                            max-width="700"
                     >
                         <v-card>
                             <v-card-title
                                     class="headline"
+                                    v-text="charaterInfo.character"
                             >
-                                请选择拼音
                             </v-card-title>
                             <v-divider></v-divider>
                             <v-card-text
-                                    style="height: 350px;"
+                                    style="height: 470px;"
                             >
                                 <v-form
-                                        @submit.prevent="submitPinyin"
+                                        @submit.prevent="updateCharacter"
                                 >
-                                    <v-row>
-                                        <v-col
-                                                v-for="(item, index) in pinyinSelected"
-                                                :key="index"
-                                        >
-                                            <v-select
-                                                    v-model="pinyinSelected[index]"
-                                                    :items="pinyinMap[index]"
-                                                    filled
-                                                    :label="index"
-                                            ></v-select>
-                                        </v-col>
-                                    </v-row>
+                                    <v-text-field
+                                            filled
+                                            v-model="charaterInfo.character"
+                                            label="文字"
+                                            disabled
+                                    ></v-text-field>
+                                    <v-select
+                                            v-model="charaterInfo.pinyin"
+                                            :items="pinyins"
+                                            filled
+                                            label="拼音"
+                                    ></v-select>
+                                    <v-textarea
+                                            filled
+                                            label="字义"
+                                            v-model="charaterInfo.meaning"
+                                    ></v-textarea>
+                                    <v-text-field
+                                            filled
+                                            v-model="charaterInfo.wuxing"
+                                            label="五行"
+                                    ></v-text-field>
+                                    <v-text-field
+                                            filled
+                                            v-model="charaterInfo.idiom"
+                                            label="成语"
+                                    ></v-text-field>
+                                    <v-textarea
+                                            filled
+                                            label="诗词"
+                                            v-model="charaterInfo.poetry"
+                                    ></v-textarea>
+                                    <v-checkbox
+                                            v-model="charaterInfo.male"
+                                            label="男"
+                                    ></v-checkbox>
+                                    <v-checkbox
+                                            v-model="charaterInfo.female"
+                                            label="女"
+                                    ></v-checkbox>
                                 </v-form>
                             </v-card-text>
                             <v-divider></v-divider>
                             <v-card-actions>
                                 <v-spacer></v-spacer>
+
+                                <v-btn
+                                        depressed
+                                        @click="dialog = false"
+                                >
+                                    关闭
+                                </v-btn>
                                 <v-btn
                                         depressed
                                         color="primary"
-                                        @click="submitPinyin"
+                                        @click="updateCharacter"
                                 >
                                     确认
                                 </v-btn>
@@ -101,14 +130,21 @@
         }),
         data: {
             visitCnt: null,
-            singleCharacterForm: {
-                maleCharacters: "",
-                femaleCharacters: "",
+            searchInfo: {
+                character: null,
+            },
+            charaterInfo: {
+                character: null,
+                idiom: null,
+                meaning: null,
+                pinyin: null,
+                poetry: null,
+                wuxing: null,
+                male: false,
+                female: false,
             },
             dialog: false,
-            pinyinMap: {},
-            pinyinSelected: {},
-            charactersAddFailed: {},
+            pinyins: [],
             errorSnackbar: {
                 message: null,
                 show: false,
@@ -124,35 +160,21 @@
         },
         methods: {
             submit() {
-                axios.post('/single-character', this.singleCharacterForm)
+                axios.post('/single-character', this.searchInfo)
                     .then((response) => {
-                        this.errorSnackbar.message = response.data.charactersAddFailed.join(', ') + ' 添加失败'
-                        this.charactersAddFailed = response.data.charactersAddFailed
-                        if (response.status == 200) {
-                            this.pinyinMap = response.data.pinyinSelectMap
-                            this.pinyinSelected = {}
-                            for (let [key, val] of Object.entries(this.pinyinMap)) {
-                                this.pinyinSelected[key] = val[0]
-                            }
-                            if (Object.keys(this.pinyinMap).length>0) {
-                                this.dialog = true
-                            } else if (this.charactersAddFailed.length>0) {
-                                this.errorSnackbar.show = true
-                            } else {
-                                this.snackbar.show = true
-                            }
-                        }
+                        this.charaterInfo = response.data
+                        this.pinyins = this.charaterInfo.pinyin.split(/，/)
+                        this.charaterInfo.pinyin = this.pinyins[0]
+                        this.errorSnackbar.show = false
+                        this.dialog = true
                     })
             },
-            submitPinyin() {
-                axios.post('/single-character/pinyin', this.pinyinSelected)
+            updateCharacter() {
+                axios.post('/single-character-manage/update', this.charaterInfo)
                     .then((response) => {
                         this.dialog = false
-                        if (this.charactersAddFailed.length>0) {
-                            this.errorSnackbar.show = true
-                        } else {
-                            this.snackbar.show = true
-                        }
+                        this.snackbar.message = this.searchInfo.character + " 字已上传"
+                        this.snackbar.show = true
                     })
             },
         },

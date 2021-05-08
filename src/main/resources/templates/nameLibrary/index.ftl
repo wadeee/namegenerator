@@ -71,6 +71,7 @@
                                     <v-row>
                                         <v-col
                                                 v-for="(item, index) in pinyinSelected"
+                                                :key="index"
                                         >
                                             <v-select
                                                     v-model="pinyinSelected[index]"

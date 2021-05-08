@@ -42,6 +42,7 @@
                                     color="teal lighten-5"
                                     @click="searchCharacter(item)"
                                     label
+                                    :key="item"
                                     style="margin: 5px"
                             >
                                 {{item}}

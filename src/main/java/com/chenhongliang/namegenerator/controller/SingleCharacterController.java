@@ -1,8 +1,7 @@
 package com.chenhongliang.namegenerator.controller;
 
-import com.chenhongliang.namegenerator.form.SingleCharacterForm;
+import com.chenhongliang.namegenerator.model.SingleCharacterModel;
 import com.chenhongliang.namegenerator.service.SingleCharacterService;
-import com.chenhongliang.namegenerator.vo.AddSingleCharacterResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +22,8 @@ public class SingleCharacterController {
 
     @PostMapping
     @ResponseBody
-    public AddSingleCharacterResultVo add(@RequestBody SingleCharacterForm singleCharacterForm) throws Exception {
-        return singleCharacterService.addCharacters(singleCharacterForm);
+    public SingleCharacterModel add(@RequestBody Map<String, String> searchInfo) throws Exception {
+        return singleCharacterService.addCharacter(searchInfo.get("character"));
     }
 
     @PostMapping("/pinyin")

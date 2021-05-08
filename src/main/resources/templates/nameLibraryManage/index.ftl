@@ -39,6 +39,7 @@
                         <v-card-text>
                             <v-chip
                                     v-for="item of allNames"
+                                    :key="item"
                                     color="teal lighten-5"
                                     @click="searchName(item)"
                                     label

@@ -2,18 +2,20 @@ package com.chenhongliang.namegenerator.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.chenhongliang.namegenerator.form.SingleCharacterForm;
+import com.chenhongliang.namegenerator.mapper.SingleCharacterManageMapper;
 import com.chenhongliang.namegenerator.mapper.SingleCharacterMapper;
 import com.chenhongliang.namegenerator.model.SingleCharacterModel;
 import com.chenhongliang.namegenerator.service.ChineseSearchService;
 import com.chenhongliang.namegenerator.service.SingleCharacterService;
 import com.chenhongliang.namegenerator.util.PinyinUtils;
-import com.chenhongliang.namegenerator.vo.AddSingleCharacterResultVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class SingleCharacterServiceImpl implements SingleCharacterService {
@@ -22,22 +24,31 @@ public class SingleCharacterServiceImpl implements SingleCharacterService {
     private SingleCharacterMapper singleCharacterMapper;
 
     @Autowired
+    private SingleCharacterManageMapper singleCharacterManageMapper;
+
+    @Autowired
     private ChineseSearchService chineseSearchService;
 
     @Override
-    public AddSingleCharacterResultVo addCharacters(SingleCharacterForm singleCharacterForm) throws Exception {
-        List<String> maleCharacters = splitString(singleCharacterForm.getMaleCharacters());
-        List<String> femaleCharacters = splitString(singleCharacterForm.getFemaleCharacters());
-        AddSingleCharacterResultVo addSingleCharacterResultVo = new AddSingleCharacterResultVo();
-        Map<String, List<String>> pinyinSelectMap = new LinkedHashMap<>();
-        List<String> charactersAddFailed = new LinkedList<>();
-        analyseCharacters(maleCharacters, pinyinSelectMap, charactersAddFailed);
-        analyseCharacters(femaleCharacters, pinyinSelectMap, charactersAddFailed);
-        singleCharacterMapper.updateSex(maleCharacters, "male");
-        singleCharacterMapper.updateSex(femaleCharacters, "female");
-        addSingleCharacterResultVo.setPinyinSelectMap(pinyinSelectMap);
-        addSingleCharacterResultVo.setCharactersAddFailed(charactersAddFailed);
-        return addSingleCharacterResultVo;
+    public SingleCharacterModel addCharacter(String character) throws Exception {
+        SingleCharacterModel singleCharacterModel = null;
+        if (character.length() == 1) {
+            if (singleCharacterMapper.isEverExist(character)) {
+                singleCharacterMapper.updateDelFlag(character, false);
+                singleCharacterModel = singleCharacterManageMapper.selectByCharacter(character);
+            } else {
+                singleCharacterModel = getInfoFromApi(character);
+                singleCharacterModel.setFemale(false);
+                singleCharacterModel.setMale(false);
+                try {
+                    singleCharacterModel.setAtonalPinyin(PinyinUtils.atonalPinyin(singleCharacterModel.getPinyin()));
+                    singleCharacterMapper.insert(singleCharacterModel);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return singleCharacterModel;
     }
 
     @Override
@@ -48,32 +59,32 @@ public class SingleCharacterServiceImpl implements SingleCharacterService {
         return "success";
     }
 
-    private void analyseCharacters(List<String> maleCharacters,
-                                   Map<String, List<String>> pinyinSelectMap,
-                                   List<String> charactersAddFailed) throws Exception {
-        for (String character : maleCharacters) {
-            if (character.length()>1) {
-                charactersAddFailed.add(character);
-            }else if (character.length() == 1) {
-                if (singleCharacterMapper.isEverExist(character)) {
-                    singleCharacterMapper.updateDelFlag(character, false);
-                } else {
-                    SingleCharacterModel singleCharacterModel = getInfoFromApi(character);
-                    try {
-                        singleCharacterModel.setAtonalPinyin(PinyinUtils.atonalPinyin(singleCharacterModel.getPinyin()));
-                        singleCharacterMapper.insert(singleCharacterModel);
-                        List<String> pinyinList = Arrays.asList(singleCharacterModel.getPinyin().split("(　|\\s)*(,|，)(　|\\s)*"));
-                        if (pinyinList.size() > 1) {
-                            pinyinSelectMap.put(character, pinyinList);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        charactersAddFailed.add(character);
-                    }
-                }
-            }
-        }
-    }
+//    private void analyseCharacters(List<String> maleCharacters,
+//                                   Map<String, List<String>> pinyinSelectMap,
+//                                   List<String> charactersAddFailed) throws Exception {
+//        for (String character : maleCharacters) {
+//            if (character.length()>1) {
+//                charactersAddFailed.add(character);
+//            }else if (character.length() == 1) {
+//                if (singleCharacterMapper.isEverExist(character)) {
+//                    singleCharacterMapper.updateDelFlag(character, false);
+//                } else {
+//                    SingleCharacterModel singleCharacterModel = getInfoFromApi(character);
+//                    try {
+//                        singleCharacterModel.setAtonalPinyin(PinyinUtils.atonalPinyin(singleCharacterModel.getPinyin()));
+//                        singleCharacterMapper.insert(singleCharacterModel);
+//                        List<String> pinyinList = Arrays.asList(singleCharacterModel.getPinyin().split("(　|\\s)*(,|，)(　|\\s)*"));
+//                        if (pinyinList.size() > 1) {
+//                            pinyinSelectMap.put(character, pinyinList);
+//                        }
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                        charactersAddFailed.add(character);
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     private List<String> splitString(String str) {
         return Arrays.asList(str.split("(　|\\s)*(,|，|　|\\s)(　|\\s)*"));
