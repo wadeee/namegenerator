@@ -1,5 +1,6 @@
 #!/bin/sh
 
+## make this file runnable
 chmod +x ./inst.sh
 
 ## build the jar ##
