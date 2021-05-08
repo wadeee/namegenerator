@@ -140,6 +140,7 @@
                                 ></v-textarea>
                                 <v-btn
                                         type="submit"
+                                        :disabled="progress.show"
                                 >
                                     上传
                                 </v-btn>

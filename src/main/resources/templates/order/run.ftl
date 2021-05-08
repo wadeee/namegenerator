@@ -11,7 +11,7 @@
             <v-container>
                 <v-row>
                     <v-col>
-                        <v-card-title>订单详情</v-card-title>
+                        <v-card-title>执行订单</v-card-title>
 
                         <v-card-text>
                             <v-form
@@ -28,13 +28,6 @@
                                         label="销售姓名"
                                         disabled
                                 ></v-text-field>
-<#--                                <v-select-->
-<#--                                        v-model="orderInfo.salesman"-->
-<#--                                        :items="salesmans"-->
-<#--                                        filled-->
-<#--                                        label="销售姓名"-->
-<#--                                        disabled-->
-<#--                                ></v-select>-->
                                 <v-text-field
                                         v-model="orderInfo.wechatMachine"
                                         label="微信机号"
@@ -45,13 +38,6 @@
                                         label="指定起名师"
                                         disabled
                                 ></v-text-field>
-<#--                                <v-select-->
-<#--                                        v-model="orderInfo.nameGiver"-->
-<#--                                        :items="nameGivers"-->
-<#--                                        filled-->
-<#--                                        label="指定起名师"-->
-<#--                                        disabled-->
-<#--                                ></v-select>-->
                                 <v-text-field
                                         v-model="orderInfo.bills"
                                         label="订单金额"
@@ -62,13 +48,6 @@
                                         label="套餐选择"
                                         disabled
                                 ></v-text-field>
-<#--                                <v-select-->
-<#--                                        v-model="orderInfo.plan"-->
-<#--                                        :items="plans"-->
-<#--                                        filled-->
-<#--                                        label="套餐选择"-->
-<#--                                        disabled-->
-<#--                                ></v-select>-->
                                 <v-text-field
                                         disabled
                                         v-model="orderInfo.deliveryTime"
@@ -84,81 +63,26 @@
                                         label="性别"
                                         disabled
                                 ></v-text-field>
-<#--                                <v-select-->
-<#--                                        v-model="orderInfo.sex"-->
-<#--                                        :items="sexes"-->
-<#--                                        filled-->
-<#--                                        label="性别"-->
-<#--                                        disabled-->
-<#--                                ></v-select>-->
                                 <v-text-field
                                         v-model="orderInfo.nameSize"
                                         label="名字字数"
                                         disabled
                                 ></v-text-field>
-<#--                                <v-combobox-->
-<#--                                        v-model="nameSizeArray"-->
-<#--                                        :items="nameSizes"-->
-<#--                                        label="名字字数"-->
-<#--                                        multiple-->
-<#--                                        chips-->
-<#--                                        disabled-->
-<#--                                ></v-combobox>-->
                                 <v-text-field
                                         v-model="orderInfo.birthday"
                                         label="生日"
                                         disabled
                                 ></v-text-field>
-<#--                                <v-menu-->
-<#--                                        v-model="dateMenu"-->
-<#--                                        :close-on-content-click="false"-->
-<#--                                        :nudge-right="40"-->
-<#--                                        transition="scale-transition"-->
-<#--                                        offset-y-->
-<#--                                        min-width="auto"-->
-<#--                                        disabled-->
-<#--                                >-->
-<#--                                    <template v-slot:activator="{ on, attrs }">-->
-<#--                                        <v-text-field-->
-<#--                                                v-model="orderInfo.birthday"-->
-<#--                                                label="生日"-->
-<#--                                                prepend-icon="mdi-calendar"-->
-<#--                                                readonly-->
-<#--                                                v-bind="attrs"-->
-<#--                                                v-on="on"-->
-<#--                                                disabled-->
-<#--                                        ></v-text-field>-->
-<#--                                    </template>-->
-<#--                                    <v-date-picker-->
-<#--                                            v-model="orderInfo.birthday"-->
-<#--                                            @input="dateMenu = false"-->
-<#--                                            locale="zh-cn"-->
-<#--                                    ></v-date-picker>-->
-<#--                                </v-menu>-->
                                 <v-text-field
                                         v-model="orderInfo.birthdayHour"
                                         label="时(生日)"
                                         disabled
                                 ></v-text-field>
-<#--                                <v-select-->
-<#--                                        v-model="orderInfo.birthdayHour"-->
-<#--                                        :items="hours"-->
-<#--                                        label="时(生日)"-->
-<#--                                        required-->
-<#--                                        disabled-->
-<#--                                ></v-select>-->
                                 <v-text-field
                                         v-model="orderInfo.birthdayMinute"
                                         label="分(生日)"
                                         disabled
                                 ></v-text-field>
-<#--                                <v-select-->
-<#--                                        v-model="orderInfo.birthdayMinute"-->
-<#--                                        :items="minutes"-->
-<#--                                        label="分(生日)"-->
-<#--                                        required-->
-<#--                                        disabled-->
-<#--                                ></v-select>-->
                                 <v-text-field
                                         v-model="orderInfo.bannedPinyin"
                                         label="禁用拼音"
@@ -195,11 +119,6 @@
                                         disabled
                                 >
                                 </v-textarea>
-<#--                                <v-btn-->
-<#--                                        type="submit"-->
-<#--                                >-->
-<#--                                    上传-->
-<#--                                </v-btn>-->
                             </v-form>
                         </v-card-text>
                     </v-col>
