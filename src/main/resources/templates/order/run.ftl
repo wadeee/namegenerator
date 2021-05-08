@@ -414,7 +414,7 @@
                     this.orderInfo = response.data.orderInfo
                     this.comments = response.data.comments
                     this.generatedCharacterNames = response.data.generatedCharacterNames
-                    this.generatedNameLibraryNames = response.data.generatedCharacterNames
+                    this.generatedNameLibraryNames = response.data.generatedNameLibraryNames
                 })
         },
     })

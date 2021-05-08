@@ -50,12 +50,14 @@
             female = #{female},
         </set>
         where name = #{name}
+            and del_flag = false
     </update>
 
     <update id="updateDelFlag">
         update name_library
         set del_flag = #{delFlag}
         where name = #{name}
+          and del_flag = false
     </update>
 
     <update id="updateSex">
@@ -63,6 +65,7 @@
         set male   = #{male},
             female = #{female}
         where name = #{name}
+          and del_flag = false
     </update>
 
     <update id="updatePinyin">
@@ -71,13 +74,15 @@
             pinyin = #{pinyin},
             atonal_pinyin = #{atonalPinyin}
         where `name` = #{name}
+          and del_flag = false
     </update>
 
     <select id="constrainedNames" resultType="NameLibraryModel">
         select *
         from name_library
         <where>
-            <if test='sex == "男"'>male = true</if>
+            del_flag = false
+            <if test='sex == "男"'>and male = true</if>
             <if test='sex == "女"'>and female = true</if>
             <if test="bannedPinyin != null and bannedPinyin.size > 0">
                 <foreach item="item" collection="bannedPinyin" separator=",">

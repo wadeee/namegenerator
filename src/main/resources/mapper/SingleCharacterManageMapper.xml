@@ -40,6 +40,7 @@
     <select id="allCharacters" resultType="String">
         select `character`
         from single_character
+        where del_flag = false
         order by id desc
     </select>
 

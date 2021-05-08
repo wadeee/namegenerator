@@ -68,7 +68,8 @@
         select *
         from single_character
         <where>
-            <if test='sex == "男"'>male = true</if>
+            del_flag = false
+            <if test='sex == "男"'>and male = true</if>
             <if test='sex == "女"'>and female = true</if>
             <if test="bannedPinyin != null and bannedPinyin.size > 0">
                 and pinyin not in
