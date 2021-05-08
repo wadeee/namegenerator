@@ -4,7 +4,6 @@ import com.chenhongliang.namegenerator.form.NameLibraryManageForm;
 import com.chenhongliang.namegenerator.service.NameLibraryManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -18,16 +17,16 @@ public class NameLibraryManageController {
     private NameLibraryManageService nameLibraryManageService;
 
     @GetMapping
-    public String index(Model model) {
-        model.addAttribute("nameAmount", nameLibraryManageService.getNameAmount());
+    public String index() {
         return "nameLibraryManage/index";
     }
 
     @GetMapping("/get-amount")
     @ResponseBody
-    public Map<String, Integer> amount() {
-        Map<String, Integer> result = new HashMap<>();
+    public Map<String, Object> amount() {
+        Map<String, Object> result = new HashMap<>();
         result.put("amount", nameLibraryManageService.getNameAmount());
+        result.put("allNames", nameLibraryManageService.allNames());
         return result;
     }
 

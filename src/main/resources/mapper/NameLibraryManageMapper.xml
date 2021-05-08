@@ -36,4 +36,11 @@
         where `name` = #{name}
     </update>
 
+    <select id="allNames" resultType="String">
+        select `name`
+        from name_library
+        where del_flag = false
+        order by id desc
+    </select>
+
 </mapper>

@@ -34,6 +34,21 @@
                         </v-card-text>
                     </v-col>
                 </v-row>
+                <v-row>
+                    <v-col>
+                        <v-card-text>
+                            <v-chip
+                                    v-for="item of allNames"
+                                    color="teal lighten-5"
+                                    @click="searchName(item)"
+                                    label
+                                    style="margin: 5px"
+                            >
+                                {{item}}
+                            </v-chip>
+                        </v-card-text>
+                    </v-col>
+                </v-row>
                 <v-row justify="center">
                     <v-dialog
                             v-model="dialog"
@@ -135,10 +150,11 @@
         }),
         data: {
             visitCnt: null,
-            nameAmount: ${nameAmount},
+            nameAmount: null,
             searchInfo: {
                 name: '',
             },
+            allNames: [],
             nameInfo: {
                 name: null,
                 meaning: null,
@@ -178,6 +194,10 @@
                         }
                     })
             },
+            searchName(str) {
+                this.searchInfo.name = str
+                this.submit()
+            },
             updateName() {
                 axios.post('/name-library-manage/update', this.nameInfo)
                     .then((response) => {
@@ -192,15 +212,16 @@
                         this.dialog = false
                         this.errorSnackbar.message = this.searchInfo.name + " 名字已删除"
                         this.errorSnackbar.show = true
-                        this.updateAmount()
+                        this.updatePage()
                     })
             },
-            updateAmount() {
+            updatePage() {
                 axios.get('/name-library-manage/get-amount')
                     .then((response) => {
                         this.nameAmount = response.data.amount
+                        this.allNames = response.data.allNames
                     })
-            }
+            },
         },
         watch: {
             'snackbar.show': function () {
@@ -221,6 +242,7 @@
             },
         },
         created() {
+            this.updatePage()
             axios.get('/getVisitCnt')
                 .then((response) => {
                     this.visitCnt = response.data;

@@ -9,6 +9,8 @@ import com.chenhongliang.namegenerator.service.NameLibraryManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class NameLibraryManageServiceImpl implements NameLibraryManageService {
 
@@ -49,5 +51,10 @@ public class NameLibraryManageServiceImpl implements NameLibraryManageService {
     @Override
     public Integer deleteNameInfo(String name) {
         return nameLibraryManageMapper.deleteName(name);
+    }
+
+    @Override
+    public List<String> allNames() {
+        return nameLibraryManageMapper.allNames();
     }
 }

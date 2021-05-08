@@ -37,24 +37,11 @@
                 <v-row>
                     <v-col>
                         <v-card-text>
-<#--                            <v-avatar-->
-<#--                                    v-for="item of allCharacters"-->
-<#--                                    :key="index"-->
-<#--                                    tile-->
-<#--                                    color="teal lighten-5"-->
-<#--                                    @click="searchCharacter(item)"-->
-<#--                                    size="56"-->
-<#--                                    style="margin: 5px"-->
-<#--                            >-->
-<#--                                {{item}}-->
-<#--                            </v-avatar>-->
                             <v-chip
                                     v-for="item of allCharacters"
-                                    :key="index"
                                     color="teal lighten-5"
                                     @click="searchCharacter(item)"
                                     label
-                                    large
                                     style="margin: 5px"
                             >
                                 {{item}}
@@ -244,7 +231,7 @@
                         this.characterAmount = response.data.amount
                         this.allCharacters = response.data.allCharacters
                     })
-            }
+            },
         },
         watch: {
             'snackbar.show': function () {

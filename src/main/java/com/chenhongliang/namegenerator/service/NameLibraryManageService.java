@@ -2,6 +2,8 @@ package com.chenhongliang.namegenerator.service;
 
 import com.chenhongliang.namegenerator.form.NameLibraryManageForm;
 
+import java.util.List;
+
 public interface NameLibraryManageService {
 
     Integer getNameAmount();
@@ -11,4 +13,6 @@ public interface NameLibraryManageService {
     Integer updateNameInfo(NameLibraryManageForm nameLibraryManageForm);
 
     Integer deleteNameInfo(String character);
+
+    List<String> allNames();
 }

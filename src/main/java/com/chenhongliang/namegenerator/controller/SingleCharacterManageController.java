@@ -4,7 +4,6 @@ import com.chenhongliang.namegenerator.form.SingleCharacterManageForm;
 import com.chenhongliang.namegenerator.service.SingleCharacterManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -18,8 +17,7 @@ public class SingleCharacterManageController {
     private SingleCharacterManageService singleCharacterManageService;
 
     @GetMapping
-    public String index(Model model) {
-//        model.addAttribute("characterAmount", singleCharacterManageService.getCharacterAmount());
+    public String index() {
         return "singleCharacterManage/index";
     }
 
