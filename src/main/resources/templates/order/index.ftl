@@ -107,12 +107,14 @@
                                         :items="hours"
                                         label="时(生日)"
                                         required
+                                        filled
                                 ></v-select>
                                 <v-select
                                         v-model="orderForm.birthdayMinute"
                                         :items="minutes"
                                         label="分(生日)"
                                         required
+                                        filled
                                 ></v-select>
                                 <v-text-field
                                         v-model="orderForm.bannedPinyin"

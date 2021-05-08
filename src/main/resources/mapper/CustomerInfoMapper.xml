@@ -30,13 +30,16 @@
             salesman,
             visit_date visitDate
         from customer_info
+        where visit_date &lt;= #{today}
+            and del_flag = false
         order by visit_date
     </select>
 
-    <delete id="delete" parameterType="String">
-        delete from customer_info
+    <update id="delete" parameterType="String">
+        update customer_info
+        set del_flag = true
         where id = #{id}
-    </delete>
+    </update>
 
     <select id="getVisitCnt" resultType="Integer">
         select

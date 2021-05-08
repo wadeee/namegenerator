@@ -118,7 +118,7 @@
                 </v-badge>
             </v-list-item-icon>
             <v-list-item-content>
-                <v-list-item-title>客户列表</v-list-item-title>
+                <v-list-item-title>应回访列表</v-list-item-title>
             </v-list-item-content>
         </v-list-item>
         <v-list-item

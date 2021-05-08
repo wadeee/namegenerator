@@ -11,7 +11,7 @@ public interface CustomerInfoMapper {
 
     Boolean insert(CustomerInfoModel customerInfoModel);
 
-    List<CustomerInfoVo> getList();
+    List<CustomerInfoVo> getList(String today);
 
     Boolean delete(String id);
 

@@ -43,7 +43,7 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
     @Override
     public PageInfo<CustomerInfoVo> cutomerInfoList(Integer pageNo, Integer pageSize) {
         PageHelper.startPage(pageNo,pageSize);
-        List<CustomerInfoVo> customerInfoVoList = customerInfoMapper.getList();
+        List<CustomerInfoVo> customerInfoVoList = customerInfoMapper.getList(DateUtils.dateToString(new Date()));
         PageInfo<CustomerInfoVo> pageInfo = new PageInfo<>(customerInfoVoList);
         return pageInfo;
     }
