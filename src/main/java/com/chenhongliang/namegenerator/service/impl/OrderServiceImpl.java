@@ -141,7 +141,7 @@ public class OrderServiceImpl implements OrderService {
         Date date = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        cal.add(Calendar.DATE, -2);
+        cal.add(Calendar.DATE, -7);
         List<OrderListVo> orderList = orderMapper.getList(DateUtils.dateToString(cal.getTime()));
         PageInfo<OrderListVo> pageInfo = new PageInfo<>(orderList);
         return pageInfo;
