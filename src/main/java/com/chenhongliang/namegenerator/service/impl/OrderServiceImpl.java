@@ -9,6 +9,7 @@ import com.chenhongliang.namegenerator.model.OrderGeneratedNameModel;
 import com.chenhongliang.namegenerator.model.OrderModel;
 import com.chenhongliang.namegenerator.service.NameGeneratorService;
 import com.chenhongliang.namegenerator.service.OrderService;
+import com.chenhongliang.namegenerator.util.DateUtils;
 import com.chenhongliang.namegenerator.util.FortuneTellingUtils;
 import com.chenhongliang.namegenerator.vo.OrderListVo;
 import com.github.pagehelper.PageHelper;
@@ -50,6 +51,8 @@ public class OrderServiceImpl implements OrderService {
         orderModel.setStyle(orderForm.getStyle());
         orderModel.setNotes(orderForm.getNotes());
         orderModel.setStatus("待交付");
+        orderModel.setUpdateTime(DateUtils.dateToString(new Date()));
+        orderModel.setDelivered(false);
         if (orderModel.getPlan().startsWith("八字")) {
             orderModel.setWuxing(String.join(" ", FortuneTellingUtils.getXiYongShen(orderForm)));
         }
@@ -135,7 +138,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public PageInfo<OrderListVo> orderList(Integer pageNo, Integer pageSize) {
         PageHelper.startPage(pageNo, pageSize);
-        List<OrderListVo> orderList = orderMapper.getList();
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, -2);
+        List<OrderListVo> orderList = orderMapper.getList(DateUtils.dateToString(cal.getTime()));
         PageInfo<OrderListVo> pageInfo = new PageInfo<>(orderList);
         return pageInfo;
     }
@@ -147,6 +154,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Boolean updateOrder(OrderModel orderModel) {
+        orderModel.setUpdateTime(DateUtils.dateToString(new Date()));
         return orderMapper.updateOrder(orderModel);
     }
 
@@ -157,22 +165,14 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Boolean addComment(OrderCommentForm orderCommentForm) {
-        orderMapper.updateStatus(orderCommentForm.getOrderId(), "调整-" + orderCommentForm.getCommentCnt().toString());
+        orderMapper.updateStatus(orderCommentForm.getOrderId(), "待调整-" + orderCommentForm.getCommentCnt().toString(), DateUtils.dateToString(new Date()), false);
         return orderMapper.addComment(orderCommentForm);
     }
 
     @Override
     public PageInfo<OrderListVo> orderDeliveringList(Integer pageNo, Integer pageSize) {
         PageHelper.startPage(pageNo, pageSize);
-        List<OrderListVo> orderList = orderMapper.getListByStatus("待交付");
-        PageInfo<OrderListVo> pageInfo = new PageInfo<>(orderList);
-        return pageInfo;
-    }
-
-    @Override
-    public PageInfo<OrderListVo> orderTrimmingList(Integer pageNo, Integer pageSize) {
-        PageHelper.startPage(pageNo, pageSize);
-        List<OrderListVo> orderList = orderMapper.getListByStatus("调整");
+        List<OrderListVo> orderList = orderMapper.getListDelivering();
         PageInfo<OrderListVo> pageInfo = new PageInfo<>(orderList);
         return pageInfo;
     }
@@ -180,6 +180,12 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderGeneratedNameModel> getGeneratedNames(String orderId, Boolean namelibType) {
         return orderMapper.getGeneratedNames(orderId, namelibType);
+    }
+
+    @Override
+    public Boolean deliverOrder(String id) {
+        String status = orderMapper.getStatus(id);
+        return orderMapper.updateStatus(id, status.replace("待", "已"), DateUtils.dateToString(new Date()), true);
     }
 
 

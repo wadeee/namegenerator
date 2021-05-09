@@ -26,7 +26,7 @@ public interface OrderService {
 
     PageInfo<OrderListVo> orderDeliveringList(Integer pageNo, Integer pageSize);
 
-    PageInfo<OrderListVo> orderTrimmingList(Integer pageNo, Integer pageSize);
-
     List<OrderGeneratedNameModel> getGeneratedNames(String orderId, Boolean namelibType);
+
+    Boolean deliverOrder(String id);
 }

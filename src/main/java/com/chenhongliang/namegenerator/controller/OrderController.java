@@ -53,7 +53,7 @@ public class OrderController {
 
     @PostMapping("/update")
     @ResponseBody
-    public Boolean detail(@RequestBody OrderModel orderModel) {
+    public Boolean update(@RequestBody OrderModel orderModel) {
         return orderService.updateOrder(orderModel);
     }
 
@@ -80,17 +80,6 @@ public class OrderController {
         return orderService.orderDeliveringList(requestInfo.get("pageNo"), 16);
     }
 
-    @GetMapping("/list/trimming")
-    public String trimmingList() {
-        return "order/trimmingList";
-    }
-
-    @PostMapping("/list-data/trimming")
-    @ResponseBody
-    public PageInfo<OrderListVo> listDataTrimming(@RequestBody Map<String, Integer> requestInfo) {
-        return orderService.orderTrimmingList(requestInfo.get("pageNo"), 16);
-    }
-
     @GetMapping("/run/{id}")
     public String run(@PathVariable("id") String id, Model model) {
         model.addAttribute("id", id);
@@ -106,6 +95,12 @@ public class OrderController {
         result.put("generatedCharacterNames", orderService.getGeneratedNames(id, false));
         result.put("generatedNameLibraryNames", orderService.getGeneratedNames(id, true));
         return result;
+    }
+
+    @GetMapping("/deliver/{id}")
+    @ResponseBody
+    public Boolean deliver(@PathVariable("id") String id) {
+        return orderService.deliverOrder(id);
     }
 
 }

@@ -98,7 +98,7 @@
                 <v-icon>mdi-account-multiple-plus-outline</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-                <v-list-item-title>客户信息录入</v-list-item-title>
+                <v-list-item-title>回访对象录入</v-list-item-title>
             </v-list-item-content>
         </v-list-item>
         <v-list-item
@@ -131,18 +131,6 @@
             </v-list-item-icon>
             <v-list-item-content>
                 <v-list-item-title>待交付列表</v-list-item-title>
-            </v-list-item-content>
-        </v-list-item>
-        <v-list-item
-                link
-                href="/order/list/trimming"
-                active
-        >
-            <v-list-item-icon>
-                <v-icon>mdi-view-dashboard</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-                <v-list-item-title>待调整列表</v-list-item-title>
             </v-list-item-content>
         </v-list-item>
     </v-list>

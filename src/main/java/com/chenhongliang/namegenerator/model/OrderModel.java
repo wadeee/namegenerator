@@ -33,5 +33,7 @@ public class OrderModel implements Serializable {
     private String notes;
     private String status;
     private String wuxing;
+    private String updateTime;
+    private Boolean delivered;
 
 }

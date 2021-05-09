@@ -26,7 +26,7 @@
                                         @click="editOrder(item)"
                                 >修改</v-btn>
                                 <v-btn
-                                        v-if="item.status != '已交付'"
+                                        v-if="!item.status.startsWith('待调整')"
                                         outlined
                                         small
                                         color="indigo"
@@ -313,7 +313,7 @@
                                             filled
                                             v-for="(item, index) in comments"
                                             :key="index"
-                                            :label="'调整——' + (index+1)"
+                                            :label="'待调整——' + (index+1)"
                                             v-model="item.comment"
                                             disabled
                                     >

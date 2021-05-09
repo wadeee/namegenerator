@@ -13,7 +13,7 @@ import java.util.List;
 public interface OrderMapper {
     Integer insert(OrderModel orderModel);
 
-    List<OrderListVo> getList();
+    List<OrderListVo> getList(String dateLine);
 
     OrderModel getDetail(String id);
 
@@ -23,9 +23,11 @@ public interface OrderMapper {
 
     Boolean addComment(OrderCommentForm orderCommentForm);
 
-    Boolean updateStatus(String id, String status);
+    String getStatus(String id);
 
-    List<OrderListVo> getListByStatus(String status);
+    Boolean updateStatus(String id, String status, String date, Boolean delivered);
+
+    List<OrderListVo> getListDelivering();
 
     Boolean addGeneratedName(OrderGeneratedNameModel orderGeneratedNameModel);
 

@@ -50,6 +50,8 @@
             <if test="notes != null and notes != ''">notes,</if>
             <if test="status != null and status != ''">status,</if>
             <if test="wuxing != null and wuxing != ''">wuxing,</if>
+            <if test="updateTime != null and updateTime != ''">update_time,</if>
+            delivered
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="orderNumber != null and orderNumber != ''">#{orderNumber},</if>
@@ -72,6 +74,8 @@
             <if test="notes != null and notes != ''">#{notes},</if>
             <if test="status != null and status != ''">#{status},</if>
             <if test="wuxing != null and wuxing != ''">#{wuxing},</if>
+            <if test="updateTime != null and updateTime != ''">#{updateTime},</if>
+            #{delivered}
         </trim>
     </insert>
 
@@ -83,6 +87,7 @@
             delivery_time deliveryTime,
             status
         from `order`
+        where not (delivered = true and update_time &lt; #{dateLine})
         order by id
     </select>
 
@@ -115,6 +120,9 @@
             <if test="style != null and style != ''">`style` = #{style},</if>
             <if test="notes != null and notes != ''">notes = #{notes},</if>
             <if test="status != null and status != ''">status = #{status},</if>
+            <if test="wuxing != null and wuxing != ''">wuxing = #{wuxing},</if>
+            <if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+            <if test="delivered != null and delivered != ''">delivered = #{delivered},</if>
         </set>
         where id = #{id}
     </update>
@@ -133,13 +141,21 @@
         values (#{orderId}, #{comment})
     </insert>
 
-    <update id="updateStatus" parameterType="String">
+    <select id="getStatus" resultType="String" parameterType="String">
+        select status
+        from `order`
+        where id = #{id}
+    </select>
+
+    <update id="updateStatus">
         update `order`
-        set status = #{status}
+        set status = #{status},
+            update_time = #{date},
+            delivered = #{delivered}
         where id = #{id}
     </update>
 
-    <select id="getListByStatus" resultType="OrderListVo">
+    <select id="getListDelivering" resultType="OrderListVo">
         select
             id,
             order_number orderNumber,
@@ -147,7 +163,7 @@
             delivery_time deliveryTime,
             status
         from `order`
-        where status like concat('%', #{status}, '%')
+        where status like '%待%'
         order by id
     </select>
 

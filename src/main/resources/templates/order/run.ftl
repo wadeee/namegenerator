@@ -114,7 +114,7 @@
                                         filled
                                         v-for="(item, index) in comments"
                                         :key="index"
-                                        :label="'调整——' + (index+1)"
+                                        :label="'待调整——' + (index+1)"
                                         v-model="item.comment"
                                         disabled
                                 >
@@ -205,6 +205,17 @@
                                 </v-card>
                             </v-col>
                         </v-row>
+                    </v-col>
+                    <v-col>
+                        <v-card-text>
+                            <v-btn
+                                    depressed
+                                    color="primary"
+                                    @click="deliver"
+                            >
+                                交付
+                            </v-btn>
+                        </v-card-text>
                     </v-col>
                 </v-row>
             </v-container>
@@ -303,6 +314,19 @@
                             this.snackbar.show = true
                         } else {
                             this.errorSnackbar.message = "订单生成失败"
+                            this.errorSnackbar.show = true
+                        }
+                    })
+            },
+            deliver() {
+                axios.get('/order/deliver/' + this.orderInfo.id)
+                    .then((response) => {
+                        if (response.status == 200) {
+                            this.snackbar.message = "订单已交付"
+                            this.progress.show = false
+                            this.snackbar.show = true
+                        } else {
+                            this.errorSnackbar.message = "订单交付失败"
                             this.errorSnackbar.show = true
                         }
                     })
