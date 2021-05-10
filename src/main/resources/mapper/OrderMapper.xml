@@ -17,6 +17,7 @@
         <id column="sex" property="sex"/>
         <id column="name_size" property="nameSize"/>
         <id column="birthday" property="birthday"/>
+        <id column="birthday_lunar" property="birthdayLunar"/>
         <id column="birthday_hour" property="birthdayHour"/>
         <id column="birthday_minute" property="birthdayMinute"/>
         <id column="banned_pinyin" property="bannedPinyin"/>
@@ -41,6 +42,7 @@
             <if test="sex != null and sex != ''">sex,</if>
             <if test="nameSize != null and nameSize != ''">name_size,</if>
             <if test="birthday != null and birthday != ''">birthday,</if>
+            <if test="birthdayLunar != null and birthdayLunar != ''">birthday_lunar,</if>
             <if test="birthdayHour != null and birthdayHour != ''">birthday_hour,</if>
             <if test="birthdayMinute != null and birthdayMinute != ''">birthday_minute,</if>
             <if test="bannedPinyin != null and bannedPinyin != ''">banned_pinyin,</if>
@@ -65,6 +67,7 @@
             <if test="sex != null and sex != ''">#{sex},</if>
             <if test="nameSize != null and nameSize != ''">#{nameSize},</if>
             <if test="birthday != null and birthday != ''">#{birthday},</if>
+            <if test="birthdayLunar != null and birthdayLunar != ''">#{birthdayLunar},</if>
             <if test="birthdayHour != null and birthdayHour != ''">#{birthdayHour},</if>
             <if test="birthdayMinute != null and birthdayMinute != ''">#{birthdayMinute},</if>
             <if test="bannedPinyin != null and bannedPinyin != ''">#{bannedPinyin},</if>
@@ -112,6 +115,7 @@
             <if test="sex != null and sex != ''">sex = #{sex},</if>
             <if test="nameSize != null and nameSize != ''">name_size = #{nameSize},</if>
             <if test="birthday != null and birthday != ''">birthday = #{birthday},</if>
+            <if test="birthdayLunar != null and birthdayLunar != ''">birthday_lunar = #{birthdayLunar},</if>
             <if test="birthdayHour != null and birthdayHour != ''">birthday_hour = #{birthdayHour},</if>
             <if test="birthdayMinute != null and birthdayMinute != ''">birthday_minute = #{birthdayMinute},</if>
             <if test="bannedPinyin != null and bannedPinyin != ''">banned_pinyin = #{bannedPinyin},</if>

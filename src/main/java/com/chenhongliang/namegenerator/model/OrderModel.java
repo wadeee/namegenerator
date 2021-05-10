@@ -24,6 +24,7 @@ public class OrderModel implements Serializable {
     private String sex;
     private String nameSize;
     private String birthday;
+    private String birthdayLunar;
     private String birthdayHour;
     private String birthdayMinute;
     private String bannedPinyin;

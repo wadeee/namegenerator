@@ -48,6 +48,7 @@ public class OrderServiceImpl implements OrderService {
         orderModel.setSex(orderForm.getSex());
         orderModel.setNameSize(orderForm.getNameSize());
         orderModel.setBirthday(orderForm.getBirthday());
+        orderModel.setBirthdayLunar(solarToLunar(orderForm.getBirthday()));
         orderModel.setBirthdayHour(orderForm.getBirthdayHour());
         orderModel.setBirthdayMinute(orderForm.getBirthdayMinute());
         orderModel.setBannedPinyin(orderForm.getBannedPinyin());
@@ -212,6 +213,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Boolean updateOrder(OrderModel orderModel) {
         orderModel.setUpdateTime(DateUtils.dateToString(new Date()));
+        orderModel.setBirthdayLunar(solarToLunar(orderModel.getBirthday()));
         return orderMapper.updateOrder(orderModel);
     }
 
@@ -283,14 +285,17 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    private String solarToLunar(String date) throws ParseException {
-        Calendar today = Calendar.getInstance();
+    private String solarToLunar(String date) {
+        if (Objects.isNull(date)) return null;
+        Calendar day = Calendar.getInstance();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        today.setTime(formatter.parse(date));
-        Lunar lunar = new Lunar(today);
+        try {
+            day.setTime(formatter.parse(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Lunar lunar = new Lunar(day);
         return lunar.cyclical() + "年" + lunar.toString();
     }
-
-
 
 }

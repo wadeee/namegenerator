@@ -98,6 +98,14 @@
                                     </v-col>
                                     <v-col cols="6">
                                         <v-list-item>
+                                            <v-list-item-action>生日(农历)</v-list-item-action>
+                                            <v-list-item-content>
+                                                <v-list-item-title>{{orderInfo.birthdayLunar}}</v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-col>
+                                    <v-col cols="6">
+                                        <v-list-item>
                                             <v-list-item-action>时(生日)</v-list-item-action>
                                             <v-list-item-content>
                                                 <v-list-item-title>{{orderInfo.birthdayHour}}</v-list-item-title>
@@ -526,6 +534,7 @@
                 sex: "未知",
                 nameSize: "三字名",
                 birthday: null,
+                birthdayLunar: null,
                 birthdayHour: null,
                 birthdayMinute: null,
                 bannedPinyin: null,
