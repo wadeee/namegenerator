@@ -407,15 +407,11 @@
                                             </v-list-item>
                                             <v-list-item>
                                                 <v-list-item-action>字义</v-list-item-action>
-                                                <v-list-item-content>
-                                                    {{item.meaning}}
-                                                </v-list-item-content>
+                                                <v-list-item-content class="wrapper">{{item.meaning}}</v-list-item-content>
                                             </v-list-item>
                                             <v-list-item>
                                                 <v-list-item-action>出处</v-list-item-action>
-                                                <v-list-item-content>
-                                                    {{item.source}}
-                                                </v-list-item-content>
+                                                <v-list-item-content class="wrapper">{{item.source}}</v-list-item-content>
                                             </v-list-item>
                                         </v-list>
                                     </v-card-text>
@@ -453,15 +449,11 @@
                                             </v-list-item>
                                             <v-list-item>
                                                 <v-list-item-action>字义</v-list-item-action>
-                                                <v-list-item-content>
-                                                    <v-list-item-content>{{item.meaning}}</v-list-item-content>
-                                                </v-list-item-content>
+                                                <v-list-item-content class="wrapper">{{item.meaning}}</v-list-item-content>
                                             </v-list-item>
                                             <v-list-item>
                                                 <v-list-item-action>出处</v-list-item-action>
-                                                <v-list-item-content>
-                                                    <v-list-item-content>{{item.source}}</v-list-item-content>
-                                                </v-list-item-content>
+                                                <v-list-item-content class="wrapper">{{item.source}}</v-list-item-content>
                                             </v-list-item>
                                         </v-list>
                                     </v-card-text>
