@@ -12,7 +12,6 @@
                 <v-row>
                     <v-col>
                         <v-card-title>执行订单</v-card-title>
-
                         <v-card-text>
                             <v-form
                                     @submit.prevent="submit"
@@ -125,6 +124,7 @@
                 </v-row>
                 <v-row>
                     <v-col cols="6">
+                        <v-card-title>字库生成名({{generatedCharacterNames.length}})</v-card-title>
                         <v-row
                                 v-for="(item, index) in generatedCharacterNames"
                                 :key="index"
@@ -132,40 +132,45 @@
                             <v-col>
                                 <v-card>
                                     <v-card-text>
-                                        <v-text-field
-                                                label="姓名"
-                                                v-model="item.name"
-                                                disabled
-                                        >
-                                        </v-text-field>
-                                        <v-text-field
-                                                label="拼音"
-                                                v-model="item.pinyin"
-                                                disabled
-                                        >
-                                        </v-text-field>
-                                        <v-text-field
-                                                label="五行"
-                                                v-model="item.wuxing"
-                                                disabled
-                                        >
-                                        </v-text-field>
-                                        <v-textarea
-                                                label="字义"
-                                                v-model="item.meaning"
-                                        >
-                                        </v-textarea>
-                                        <v-textarea
-                                                label="出处"
-                                                v-model="item.source"
-                                        >
-                                        </v-textarea>
+                                        <v-list>
+                                            <v-list-item>
+                                                <v-list-item-action>姓名</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{item.name}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                            <v-list-item>
+                                                <v-list-item-action>拼音</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{item.pinyin}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                            <v-list-item>
+                                                <v-list-item-action>五行</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{item.wuxing}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                            <v-list-item>
+                                                <v-list-item-action>字义</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-content>{{item.meaning}}</v-list-item-content>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                            <v-list-item>
+                                                <v-list-item-action>出处</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-content>{{item.source}}</v-list-item-content>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-list>
                                     </v-card-text>
                                 </v-card>
                             </v-col>
                         </v-row>
                     </v-col>
                     <v-col cols="6">
+                        <v-card-title>名库生成名({{generatedNameLibraryNames.length}})</v-card-title>
                         <v-row
                                 v-for="(item, index) in generatedNameLibraryNames"
                                 :key="index"
@@ -173,34 +178,38 @@
                             <v-col>
                                 <v-card>
                                     <v-card-text>
-                                        <v-text-field
-                                                label="姓名"
-                                                v-model="item.name"
-                                                disabled
-                                        >
-                                        </v-text-field>
-                                        <v-text-field
-                                                label="拼音"
-                                                v-model="item.pinyin"
-                                                disabled
-                                        >
-                                        </v-text-field>
-                                        <v-text-field
-                                                label="五行"
-                                                v-model="item.wuxing"
-                                                disabled
-                                        >
-                                        </v-text-field>
-                                        <v-textarea
-                                                label="字义"
-                                                v-model="item.meaning"
-                                        >
-                                        </v-textarea>
-                                        <v-textarea
-                                                label="出处"
-                                                v-model="item.source"
-                                        >
-                                        </v-textarea>
+                                        <v-list>
+                                            <v-list-item>
+                                                <v-list-item-action>姓名</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{item.name}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                            <v-list-item>
+                                                <v-list-item-action>拼音</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{item.pinyin}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                            <v-list-item>
+                                                <v-list-item-action>五行</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{item.wuxing}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                            <v-list-item>
+                                                <v-list-item-action>字义</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-content>{{item.meaning}}</v-list-item-content>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                            <v-list-item>
+                                                <v-list-item-action>出处</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-content>{{item.source}}</v-list-item-content>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-list>
                                     </v-card-text>
                                 </v-card>
                             </v-col>
@@ -208,6 +217,18 @@
                     </v-col>
                     <v-col>
                         <v-card-text>
+                            <v-btn
+                                    depressed
+                                    @click="generateCharactersName"
+                            >
+                                字库名字再生成
+                            </v-btn>
+                            <v-btn
+                                    depressed
+                                    @click="generateNameLibraryName"
+                            >
+                                名库名字再生成
+                            </v-btn>
                             <v-btn
                                     depressed
                                     color="primary"
@@ -237,7 +258,7 @@
         data: {
             visitCnt: null,
             orderInfo: {
-                orderId: "${id}",
+                id: "${id}",
                 orderNumber: null,
                 salesman: "婷婷",
                 wechatMachine: null,
@@ -331,6 +352,22 @@
                         }
                     })
             },
+            generateCharactersName() {
+                axios.get('/name-generator/characters/' + this.orderInfo.id)
+                    .then((response) => {
+                        if (response.status == 200) {
+                            this.generatedCharacterNames = response.data
+                        }
+                    })
+            },
+            generateNameLibraryName() {
+                axios.get('/name-generator/name-library/' + this.orderInfo.id)
+                    .then((response) => {
+                        if (response.status == 200) {
+                            this.generatedNameLibraryNames = response.data
+                        }
+                    })
+            },
         },
         watch: {
             'snackbar.show': function () {
@@ -352,7 +389,7 @@
                 .then((response) => {
                     this.visitCnt = response.data;
                 })
-            axios.get('/order/run/detail/' + this.orderInfo.orderId)
+            axios.get('/order/run/detail/' + this.orderInfo.id)
                 .then((response) => {
                     this.orderInfo = response.data.orderInfo
                     this.comments = response.data.comments
