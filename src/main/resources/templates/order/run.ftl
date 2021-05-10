@@ -58,6 +58,14 @@
                                     </v-col>
                                     <v-col cols="6">
                                         <v-list-item>
+                                            <v-list-item-action>套餐</v-list-item-action>
+                                            <v-list-item-content>
+                                                <v-list-item-title>{{orderInfo.plan}}</v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-col>
+                                    <v-col cols="6">
+                                        <v-list-item>
                                             <v-list-item-action>应交付时间</v-list-item-action>
                                             <v-list-item-content>
                                                 <v-list-item-title>{{orderInfo.deliveryTime}}</v-list-item-title>
