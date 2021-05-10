@@ -12,114 +12,368 @@
                 <v-row>
                     <v-col>
                         <v-card-title>执行订单</v-card-title>
-                        <v-card-text>
-                            <v-form
-                                    @submit.prevent="submit"
-                            >
-
-                                <v-text-field
-                                        v-model="orderInfo.orderNumber"
-                                        label="订单编号"
-                                        disabled
-                                ></v-text-field>
-                                <v-text-field
-                                        v-model="orderInfo.salesman"
-                                        label="销售姓名"
-                                        disabled
-                                ></v-text-field>
-                                <v-text-field
-                                        v-model="orderInfo.wechatMachine"
-                                        label="微信机号"
-                                        disabled
-                                ></v-text-field>
-                                <v-text-field
-                                        v-model="orderInfo.nameGiver"
-                                        label="指定起名师"
-                                        disabled
-                                ></v-text-field>
-                                <v-text-field
-                                        v-model="orderInfo.bills"
-                                        label="订单金额"
-                                        disabled
-                                ></v-text-field>
-                                <v-text-field
-                                        v-model="orderInfo.plan"
-                                        label="套餐选择"
-                                        disabled
-                                ></v-text-field>
-                                <v-text-field
-                                        disabled
-                                        v-model="orderInfo.deliveryTime"
-                                        label="应交付时间"
-                                ></v-text-field>
-                                <v-text-field
-                                        v-model="orderInfo.lastname"
-                                        label="姓氏"
-                                        disabled
-                                ></v-text-field>
-                                <v-text-field
-                                        v-model="orderInfo.sex"
-                                        label="性别"
-                                        disabled
-                                ></v-text-field>
-                                <v-text-field
-                                        v-model="orderInfo.nameSize"
-                                        label="名字字数"
-                                        disabled
-                                ></v-text-field>
-                                <v-text-field
-                                        v-model="orderInfo.birthday"
-                                        label="生日"
-                                        disabled
-                                ></v-text-field>
-                                <v-text-field
-                                        v-model="orderInfo.birthdayHour"
-                                        label="时(生日)"
-                                        disabled
-                                ></v-text-field>
-                                <v-text-field
-                                        v-model="orderInfo.birthdayMinute"
-                                        label="分(生日)"
-                                        disabled
-                                ></v-text-field>
-                                <v-text-field
-                                        v-model="orderInfo.bannedPinyin"
-                                        label="禁用拼音"
-                                        disabled
-                                ></v-text-field>
-                                <v-text-field
-                                        v-model="orderInfo.bannedCharacter"
-                                        label="讨厌的字"
-                                        disabled
-                                ></v-text-field>
-                                <v-text-field
-                                        v-model="orderInfo.generation"
-                                        label="第二个字固定字（字辈）"
-                                        disabled
-                                ></v-text-field>
-                                <v-textarea
-                                        filled
-                                        label="风格要求"
-                                        v-model="orderInfo.style"
-                                        disabled
-                                ></v-textarea>
-                                <v-textarea
-                                        filled
-                                        label="其他需求"
-                                        v-model="orderInfo.notes"
-                                        disabled
-                                ></v-textarea>
-                                <v-textarea
-                                        filled
-                                        v-for="(item, index) in comments"
-                                        :key="index"
-                                        :label="'待调整——' + (index+1)"
-                                        v-model="item.comment"
-                                        disabled
-                                >
-                                </v-textarea>
-                            </v-form>
+                        <v-card>
+                            <v-card-text>
+                            <v-list>
+                                <v-row>
+                                    <v-col cols="6">
+                                        <v-list-item>
+                                            <v-list-item-action>订单编号</v-list-item-action>
+                                            <v-list-item-content>
+                                                <v-list-item-title>{{orderInfo.orderNumber}}</v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-col>
+                                    <v-col cols="6">
+                                        <v-list-item>
+                                            <v-list-item-action>销售姓名</v-list-item-action>
+                                            <v-list-item-content>
+                                                <v-list-item-title>{{orderInfo.salesman}}</v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-col>
+                                    <v-col cols="6">
+                                        <v-list-item>
+                                            <v-list-item-action>微信机号</v-list-item-action>
+                                            <v-list-item-content>
+                                                <v-list-item-title>{{orderInfo.wechatMachine}}</v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-col>
+                                    <v-col cols="6">
+                                        <v-list-item>
+                                            <v-list-item-action>指定起名师</v-list-item-action>
+                                            <v-list-item-content>
+                                                <v-list-item-title>{{orderInfo.nameGiver}}</v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-col>
+                                    <v-col cols="6">
+                                        <v-list-item>
+                                            <v-list-item-action>订单金额</v-list-item-action>
+                                            <v-list-item-content>
+                                                <v-list-item-title>{{orderInfo.bills}}</v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-col>
+                                    <v-col cols="6">
+                                        <v-list-item>
+                                            <v-list-item-action>应交付时间</v-list-item-action>
+                                            <v-list-item-content>
+                                                <v-list-item-title>{{orderInfo.deliveryTime}}</v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-col>
+                                    <v-col cols="6">
+                                        <v-list-item>
+                                            <v-list-item-action>姓氏</v-list-item-action>
+                                            <v-list-item-content>
+                                                <v-list-item-title>{{orderInfo.lastname}}</v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-col>
+                                    <v-col cols="6">
+                                        <v-list-item>
+                                            <v-list-item-action>名字字数</v-list-item-action>
+                                            <v-list-item-content>
+                                                <v-list-item-title>{{orderInfo.nameSize}}</v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-col>
+                                    <v-col cols="6">
+                                        <v-list-item>
+                                            <v-list-item-action>生日</v-list-item-action>
+                                            <v-list-item-content>
+                                                <v-list-item-title>{{orderInfo.birthday}}</v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-col>
+                                    <v-col cols="6">
+                                        <v-list-item>
+                                            <v-list-item-action>时(生日)</v-list-item-action>
+                                            <v-list-item-content>
+                                                <v-list-item-title>{{orderInfo.birthdayHour}}</v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-col>
+                                    <v-col cols="6">
+                                        <v-list-item>
+                                            <v-list-item-action>分(生日)</v-list-item-action>
+                                            <v-list-item-content>
+                                                <v-list-item-title>{{orderInfo.birthdayMinute}}</v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-col>
+                                    <v-col cols="6">
+                                        <v-list-item>
+                                            <v-list-item-action>禁用拼音</v-list-item-action>
+                                            <v-list-item-content>
+                                                <v-list-item-title>{{orderInfo.bannedPinyin}}</v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-col>
+                                    <v-col cols="6">
+                                        <v-list-item>
+                                            <v-list-item-action>讨厌的字</v-list-item-action>
+                                            <v-list-item-content>
+                                                <v-list-item-title>{{orderInfo.bannedCharacter}}</v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-col>
+                                    <v-col cols="6">
+                                        <v-list-item>
+                                            <v-list-item-action>第二个字固定字（字辈）</v-list-item-action>
+                                            <v-list-item-content>
+                                                <v-list-item-title>{{orderInfo.generation}}</v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-col>
+                                    <v-col cols="12">
+                                        <v-list-item>
+                                            <v-list-item-action>风格要求</v-list-item-action>
+                                            <v-list-item-content>
+                                                {{orderInfo.style}}
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-col>
+                                    <v-col cols="12">
+                                        <v-list-item>
+                                            <v-list-item-action>其他需求</v-list-item-action>
+                                            <v-list-item-content>
+                                                {{orderInfo.notes}}
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-col>
+                                    <v-col
+                                            cols="12"
+                                            v-for="(item, index) in comments"
+                                            :key="index"
+                                    >
+                                        <v-list-item>
+                                            <v-list-item-action>待调整——{{index+1}}</v-list-item-action>
+                                            <v-list-item-content>
+                                                {{item.comment}}
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-col>
+                                </v-row>
+                            </v-list>
                         </v-card-text>
+                        </v-card>
+                    </v-col>
+                </v-row>
+                <v-row
+                        v-if="this.mingpen != null"
+                >
+                    <v-col>
+                        <v-card-title>八字命盘</v-card-title>
+                        <v-card>
+                            <v-card-text>
+                                <v-list>
+                                    <v-row>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>主星</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{mingpen.zhuxing}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>天干</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{mingpen.tiangan}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>地支</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{mingpen.dizhi}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>大运</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{mingpen.dayun}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>用神</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{mingpen.yongshen}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>喜神</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{mingpen.xishen}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>忌神</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{mingpen.jishen}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>叫运时间</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{mingpen.jiaoyunshijian}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>强弱</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{mingpen.qiangruo}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>五行</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{mingpen.wuxing}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>木</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{mingpen.mu}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>金</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{mingpen.jin}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>水</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{mingpen.shui}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>土</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{mingpen.tu}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>火</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{mingpen.huo}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                    </v-row>
+                                </v-list>
+                            </v-card-text>
+                        </v-card>
+                    </v-col>
+                </v-row>
+                <v-row
+                        v-if="this.mingju != null"
+                >
+                    <v-col>
+                        <v-card-title>命局分析</v-card-title>
+                        <v-card>
+                            <v-card-text>
+                                <v-list>
+                                    <v-row>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>命盘</v-list-item-action>
+                                                <v-list-item-content>
+                                                    {{mingju.mingpen}}
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>性格</v-list-item-action>
+                                                <v-list-item-content>
+                                                    {{mingju.xingge}}
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>学历</v-list-item-action>
+                                                <v-list-item-content>
+                                                    {{mingju.xueli}}
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>财富</v-list-item-action>
+                                                <v-list-item-content>
+                                                    {{mingju.caifu}}
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>财富事业</v-list-item-action>
+                                                <v-list-item-content>
+                                                    {{mingju.caifushiye}}
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>地位</v-list-item-action>
+                                                <v-list-item-content>
+                                                    {{mingju.diwei}}
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>六亲</v-list-item-action>
+                                                <v-list-item-content>
+                                                    {{mingju.liuqin}}
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>疾病</v-list-item-action>
+                                                <v-list-item-content>
+                                                    {{mingju.jibing}}
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                    </v-row>
+                                </v-list>
+                            </v-card-text>
+                        </v-card>
                     </v-col>
                 </v-row>
                 <v-row>
@@ -154,13 +408,13 @@
                                             <v-list-item>
                                                 <v-list-item-action>字义</v-list-item-action>
                                                 <v-list-item-content>
-                                                    <v-list-item-content>{{item.meaning}}</v-list-item-content>
+                                                    {{item.meaning}}
                                                 </v-list-item-content>
                                             </v-list-item>
                                             <v-list-item>
                                                 <v-list-item-action>出处</v-list-item-action>
                                                 <v-list-item-content>
-                                                    <v-list-item-content>{{item.source}}</v-list-item-content>
+                                                    {{item.source}}
                                                 </v-list-item-content>
                                             </v-list-item>
                                         </v-list>
@@ -257,6 +511,8 @@
         }),
         data: {
             visitCnt: null,
+            mingpen: null,
+            mingju: null,
             orderInfo: {
                 id: "${id}",
                 orderNumber: null,
@@ -268,10 +524,10 @@
                 tillDeliveryTime: 48,
                 lastname: null,
                 sex: "未知",
-                nameSize: "二字名",
+                nameSize: "三字名",
                 birthday: null,
-                birthdayHour: 1,
-                birthdayMinute: 1,
+                birthdayHour: null,
+                birthdayMinute: null,
                 bannedPinyin: null,
                 bannedCharacter: null,
                 generation: null,
@@ -316,13 +572,6 @@
             }
         },
         computed: {
-            pinyin: function () {
-                let temp = []
-                for (let i = 0; i < this.nameLibraryForm.name.length; i++) {
-                    temp.push(this.pinyinSelected[this.nameLibraryForm.name[i]])
-                }
-                return temp.join(' ')
-            },
         },
         methods: {
             submit() {
@@ -395,6 +644,22 @@
                     this.comments = response.data.comments
                     this.generatedCharacterNames = response.data.generatedCharacterNames
                     this.generatedNameLibraryNames = response.data.generatedNameLibraryNames
+                })
+            axios.get('/order/mingpen/' + this.orderInfo.id)
+                .then((response) => {
+                    if (response.data  === "") {
+                        this.mingpen = null
+                    } else {
+                        this.mingpen = response.data
+                    }
+                })
+            axios.get('/order/mingju/' + this.orderInfo.id)
+                .then((response) => {
+                    if (response.data  === "") {
+                        this.mingju = null
+                    } else {
+                        this.mingju = response.data
+                    }
                 })
         },
     })

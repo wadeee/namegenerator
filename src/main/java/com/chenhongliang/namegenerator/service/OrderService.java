@@ -2,9 +2,7 @@ package com.chenhongliang.namegenerator.service;
 
 import com.chenhongliang.namegenerator.form.OrderCommentForm;
 import com.chenhongliang.namegenerator.form.OrderForm;
-import com.chenhongliang.namegenerator.model.OrderCommentModel;
-import com.chenhongliang.namegenerator.model.OrderGeneratedNameModel;
-import com.chenhongliang.namegenerator.model.OrderModel;
+import com.chenhongliang.namegenerator.model.*;
 import com.chenhongliang.namegenerator.vo.OrderListVo;
 import com.github.pagehelper.PageInfo;
 
@@ -29,4 +27,8 @@ public interface OrderService {
     List<OrderGeneratedNameModel> getGeneratedNames(String orderId, Boolean namelibType);
 
     Boolean deliverOrder(String id);
+
+    MingpenModel getMingpen(String orderId);
+
+    MingjuModel getMingju(String orderId);
 }

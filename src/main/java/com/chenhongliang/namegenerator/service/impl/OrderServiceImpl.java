@@ -1,22 +1,27 @@
 package com.chenhongliang.namegenerator.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.chenhongliang.namegenerator.form.NameConstrainForm;
 import com.chenhongliang.namegenerator.form.OrderCommentForm;
 import com.chenhongliang.namegenerator.form.OrderForm;
 import com.chenhongliang.namegenerator.mapper.OrderMapper;
-import com.chenhongliang.namegenerator.model.OrderCommentModel;
-import com.chenhongliang.namegenerator.model.OrderGeneratedNameModel;
-import com.chenhongliang.namegenerator.model.OrderModel;
+import com.chenhongliang.namegenerator.model.*;
 import com.chenhongliang.namegenerator.service.NameGeneratorService;
 import com.chenhongliang.namegenerator.service.OrderService;
 import com.chenhongliang.namegenerator.util.DateUtils;
 import com.chenhongliang.namegenerator.util.FortuneTellingUtils;
+import com.chenhongliang.namegenerator.util.HttpUtils;
+import com.chenhongliang.namegenerator.util.Lunar;
 import com.chenhongliang.namegenerator.vo.OrderListVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.http.HttpResponse;
+import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -121,13 +126,65 @@ public class OrderServiceImpl implements OrderService {
             if (flag) {
                 generatedNameLibraryNameList.add(generatedName);
             }
-
         }
         for (OrderGeneratedNameModel temp : generatedNameLibraryNameList) {
             orderMapper.addGeneratedName(temp);
         }
 
+        if (orderModel.getPlan().startsWith("八字")) {
+            Map<String, String> querys = new HashMap<>();
+            querys.put("birthday", orderModel.getBirthday());
+            querys.put("hour", orderModel.getBirthdayHour());
+            querys.put("ming", "");
+            querys.put("minute", orderModel.getBirthdayMinute());
+            querys.put("pay", "1");
+            querys.put("sex", orderModel.getSex());
+            querys.put("xing", orderModel.getLastname());
+
+            Map mingpen = getMapFromAPI("/openapi/bazi/getMingpen", querys);
+            MingpenModel mingpenModel = new MingpenModel();
+            mingpenModel.setOrderId(orderModel.getId().toString());
+            mingpenModel.setZhuxing(objToString(mingpen.get("ZhuXing")));
+            mingpenModel.setTiangan(objToString(mingpen.get("TianGan")));
+            mingpenModel.setDizhi(objToString(mingpen.get("DiZhi")));
+            mingpenModel.setDayun(objToString(mingpen.get("DaYun")));
+            mingpenModel.setYongshen(objToString(mingpen.get("YongShen")));
+            mingpenModel.setXishen(objToString(mingpen.get("XiShen")));
+            mingpenModel.setJishen(objToString(mingpen.get("JiShen")));
+            mingpenModel.setJiaoyunshijian(objToString(mingpen.get("JiaoYunShiJian")));
+            mingpenModel.setQiangruo(objToString(mingpen.get("QiangRuo")));
+            mingpenModel.setWuxing(objToString(mingpen.get("WuXing")));
+            mingpenModel.setMu(objToString(mingpen.get("Mu")));
+            mingpenModel.setJin(objToString(mingpen.get("Jin")));
+            mingpenModel.setShui(objToString(mingpen.get("Shui")));
+            mingpenModel.setTu(objToString(mingpen.get("Tu")));
+            mingpenModel.setHuo(objToString(mingpen.get("Huo")));
+            orderMapper.addMingpen(mingpenModel);
+            if (!orderModel.getPlan().startsWith("八字起名套餐1")) {
+                Map mingju = getMapFromAPI("/openapi/bazi/getMingju", querys);
+                MingjuModel mingjuModel = new MingjuModel();
+                mingjuModel.setOrderId(orderModel.getId().toString());
+                mingjuModel.setMingpen(objToString(mingju.get("MingPen")));
+                mingjuModel.setXingge(objToString(mingju.get("XingGe")));
+                mingjuModel.setXueli(objToString(mingju.get("XueLi")));
+                mingjuModel.setCaifu(objToString(mingju.get("CaiFu")));
+                mingjuModel.setCaifushiye(objToString(mingju.get("CaiFuShiYe")));
+                mingjuModel.setDiwei(objToString(mingju.get("DiWei")));
+                mingjuModel.setLiuqin(objToString(mingju.get("LiuQin")));
+                mingjuModel.setJibing(objToString(mingju.get("JiBing")));
+                mingjuModel.setShiye(objToString(mingju.get("ShiYe")));
+                mingjuModel.setYiji(objToString(mingju.get("YiJi")));
+                mingjuModel.setXiongzai(objToString(mingju.get("XiongZai")));
+                mingjuModel.setGuansha(objToString(mingju.get("GuanSha")));
+                orderMapper.addMingju(mingjuModel);
+            }
+        }
+
         return true;
+    }
+    
+    private String objToString(Object obj) {
+        return Objects.isNull(obj)?null:String.valueOf(obj);
     }
 
     private List<String> splitString(String str) {
@@ -187,6 +244,53 @@ public class OrderServiceImpl implements OrderService {
         String status = orderMapper.getStatus(id);
         return orderMapper.updateStatus(id, status.replace("待", "已"), DateUtils.dateToString(new Date()), true);
     }
+
+    @Override
+    public MingpenModel getMingpen(String orderId) {
+        return orderMapper.getMingpen(orderId);
+    }
+
+    @Override
+    public MingjuModel getMingju(String orderId) {
+        return orderMapper.getMingju(orderId);
+    }
+
+    private Map getMapFromAPI(String path, Map<String, String> querys){
+        String host = "https://openapi.fatebox.cn";
+        String method = "GET";
+        String appcode = "32cf3b4f21904b27bd7877354307b724";
+        Map<String, String> headers = new HashMap<>();
+        //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
+        headers.put("Authorization", "APPCODE " + appcode);
+
+        try {
+            /**
+             * 重要提示如下:
+             * HttpUtils请从
+             * https://github.com/aliyun/api-gateway-demo-sign-java/blob/master/src/main/java/com/aliyun/api/gateway/demo/util/HttpUtils.java
+             * 下载
+             *
+             * 相应的依赖请参照
+             * https://github.com/aliyun/api-gateway-demo-sign-java/blob/master/pom.xml
+             */
+            HttpResponse response = HttpUtils.doGet(host, path, headers, querys);
+            String result = EntityUtils.toString(response.getEntity());
+            Map mapType = JSON.parseObject(result, LinkedHashMap.class);
+            return mapType;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new HashMap();
+        }
+    }
+
+    private String solarToLunar(String date) throws ParseException {
+        Calendar today = Calendar.getInstance();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        today.setTime(formatter.parse(date));
+        Lunar lunar = new Lunar(today);
+        return lunar.cyclical() + "年" + lunar.toString();
+    }
+
 
 
 }

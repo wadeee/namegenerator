@@ -425,7 +425,7 @@
             editDialog: false,
             commentsDialog: false,
             dateMenu: false,
-            nameSizeArray: ["二字名"],
+            nameSizeArray: ["三字名"],
             nameSizes: ["二字名", "三字名", "四字名",],
             sexes: ["男", "女", "未知"],
             salesmans: ["婷婷", "肖鑫"],

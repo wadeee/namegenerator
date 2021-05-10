@@ -2,6 +2,8 @@ package com.chenhongliang.namegenerator.controller;
 
 import com.chenhongliang.namegenerator.form.OrderCommentForm;
 import com.chenhongliang.namegenerator.form.OrderForm;
+import com.chenhongliang.namegenerator.model.MingjuModel;
+import com.chenhongliang.namegenerator.model.MingpenModel;
 import com.chenhongliang.namegenerator.model.OrderCommentModel;
 import com.chenhongliang.namegenerator.model.OrderModel;
 import com.chenhongliang.namegenerator.service.OrderService;
@@ -101,6 +103,18 @@ public class OrderController {
     @ResponseBody
     public Boolean deliver(@PathVariable("id") String id) {
         return orderService.deliverOrder(id);
+    }
+
+    @GetMapping("/mingpen/{id}")
+    @ResponseBody
+    public MingpenModel mingpen(@PathVariable("id") String id) {
+        return orderService.getMingpen(id);
+    }
+
+    @GetMapping("/mingju/{id}")
+    @ResponseBody
+    public MingjuModel mingju(@PathVariable("id") String id) {
+        return orderService.getMingju(id);
     }
 
 }

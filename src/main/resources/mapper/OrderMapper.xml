@@ -181,4 +181,27 @@
             and namelib_type = #{namelibType}
     </select>
 
+    <insert id="addMingpen" parameterType="MingpenModel">
+        insert into mingpen
+            (order_id, zhuxing, tiangan, dizhi, dayun, yongshen, xishen, jishen, jiaoyunshijian, qiangruo, wuxing, mu, jin, shui, tu, huo)
+        values (#{orderId}, #{zhuxing}, #{tiangan}, #{dizhi}, #{dayun}, #{yongshen}, #{xishen}, #{jishen}, #{jiaoyunshijian}, #{qiangruo}, #{wuxing}, #{mu}, #{jin}, #{shui}, #{tu}, #{huo})
+    </insert>
+    
+    <insert id="addMingju" parameterType="MingjuModel">
+        insert into mingju
+            (order_id, mingpen, xingge, xueli, caifu, caifushiye, diwei, liuqin, jibing, shiye, yiji, xiongzai, guansha)
+        values (#{orderId}, mingpen, #{xingge}, #{xueli}, #{caifu}, #{caifushiye}, #{diwei}, #{liuqin}, #{jibing}, #{shiye}, #{yiji}, #{xiongzai}, #{guansha})
+    </insert>
+
+    <select id="getMingpen" resultType="MingpenModel">
+        select *
+        from mingpen
+        where order_id = #{orderId}
+    </select>
+
+    <select id="getMingju" resultType="MingjuModel">
+        select *
+        from mingju
+        where order_id = #{orderId}
+    </select>
 </mapper>
