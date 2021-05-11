@@ -388,7 +388,6 @@
                         >
                             <v-col>
                                 <v-expansion-panels
-                                        v-model="panel"
                                         multiple
                                 >
                                     <v-expansion-panel>
@@ -439,7 +438,6 @@
                         >
                             <v-col>
                                 <v-expansion-panels
-                                        v-model="panel"
                                         multiple
                                 >
                                     <v-expansion-panel>
