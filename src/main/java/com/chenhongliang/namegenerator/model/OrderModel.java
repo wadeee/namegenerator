@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -19,7 +18,7 @@ public class OrderModel implements Serializable {
     private String nameGiver;
     private String bills;
     private String plan;
-    private Date deliveryTime;
+    private String deliveryTime;
     private String lastname;
     private String sex;
     private String nameSize;
@@ -36,5 +35,6 @@ public class OrderModel implements Serializable {
     private String wuxing;
     private String updateTime;
     private Boolean delivered;
+    private Integer tillDeliveryTime;
 
 }

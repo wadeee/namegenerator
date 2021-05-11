@@ -70,7 +70,7 @@ public class OrderServiceImpl implements OrderService {
         Calendar cal = Calendar.getInstance();
         cal.setTime(dateNow);
         cal.add(Calendar.HOUR, orderForm.getTillDeliveryTime());
-        orderModel.setDeliveryTime(cal.getTime());
+        orderModel.setDeliveryTime(DateUtils.dateToStringLong(cal.getTime()));
         orderMapper.insert(orderModel);
         Integer orderId = orderModel.getId();
 
@@ -224,6 +224,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Boolean updateOrder(OrderModel orderModel) {
+        if (!Objects.isNull(orderModel.getTillDeliveryTime())) {
+            Date dateNow = new Date();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(dateNow);
+            cal.add(Calendar.HOUR, orderModel.getTillDeliveryTime());
+            orderModel.setDeliveryTime(DateUtils.dateToStringLong(cal.getTime()));
+        }
         orderModel.setUpdateTime(DateUtils.dateToString(new Date()));
         orderModel.setBirthdayLunar(solarToLunar(orderModel.getBirthday()));
         return orderMapper.updateOrder(orderModel);
@@ -236,8 +243,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Boolean addComment(OrderCommentForm orderCommentForm) {
-        System.out.println(orderCommentForm.getCommentCnt());
-        System.out.println(orderCommentForm.getOrderId());
         orderMapper.updateStatus(orderCommentForm.getOrderId(), "待调整-" + orderCommentForm.getCommentCnt().toString(), DateUtils.dateToString(new Date()), false);
         return orderMapper.addComment(orderCommentForm);
     }

@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -15,7 +14,7 @@ public class OrderListVo implements Serializable {
     private String id;
     private String orderNumber;
     private String plan;
-    private Date deliveryTime;
+    private String deliveryTime;
     private String status;
 
 }

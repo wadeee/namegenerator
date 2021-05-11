@@ -192,6 +192,12 @@
                                             v-model="commentForm.comment"
                                     >
                                     </v-textarea>
+                                    <v-select
+                                            v-model="editForm.tillDeliveryTime"
+                                            :items="tillDeliveryTimes"
+                                            filled
+                                            label="应交付时间(小时)"
+                                    ></v-select>
                                 </v-form>
                             </v-card-text>
                             <v-divider></v-divider>
@@ -272,6 +278,7 @@
                 bills: null,
                 plan: null,
                 wuxing: null,
+                tillDeliveryTime: null,
                 deliveryTime: null,
                 lastname: null,
                 sex: null,
@@ -464,9 +471,6 @@
                         this.pageNo = response.data.pageNum
                         this.pageSize = response.data.pages
                         this.orderList = response.data.list
-                        for (let item of this.orderList) {
-                            item.deliveryTime = item.deliveryTime.substr(0,16).replace('T',' ')
-                        }
                     })
             },
             commentOrder(item) {

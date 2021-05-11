@@ -23,4 +23,10 @@ public class DateUtils {
         return date;
     }
 
+    public static String dateToStringLong(Date date) {
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return format.format(date);
+    }
+
+
 }

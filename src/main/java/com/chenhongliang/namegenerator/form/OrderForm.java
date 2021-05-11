@@ -22,6 +22,7 @@ public class OrderForm implements Serializable {
     private String sex;
     private String nameSize;
     private String birthday;
+    private String birthdayLunar;
     private String birthdayHour;
     private String birthdayMinute;
     private String bannedPinyin;
@@ -29,5 +30,9 @@ public class OrderForm implements Serializable {
     private String generation;
     private String style;
     private String notes;
+    private String status;
+    private String wuxing;
+    private String updateTime;
+    private Boolean delivered;
 
 }
