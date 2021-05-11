@@ -13,6 +13,8 @@ public interface OrderMapper {
 
     List<OrderListVo> getList(String dateLine);
 
+    Boolean updateWuxing(String orderId, String wuxing);
+
     OrderModel getDetail(String id);
 
     Boolean updateOrder(OrderModel orderModel);

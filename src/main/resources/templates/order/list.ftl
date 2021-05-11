@@ -20,12 +20,6 @@
                         >
                             <template v-slot:item.actions="{ item }">
                                 <v-btn
-                                        outlined
-                                        small
-                                        color="teal"
-                                        @click="editOrder(item)"
-                                >修改</v-btn>
-                                <v-btn
                                         v-if="!item.status.startsWith('待调整')"
                                         outlined
                                         small
@@ -46,20 +40,20 @@
                 </v-row>
                 <v-row justify="center">
                     <v-dialog
-                            v-model="editDialog"
+                            v-model="commentsDialog"
                             scrollable
                             max-width="800"
                     >
                         <v-card>
                             <v-card-title
                                     class="headline"
-                                    v-text="editForm.orderNumber + ' 订单详情'"
+                                    v-text="editForm.orderNumber + ' 订单调整'"
                             >
                             </v-card-title>
                             <v-divider></v-divider>
                             <v-card-text>
                                 <v-form
-                                        @submit.prevent="updateOrder"
+                                        @submit.prevent="updateAndAdd"
                                 >
                                     <v-text-field
                                             filled
@@ -93,6 +87,13 @@
                                             filled
                                             label="套餐选择"
                                     ></v-select>
+                                    <v-text-field
+                                            v-if="editForm.wuxing != null && editForm.wuxing != ''"
+                                            filled
+                                            disabled
+                                            v-model="editForm.wuxing"
+                                            label="五行"
+                                    ></v-text-field>
                                     <v-text-field
                                             filled
                                             disabled
@@ -176,139 +177,6 @@
                                             label="其他需求"
                                             v-model="editForm.notes"
                                     ></v-textarea>
-                                </v-form>
-                            </v-card-text>
-                            <v-divider></v-divider>
-                            <v-card-actions>
-                                <v-spacer></v-spacer>
-
-                                <v-btn
-                                        depressed
-                                        @click="editDialog = false"
-                                >
-                                    关闭
-                                </v-btn>
-                                <v-btn
-                                        depressed
-                                        color="primary"
-                                        @click="updateOrder"
-                                >
-                                    确认
-                                </v-btn>
-                            </v-card-actions>
-                        </v-card>
-                    </v-dialog>
-                </v-row>
-                <v-row justify="center">
-                    <v-dialog
-                            v-model="commentsDialog"
-                            scrollable
-                            max-width="800"
-                    >
-                        <v-card>
-                            <v-card-title
-                                    class="headline"
-                                    v-text="editForm.orderNumber + ' 订单调整'"
-                            >
-                            </v-card-title>
-                            <v-divider></v-divider>
-                            <v-card-text>
-                                <v-form
-                                        @submit.prevent="addComment"
-                                >
-                                    <v-text-field
-                                            filled
-                                            v-model="editForm.orderNumber"
-                                            label="订单编号"
-                                            disabled
-                                    ></v-text-field>
-                                    <v-text-field
-                                            v-model="editForm.salesman"
-                                            label="销售姓名"
-                                            disabled
-                                    ></v-text-field>
-                                    <v-text-field
-                                            v-model="editForm.wechatMachine"
-                                            label="微信机号"
-                                            disabled
-                                    ></v-text-field>
-                                    <v-text-field
-                                            v-model="editForm.nameGiver"
-                                            label="指定起名师"
-                                            disabled
-                                    ></v-text-field>
-                                    <v-text-field
-                                            v-model="editForm.bills"
-                                            label="订单金额"
-                                            disabled
-                                    ></v-text-field>
-                                    <v-text-field
-                                            v-model="editForm.plan"
-                                            label="套餐选择"
-                                            disabled
-                                    ></v-text-field>
-                                    <v-text-field
-                                            v-model="editForm.deliveryTime"
-                                            label="应交付时间"
-                                            disabled
-                                    ></v-text-field>
-                                    <v-text-field
-                                            v-model="editForm.lastname"
-                                            label="姓氏"
-                                            disabled
-                                    ></v-text-field>
-                                    <v-text-field
-                                            v-model="editForm.sex"
-                                            label="性别"
-                                            disabled
-                                    ></v-text-field>
-                                    <v-text-field
-                                            v-model="editForm.nameSize"
-                                            label="名字字数"
-                                            disabled
-                                    ></v-text-field>
-                                    <v-text-field
-                                            v-model="editForm.birthday"
-                                            label="生日"
-                                            disabled
-                                    ></v-text-field>
-                                    <v-text-field
-                                            v-model="editForm.birthdayHour"
-                                            label="时(生日)"
-                                            disabled
-                                    ></v-text-field>
-                                    <v-text-field
-                                            v-model="editForm.birthdayMinute"
-                                            label="分(生日)"
-                                            disabled
-                                    ></v-text-field>
-                                    <v-text-field
-                                            v-model="editForm.bannedPinyin"
-                                            label="禁用拼音"
-                                            disabled
-                                    ></v-text-field>
-                                    <v-text-field
-                                            v-model="editForm.bannedCharacter"
-                                            label="讨厌的字"
-                                            disabled
-                                    ></v-text-field>
-                                    <v-text-field
-                                            v-model="editForm.generation"
-                                            label="第二个字固定字（字辈）"
-                                            disabled
-                                    ></v-text-field>
-                                    <v-textarea
-                                            filled
-                                            label="风格要求"
-                                            v-model="editForm.style"
-                                            disabled
-                                    ></v-textarea>
-                                    <v-textarea
-                                            filled
-                                            label="其他需求"
-                                            v-model="editForm.notes"
-                                            disabled
-                                    ></v-textarea>
                                     <v-textarea
                                             filled
                                             v-for="(item, index) in comments"
@@ -339,7 +207,7 @@
                                 <v-btn
                                         depressed
                                         color="primary"
-                                        @click="addComment"
+                                        @click="updateAndAdd"
                                 >
                                     确认
                                 </v-btn>
@@ -403,6 +271,7 @@
                 nameGiver: null,
                 bills: null,
                 plan: null,
+                wuxing: null,
                 deliveryTime: null,
                 lastname: null,
                 sex: null,
@@ -422,7 +291,6 @@
                 commentCnt: 0,
             },
             comments: [],
-            editDialog: false,
             commentsDialog: false,
             dateMenu: false,
             nameSizeArray: ["三字名"],
@@ -601,14 +469,6 @@
                         }
                     })
             },
-            editOrder(item) {
-                axios.get('/order/detail/' + item.id )
-                    .then((response) => {
-                        this.editForm = response.data
-                        this.nameSizeArray = this.editForm.nameSize.split(', ')
-                        this.editDialog = true
-                    })
-            },
             commentOrder(item) {
                 this.commentForm.orderId = item.id
                 axios.get('/order/detail/' + item.id )
@@ -622,19 +482,11 @@
                         this.commentsDialog = true
                     })
             },
+            updateAndAdd() {
+                this.updateOrder()
+            },
             updateOrder() {
-                axios.post('/order/update', this.editForm)
-                    .then((response) => {
-                        if (response.status == 200) {
-                            this.refreshList()
-                            this.editDialog = false
-                            this.snackbar.message = "订单修改成功"
-                            this.snackbar.show = true
-                        } else {
-                            this.errorSnackbar.message = "订单修改失败"
-                            this.errorSnackbar.show = true
-                        }
-                    })
+                axios.post('/order/update', this.editForm).then(this.addComment())
             },
             addComment() {
                 axios.post('/order/comments/add', this.commentForm)

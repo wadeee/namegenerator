@@ -148,6 +148,54 @@
                         </v-card-text>
                     </v-col>
                 </v-row>
+                <v-row justify="center">
+                    <v-dialog
+                            v-model="dialog"
+                            max-width="480"
+                            scrollable
+                            persistent
+                    >
+                        <v-card>
+                            <v-card-title
+                                    class="headline"
+                            >
+                                请选择五行
+                            </v-card-title>
+                            <v-divider></v-divider>
+                            <v-card-text
+                                    style="height: 350px;"
+                            >
+                                <v-form
+                                        @submit.prevent="submitWuxing"
+                                >
+                                    <v-row>
+                                        <v-col
+                                                v-for="item in wuxings"
+                                                :key="item"
+                                        >
+                                            <v-checkbox
+                                                    v-model="selectedWuxings"
+                                                    :label="item"
+                                                    :value="item"
+                                            ></v-checkbox>
+                                        </v-col>
+                                    </v-row>
+                                </v-form>
+                            </v-card-text>
+                            <v-divider></v-divider>
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn
+                                        depressed
+                                        color="primary"
+                                        @click="submitWuxing"
+                                >
+                                    确认
+                                </v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-dialog>
+                </v-row>
             </v-container>
         </v-main>
         <#include "/common/snakbar.ftl">
@@ -352,7 +400,11 @@
                 value: 0,
                 show: false,
                 query: true,
-            }
+            },
+            wuxings: [],
+            selectedWuxings: [],
+            dialog: false,
+            orderId: null,
         },
         computed: {
             pinyin: function () {
@@ -369,12 +421,30 @@
                 axios.post('/order', this.orderForm)
                     .then((response) => {
                         if (response.status == 200) {
-                            this.snackbar.message = "订单已生成"
-                            this.progress.show = false
-                            this.snackbar.show = true
+                            if (response.data.wuxingList != "" && response.data.wuxingList != null) {
+                                this.wuxings = response.data.wuxingList
+                                this.orderId = response.data.id
+                                this.selectedWuxings = this.wuxings
+                                this.dialog = true
+                            } else {
+                                this.snackbar.message = "订单已生成"
+                                this.progress.show = false
+                                this.snackbar.show = true
+                            }
                         } else {
                             this.errorSnackbar.message = "订单生成失败"
                             this.errorSnackbar.show = true
+                        }
+                    })
+            },
+            submitWuxing() {
+                axios.post('/order/updateWuxing/' + this.orderId, this.selectedWuxings)
+                    .then((response) => {
+                        if (response.status == 200) {
+                            this.snackbar.message = "订单已生成"
+                            this.dialog = false
+                            this.progress.show = false
+                            this.snackbar.show = true
                         }
                     })
             },

@@ -26,6 +26,9 @@
         <id column="style" property="style"/>
         <id column="notes" property="notes"/>
         <id column="status" property="status"/>
+        <id column="wuxing" property="wuxing"/>
+        <id column="update_time" property="updateTime"/>
+        <id column="delivered" property="delivered"/>
     </resultMap>
 
     <insert id="insert" parameterType="OrderModel" useGeneratedKeys="true" keyProperty="id">
@@ -94,6 +97,12 @@
         order by id
     </select>
 
+    <update id="updateWuxing" parameterType="String">
+        update `order`
+        set wuxing = #{wuxing}
+        where id = #{orderId}
+    </update>
+
     <select id="getDetail" parameterType="String" resultMap="OrderModelMap">
         select
             *
@@ -123,7 +132,6 @@
             <if test="generation != null and generation != ''">generation = #{generation},</if>
             <if test="style != null and style != ''">`style` = #{style},</if>
             <if test="notes != null and notes != ''">notes = #{notes},</if>
-            <if test="status != null and status != ''">status = #{status},</if>
             <if test="wuxing != null and wuxing != ''">wuxing = #{wuxing},</if>
             <if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
             <if test="delivered != null and delivered != ''">delivered = #{delivered},</if>

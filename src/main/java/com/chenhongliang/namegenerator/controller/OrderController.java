@@ -32,8 +32,14 @@ public class OrderController {
 
     @PostMapping
     @ResponseBody
-    public Boolean add(@RequestBody OrderForm orderForm) {
+    public Map<String, Object> add(@RequestBody OrderForm orderForm) {
         return orderService.addOrder(orderForm);
+    }
+
+    @PostMapping("updateWuxing/{id}")
+    @ResponseBody
+    public Boolean updateWuxings(@PathVariable("id") String id, @RequestBody List<String> wuxing) {
+        return orderService.updateWuxing(id, wuxing);
     }
 
     @GetMapping("/list")

@@ -7,10 +7,13 @@ import com.chenhongliang.namegenerator.vo.OrderListVo;
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;
+import java.util.Map;
 
 public interface OrderService {
 
-    Boolean addOrder(OrderForm orderForm);
+    Map<String, Object> addOrder(OrderForm orderForm);
+
+    Boolean updateWuxing(String id, List<String> wuxing);
 
     PageInfo<OrderListVo> orderList(Integer pageNo, Integer pageSize);
 

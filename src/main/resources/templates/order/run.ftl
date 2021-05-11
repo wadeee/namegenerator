@@ -64,6 +64,17 @@
                                             </v-list-item-content>
                                         </v-list-item>
                                     </v-col>
+                                    <v-col
+                                            cols="6"
+                                            v-if="orderInfo.wuxing != null && orderInfo.wuxing != ''"
+                                    >
+                                        <v-list-item>
+                                            <v-list-item-action>五行</v-list-item-action>
+                                            <v-list-item-content>
+                                                <v-list-item-title>{{orderInfo.wuxing}}</v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-col>
                                     <v-col cols="6">
                                         <v-list-item>
                                             <v-list-item-action>应交付时间</v-list-item-action>
@@ -324,14 +335,6 @@
                                     <v-row>
                                         <v-col cols="6">
                                             <v-list-item>
-                                                <v-list-item-action>命盘</v-list-item-action>
-                                                <v-list-item-content>
-                                                    {{mingju.mingpen}}
-                                                </v-list-item-content>
-                                            </v-list-item>
-                                        </v-col>
-                                        <v-col cols="6">
-                                            <v-list-item>
                                                 <v-list-item-action>性格</v-list-item-action>
                                                 <v-list-item-content>
                                                     {{mingju.xingge}}
@@ -348,25 +351,9 @@
                                         </v-col>
                                         <v-col cols="6">
                                             <v-list-item>
-                                                <v-list-item-action>财富</v-list-item-action>
-                                                <v-list-item-content>
-                                                    {{mingju.caifu}}
-                                                </v-list-item-content>
-                                            </v-list-item>
-                                        </v-col>
-                                        <v-col cols="6">
-                                            <v-list-item>
                                                 <v-list-item-action>财富事业</v-list-item-action>
                                                 <v-list-item-content>
                                                     {{mingju.caifushiye}}
-                                                </v-list-item-content>
-                                            </v-list-item>
-                                        </v-col>
-                                        <v-col cols="6">
-                                            <v-list-item>
-                                                <v-list-item-action>地位</v-list-item-action>
-                                                <v-list-item-content>
-                                                    {{mingju.diwei}}
                                                 </v-list-item-content>
                                             </v-list-item>
                                         </v-col>
@@ -400,38 +387,53 @@
                                 :key="index"
                         >
                             <v-col>
-                                <v-card>
-                                    <v-card-text>
-                                        <v-list>
-                                            <v-list-item>
-                                                <v-list-item-action>姓名</v-list-item-action>
-                                                <v-list-item-content>
-                                                    <v-list-item-title>{{item.name}}</v-list-item-title>
-                                                </v-list-item-content>
-                                            </v-list-item>
-                                            <v-list-item>
-                                                <v-list-item-action>拼音</v-list-item-action>
-                                                <v-list-item-content>
-                                                    <v-list-item-title>{{item.pinyin}}</v-list-item-title>
-                                                </v-list-item-content>
-                                            </v-list-item>
-                                            <v-list-item>
-                                                <v-list-item-action>五行</v-list-item-action>
-                                                <v-list-item-content>
-                                                    <v-list-item-title>{{item.wuxing}}</v-list-item-title>
-                                                </v-list-item-content>
-                                            </v-list-item>
-                                            <v-list-item>
-                                                <v-list-item-action>字义</v-list-item-action>
-                                                <v-list-item-content class="wrapper">{{item.meaning}}</v-list-item-content>
-                                            </v-list-item>
-                                            <v-list-item>
-                                                <v-list-item-action>出处</v-list-item-action>
-                                                <v-list-item-content class="wrapper">{{item.source}}</v-list-item-content>
-                                            </v-list-item>
-                                        </v-list>
-                                    </v-card-text>
-                                </v-card>
+                                <v-expansion-panels
+                                        v-model="panel"
+                                        multiple
+                                >
+                                    <v-expansion-panel>
+                                        <v-expansion-panel-header>
+                                            <v-list>
+                                                <v-list-item>
+                                                    <v-list-item-action>姓名</v-list-item-action>
+                                                    <v-list-item-content>
+                                                        <v-list-item-title>{{item.name}}</v-list-item-title>
+                                                    </v-list-item-content>
+                                                </v-list-item>
+                                                <v-list-item>
+                                                    <v-list-item-action>拼音</v-list-item-action>
+                                                    <v-list-item-content>
+                                                        <v-list-item-title>{{item.pinyin}}</v-list-item-title>
+                                                    </v-list-item-content>
+                                                </v-list-item>
+                                                <v-list-item>
+                                                    <v-list-item-action>五行</v-list-item-action>
+                                                    <v-list-item-content>
+                                                        <v-list-item-title>{{item.wuxing}}</v-list-item-title>
+                                                    </v-list-item-content>
+                                                </v-list-item>
+                                            </v-list>
+                                        </v-expansion-panel-header>
+                                        <v-expansion-panel-content>
+                                            <v-list>
+                                                <v-list-item>
+                                                    <v-list-item-action>五行</v-list-item-action>
+                                                    <v-list-item-content>
+                                                        <v-list-item-title>{{item.wuxing}}</v-list-item-title>
+                                                    </v-list-item-content>
+                                                </v-list-item>
+                                                <v-list-item>
+                                                    <v-list-item-action>字义</v-list-item-action>
+                                                    <v-list-item-content class="wrapper">{{item.meaning}}</v-list-item-content>
+                                                </v-list-item>
+                                                <v-list-item>
+                                                    <v-list-item-action>出处</v-list-item-action>
+                                                    <v-list-item-content class="wrapper">{{item.source}}</v-list-item-content>
+                                                </v-list-item>
+                                            </v-list>
+                                        </v-expansion-panel-content>
+                                    </v-expansion-panel>
+                                </v-expansion-panels>
                             </v-col>
                         </v-row>
                     </v-col>
@@ -442,38 +444,53 @@
                                 :key="index"
                         >
                             <v-col>
-                                <v-card>
-                                    <v-card-text>
-                                        <v-list>
-                                            <v-list-item>
-                                                <v-list-item-action>姓名</v-list-item-action>
-                                                <v-list-item-content>
-                                                    <v-list-item-title>{{item.name}}</v-list-item-title>
-                                                </v-list-item-content>
-                                            </v-list-item>
-                                            <v-list-item>
-                                                <v-list-item-action>拼音</v-list-item-action>
-                                                <v-list-item-content>
-                                                    <v-list-item-title>{{item.pinyin}}</v-list-item-title>
-                                                </v-list-item-content>
-                                            </v-list-item>
-                                            <v-list-item>
-                                                <v-list-item-action>五行</v-list-item-action>
-                                                <v-list-item-content>
-                                                    <v-list-item-title>{{item.wuxing}}</v-list-item-title>
-                                                </v-list-item-content>
-                                            </v-list-item>
-                                            <v-list-item>
-                                                <v-list-item-action>字义</v-list-item-action>
-                                                <v-list-item-content class="wrapper">{{item.meaning}}</v-list-item-content>
-                                            </v-list-item>
-                                            <v-list-item>
-                                                <v-list-item-action>出处</v-list-item-action>
-                                                <v-list-item-content class="wrapper">{{item.source}}</v-list-item-content>
-                                            </v-list-item>
-                                        </v-list>
-                                    </v-card-text>
-                                </v-card>
+                                <v-expansion-panels
+                                        v-model="panel"
+                                        multiple
+                                >
+                                    <v-expansion-panel>
+                                        <v-expansion-panel-header>
+                                            <v-list>
+                                                <v-list-item>
+                                                    <v-list-item-action>姓名</v-list-item-action>
+                                                    <v-list-item-content>
+                                                        <v-list-item-title>{{item.name}}</v-list-item-title>
+                                                    </v-list-item-content>
+                                                </v-list-item>
+                                                <v-list-item>
+                                                    <v-list-item-action>拼音</v-list-item-action>
+                                                    <v-list-item-content>
+                                                        <v-list-item-title>{{item.pinyin}}</v-list-item-title>
+                                                    </v-list-item-content>
+                                                </v-list-item>
+                                                <v-list-item>
+                                                    <v-list-item-action>五行</v-list-item-action>
+                                                    <v-list-item-content>
+                                                        <v-list-item-title>{{item.wuxing}}</v-list-item-title>
+                                                    </v-list-item-content>
+                                                </v-list-item>
+                                            </v-list>
+                                        </v-expansion-panel-header>
+                                        <v-expansion-panel-content>
+                                            <v-list>
+                                                <v-list-item>
+                                                    <v-list-item-action>五行</v-list-item-action>
+                                                    <v-list-item-content>
+                                                        <v-list-item-title>{{item.wuxing}}</v-list-item-title>
+                                                    </v-list-item-content>
+                                                </v-list-item>
+                                                <v-list-item>
+                                                    <v-list-item-action>字义</v-list-item-action>
+                                                    <v-list-item-content class="wrapper">{{item.meaning}}</v-list-item-content>
+                                                </v-list-item>
+                                                <v-list-item>
+                                                    <v-list-item-action>出处</v-list-item-action>
+                                                    <v-list-item-content class="wrapper">{{item.source}}</v-list-item-content>
+                                                </v-list-item>
+                                            </v-list>
+                                        </v-expansion-panel-content>
+                                    </v-expansion-panel>
+                                </v-expansion-panels>
                             </v-col>
                         </v-row>
                     </v-col>
@@ -529,6 +546,7 @@
                 nameGiver: "陈嘉清",
                 bills: null,
                 plan: "八字起名套餐3【选择本套餐请求红铟八字判断喜用五行及命局接口】",
+                wuxing: null,
                 tillDeliveryTime: 48,
                 lastname: null,
                 sex: "未知",

@@ -34,9 +34,7 @@ public class OrderServiceImpl implements OrderService {
     private NameGeneratorService nameGeneratorService;
 
     @Override
-    public Boolean addOrder(OrderForm orderForm) {
-        FortuneTellingUtils.getXiYongShen(orderForm);
-
+    public Map<String, Object> addOrder(OrderForm orderForm) {
         OrderModel orderModel = new OrderModel();
         orderModel.setOrderNumber(orderForm.getOrderNumber());
         orderModel.setSalesman(orderForm.getSalesman());
@@ -59,8 +57,13 @@ public class OrderServiceImpl implements OrderService {
         orderModel.setStatus("待交付");
         orderModel.setUpdateTime(DateUtils.dateToString(new Date()));
         orderModel.setDelivered(false);
+        List<String> wuxingList = null;
         if (orderModel.getPlan().startsWith("八字")) {
-            orderModel.setWuxing(String.join(" ", FortuneTellingUtils.getXiYongShen(orderForm)));
+            List<String> xiyongshen = FortuneTellingUtils.getXiYongShen(orderForm);
+            orderModel.setWuxing(String.join(" ", xiyongshen));
+            if (xiyongshen.size()>2) {
+                wuxingList = xiyongshen;
+            }
         }
 
         Date dateNow = new Date();
@@ -181,9 +184,18 @@ public class OrderServiceImpl implements OrderService {
             }
         }
 
-        return true;
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("id", orderId);
+        resultMap.put("wuxingList", wuxingList);
+
+        return resultMap;
     }
-    
+
+    @Override
+    public Boolean updateWuxing(String id, List<String> wuxing) {
+        return orderMapper.updateWuxing(id, String.join(" ", wuxing));
+    }
+
     private String objToString(Object obj) {
         return Objects.isNull(obj)?null:String.valueOf(obj);
     }
@@ -224,6 +236,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Boolean addComment(OrderCommentForm orderCommentForm) {
+        System.out.println(orderCommentForm.getCommentCnt());
+        System.out.println(orderCommentForm.getOrderId());
         orderMapper.updateStatus(orderCommentForm.getOrderId(), "待调整-" + orderCommentForm.getCommentCnt().toString(), DateUtils.dateToString(new Date()), false);
         return orderMapper.addComment(orderCommentForm);
     }
