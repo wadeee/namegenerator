@@ -5,7 +5,14 @@ import com.chenhongliang.namegenerator.model.OrderGeneratedNameModel;
 
 public interface NameGeneratorService {
 
-    OrderGeneratedNameModel newNameFromCharacter(NameConstrainForm nameConstrainForm);
+//    OrderGeneratedNameModel newNameFromCharacter(NameConstrainForm nameConstrainForm);
 
-    OrderGeneratedNameModel newNameFromNameLibrary(NameConstrainForm nameConstrainForm);
+    String newNameFromCharacter(NameConstrainForm nameConstrainForm);
+
+    OrderGeneratedNameModel getNameInfoFromCharacter(String name);
+
+//    OrderGeneratedNameModel newNameFromNameLibrary(NameConstrainForm nameConstrainForm);
+    String newNameFromNameLibrary(NameConstrainForm nameConstrainForm);
+
+    OrderGeneratedNameModel getNameInfoFromNameLibrary(String name);
 }

@@ -64,8 +64,8 @@
         where `character` = #{character}
     </update>
 
-    <select id="constrainedCharacters" parameterType="NameConstrainForm" resultType="SingleCharacterModel">
-        select *
+    <select id="constrainedCharacters" parameterType="NameConstrainForm" resultType="String">
+        select `character`
         from single_character
         <where>
             del_flag = false

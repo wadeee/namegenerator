@@ -31,50 +31,38 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
 
     static long preRandSeed = new Date().getTime();
 
-
     @Override
-    public OrderGeneratedNameModel newNameFromCharacter(NameConstrainForm nameConstrainForm) {
-        if (!nameConstrainForm.toString().equals(preCharacterForm.toString())) {
-            constrainedCharacters = singleCharacterMapper.constrainedCharacters(nameConstrainForm);
+    public String newNameFromCharacter(NameConstrainForm nameConstrainForm) {
+        Integer nameSize = randomSelect(nameConstrainForm.getNameSize());
+        List<String> wuxing;
+        switch (nameSize) {
+            case 1:
+                wuxing = new ArrayList<>();
+                wuxing.add(randomSelect(nameConstrainForm.getWuxing()));
+                return randomCharacterWithWuxing(nameConstrainForm, wuxing);
+            case 2:
+                wuxing = new ArrayList<>();
+                wuxing.add(randomSelect(nameConstrainForm.getWuxing()));
+
         }
-        preCharacterForm = new NameConstrainForm(nameConstrainForm);
-        if (constrainedCharacters.size() <= 0) return null;
-        OrderGeneratedNameModel result = new OrderGeneratedNameModel();
-        result.setName((Objects.isNull(nameConstrainForm.getLastname()) ? "" : nameConstrainForm.getLastname()) + (Objects.isNull(nameConstrainForm.getGeneration()) ? "" : nameConstrainForm.getGeneration()));
-        result.setPinyin("");
-        result.setWuxing("");
-        result.setMeaning("");
-        result.setSource("");
-        result.setNamelibType(false);
-        Integer realNeededSize = nameConstrainForm.getNameSize() - (Objects.isNull(nameConstrainForm.getGeneration()) ? 0 : nameConstrainForm.getGeneration().length());
-        for (int i = 0; i < realNeededSize; i++) {
-            SingleCharacterModel selectedCharacter = randomSelect(constrainedCharacters);
-            result.setName(result.getName() + selectedCharacter.getCharacter());
-            result.setPinyin(result.getPinyin() + (i > 0 ? " " : "") + selectedCharacter.getPinyin());
-            result.setWuxing(result.getWuxing() + (i > 0 ? " " : "") + selectedCharacter.getWuxing());
-            result.setMeaning(result.getMeaning() + (i > 0 ? "\n" : "") + selectedCharacter.getMeaning());
-            result.setSource(result.getSource() + (i > 0 ? "\n" : "") + selectedCharacter.getIdiom() + "\n" + selectedCharacter.getPoetry());
-        }
-        return result;
+        return null;
     }
 
     @Override
-    public OrderGeneratedNameModel newNameFromNameLibrary(NameConstrainForm nameConstrainForm) {
-        if (!nameConstrainForm.toString().equals(preNameLibraryForm.toString())) {
-            constrainedNames = nameLibraryMapper.constrainedNames(nameConstrainForm);
-        }
-        preNameLibraryForm = new NameConstrainForm(nameConstrainForm);
-        if (constrainedNames.size() <= 0) return null;
-        NameLibraryModel selectedName = randomSelect(constrainedNames);
-        OrderGeneratedNameModel result = new OrderGeneratedNameModel();
-        result.setName((Objects.isNull(nameConstrainForm.getLastname()) ? "" : nameConstrainForm.getLastname()) + selectedName.getName());
-        result.setPinyin(selectedName.getPinyin());
-        result.setWuxing(selectedName.getWuxing());
-        result.setMeaning(selectedName.getMeaning());
-        result.setSource(selectedName.getSource());
-        result.setNamelibType(true);
-        return result;
+    public OrderGeneratedNameModel getNameInfoFromCharacter(String name) {
+        return null;
     }
+
+    @Override
+    public String newNameFromNameLibrary(NameConstrainForm nameConstrainForm) {
+        return null;
+    }
+
+    @Override
+    public OrderGeneratedNameModel getNameInfoFromNameLibrary(String name) {
+        return null;
+    }
+
 
     private <T> T randomSelect(List<T> constrainedCharacters) {
         Long randSeed = new Date().getTime();
@@ -89,5 +77,12 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
         preRandSeed = randSeed;
         Random rand = new Random(randSeed);
         return constrainedCharacters.get(rand.nextInt(constrainedCharacters.size()));
+    }
+
+    private String randomCharacterWithWuxing(NameConstrainForm nameConstrainForm, List<String> wuxing) {
+        wuxing.add(randomSelect(nameConstrainForm.getWuxing()));
+        NameConstrainForm nameConstrainFormNow = new NameConstrainForm(nameConstrainForm);
+        nameConstrainFormNow.setWuxing(wuxing);
+        return randomSelect(singleCharacterMapper.constrainedCharacters(nameConstrainFormNow));
     }
 }

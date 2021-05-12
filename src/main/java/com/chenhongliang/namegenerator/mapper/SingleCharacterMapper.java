@@ -20,5 +20,5 @@ public interface SingleCharacterMapper {
 
     Integer updatePinyin(String character, String pinyin, String atonalPinyin);
 
-    List<SingleCharacterModel> constrainedCharacters(NameConstrainForm nameConstrainForm);
+    List<String> constrainedCharacters(NameConstrainForm nameConstrainForm);
 }

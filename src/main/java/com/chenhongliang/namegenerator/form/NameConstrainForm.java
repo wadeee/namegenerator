@@ -13,7 +13,7 @@ import java.util.List;
 public class NameConstrainForm implements Serializable {
     private String sex;
     private String lastname;
-    private Integer nameSize;
+    private List<Integer> nameSize;
     private List<String> bannedPinyin;
     private List<String> bannedCharacter;
     private String generation;
