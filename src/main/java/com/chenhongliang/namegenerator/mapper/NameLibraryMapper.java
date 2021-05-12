@@ -22,5 +22,5 @@ public interface NameLibraryMapper {
 
     Integer updatePinyin(String name, String pinyin, String atonalPinyin);
 
-    List<NameLibraryModel> constrainedNames(NameConstrainForm nameConstrainForm);
+    List<String> constrainedNames(NameConstrainForm nameConstrainForm);
 }

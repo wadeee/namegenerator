@@ -77,8 +77,8 @@
           and del_flag = false
     </update>
 
-    <select id="constrainedNames" resultType="NameLibraryModel">
-        select *
+    <select id="constrainedNames" resultType="String">
+        select `name`
         from name_library
         <where>
             del_flag = false
@@ -96,14 +96,14 @@
             </if>
             <if test="wuxing != null and wuxing.size > 0">
                 and
-                <foreach item="item" collection="wuxing" open="(" close=")" separator=" or ">
+                <foreach item="item" collection="wuxing" open="(" close=")" separator=" and ">
                     wuxing like concat('%', #{item}, '%')
                 </foreach>
             </if>
             <if test="generation != null and generation != ''">
                 and `name` like concat(#{generation}, '%')
             </if>
-            and length(`name`) = #{nameSize}*3
+            and length(`name`) = #{nameSize[0]}*3
         </where>
     </select>
 

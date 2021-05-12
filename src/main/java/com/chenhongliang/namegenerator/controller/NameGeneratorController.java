@@ -42,6 +42,7 @@ public class NameGeneratorController {
         if (orderModel.getNameSize().contains("四字名")) {
             nameSizeList.add(3);
         }
+        nameConstrainForm.setNameSize(nameSizeList);
         nameConstrainForm.setGeneration(orderModel.getGeneration());
         if (!Objects.isNull(orderModel.getWuxing())) {
             nameConstrainForm.setWuxing(Arrays.asList(orderModel.getWuxing().split(" ")));
@@ -52,20 +53,19 @@ public class NameGeneratorController {
         List<OrderGeneratedNameModel> orderGeneratedNameModelList = orderMapper.getGeneratedNames(orderId, false);
         List<OrderGeneratedNameModel> addList = new ArrayList<>();
         while (addList.size() < 20) {
-            Random rand = new Random(new Date().getTime());
-            nameConstrainForm.setNameSize(nameSizeList.get(rand.nextInt(nameSizeList.size())));
-            OrderGeneratedNameModel generatedName = nameGeneratorService.newNameFromCharacter(nameConstrainForm);
+            String generatedName = nameGeneratorService.newNameFromCharacter(nameConstrainForm);
             if (Objects.isNull(generatedName)) continue;
-            generatedName.setOrderId(Integer.parseInt(orderId));
             Boolean flag = true;
             for (OrderGeneratedNameModel temp : orderGeneratedNameModelList) {
-                if (generatedName.getName().equals(temp.getName())) {
+                if (generatedName.equals(temp.getName())) {
                     flag = false;
                 }
             }
             if (flag) {
-                orderGeneratedNameModelList.add(generatedName);
-                addList.add(generatedName);
+                OrderGeneratedNameModel generatedNameModel = nameGeneratorService.getNameInfoFromCharacter(generatedName);
+                generatedNameModel.setOrderId(Integer.parseInt(orderId));
+                orderGeneratedNameModelList.add(generatedNameModel);
+                addList.add(generatedNameModel);
             }
         }
         for (OrderGeneratedNameModel temp : addList) {
@@ -92,6 +92,7 @@ public class NameGeneratorController {
         if (orderModel.getNameSize().contains("四字名")) {
             nameSizeList.add(3);
         }
+        nameConstrainForm.setNameSize(nameSizeList);
         nameConstrainForm.setGeneration(orderModel.getGeneration());
         if (!Objects.isNull(orderModel.getWuxing())) {
             nameConstrainForm.setWuxing(Arrays.asList(orderModel.getWuxing().split(" ")));
@@ -102,20 +103,19 @@ public class NameGeneratorController {
         List<OrderGeneratedNameModel> orderGeneratedNameModelList = orderMapper.getGeneratedNames(orderId, true);
         List<OrderGeneratedNameModel> addList = new ArrayList<>();
         while (addList.size() < 20) {
-            Random rand = new Random(new Date().getTime());
-            nameConstrainForm.setNameSize(nameSizeList.get(rand.nextInt(nameSizeList.size())));
-            OrderGeneratedNameModel generatedName = nameGeneratorService.newNameFromNameLibrary(nameConstrainForm);
+            String generatedName = nameGeneratorService.newNameFromNameLibrary(nameConstrainForm);
             if (Objects.isNull(generatedName)) continue;
-            generatedName.setOrderId(Integer.parseInt(orderId));
             Boolean flag = true;
             for (OrderGeneratedNameModel temp : orderGeneratedNameModelList) {
-                if (generatedName.getName().equals(temp.getName())) {
+                if (generatedName.equals(temp.getName())) {
                     flag = false;
                 }
             }
             if (flag) {
-                orderGeneratedNameModelList.add(generatedName);
-                addList.add(generatedName);
+                OrderGeneratedNameModel generatedNameModel = nameGeneratorService.getNameInfoFromNameLibrary(generatedName);
+                generatedNameModel.setOrderId(Integer.parseInt(orderId));
+                orderGeneratedNameModelList.add(generatedNameModel);
+                addList.add(generatedNameModel);
             }
         }
         for (OrderGeneratedNameModel temp : addList) {

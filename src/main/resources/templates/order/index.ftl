@@ -427,6 +427,8 @@
                                 this.selectedWuxings = this.wuxings
                                 this.dialog = true
                             } else {
+                                this.generateCharactersName()
+                                this.generateNameLibraryName()
                                 this.snackbar.message = "订单已生成"
                                 this.progress.show = false
                                 this.snackbar.show = true
@@ -445,6 +447,22 @@
                             this.dialog = false
                             this.progress.show = false
                             this.snackbar.show = true
+                        }
+                    })
+            },
+            generateCharactersName() {
+                axios.get('/name-generator/characters/' + this.orderId)
+                    .then((response) => {
+                        if (response.status == 200) {
+                            this.generatedCharacterNames = response.data
+                        }
+                    })
+            },
+            generateNameLibraryName() {
+                axios.get('/name-generator/name-library/' + this.orderId)
+                    .then((response) => {
+                        if (response.status == 200) {
+                            this.generatedNameLibraryNames = response.data
                         }
                     })
             },
