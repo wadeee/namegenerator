@@ -90,7 +90,6 @@
                                     <v-text-field
                                             v-if="editForm.wuxing != null && editForm.wuxing != ''"
                                             filled
-                                            disabled
                                             v-model="editForm.wuxing"
                                             label="五行"
                                     ></v-text-field>
