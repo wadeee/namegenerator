@@ -4,10 +4,10 @@
     <v-list-item>
         <v-list-item-content>
             <v-list-item-title class="title">
-                起名工具
+                玖言国学起名系统
             </v-list-item-title>
             <v-list-item-subtitle>
-                按照五行属性生成名字
+                仅限内部使用
             </v-list-item-subtitle>
         </v-list-item-content>
     </v-list-item>

@@ -1,5 +1,5 @@
 <meta charset="UTF-8">
-<title>起名工具</title>
+<title>玖言国学起名系统</title>
 <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/@mdi/font@3.x/css/materialdesignicons.min.css" rel="stylesheet">
