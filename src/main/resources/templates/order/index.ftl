@@ -24,131 +24,189 @@
                         <v-card-text>
                             <v-form
                                     @submit.prevent="submit"
+                                    ref="form"
                             >
-                                <v-text-field
-                                        v-model="orderForm.orderNumber"
-                                        label="订单编号"
-                                ></v-text-field>
-                                <v-select
-                                        v-model="orderForm.salesman"
-                                        :items="salesmans"
-                                        filled
-                                        label="销售姓名"
-                                ></v-select>
-                                <v-text-field
-                                        v-model="orderForm.wechatMachine"
-                                        label="微信机号"
-                                ></v-text-field>
-                                <v-select
-                                        v-model="orderForm.nameGiver"
-                                        :items="nameGivers"
-                                        filled
-                                        label="指定起名师"
-                                ></v-select>
-                                <v-text-field
-                                        v-model="orderForm.bills"
-                                        label="订单金额"
-                                ></v-text-field>
-                                <v-select
-                                        v-model="orderForm.plan"
-                                        :items="plans"
-                                        filled
-                                        label="套餐选择"
-                                ></v-select>
-                                <v-text-field
-                                        v-if="orderForm.plan.startsWith('寓意')"
-                                        v-model="orderForm.wuxing"
-                                        label="五行"
-                                ></v-text-field>
-                                <v-select
-                                        v-model="orderForm.tillDeliveryTime"
-                                        :items="tillDeliveryTimes"
-                                        filled
-                                        label="应交付时间(小时)"
-                                ></v-select>
-                                <v-text-field
-                                        v-model="orderForm.lastname"
-                                        label="姓氏"
-                                ></v-text-field>
-                                <v-select
-                                        v-model="orderForm.sex"
-                                        :items="sexes"
-                                        filled
-                                        label="性别"
-                                ></v-select>
-                                <v-combobox
-                                        v-model="nameSizeArray"
-                                        :items="nameSizes"
-                                        label="名字字数"
-                                        multiple
-                                        chips
-                                ></v-combobox>
-                                <v-menu
-                                        v-model="dateMenu"
-                                        :close-on-content-click="false"
-                                        :nudge-right="40"
-                                        transition="scale-transition"
-                                        offset-y
-                                        min-width="auto"
-                                >
-                                    <template v-slot:activator="{ on, attrs }">
+                                <v-row>
+                                    <v-col cols="4">
                                         <v-text-field
-                                                v-model="orderForm.birthday"
-                                                label="生日"
-                                                prepend-icon="mdi-calendar"
-                                                readonly
-                                                v-bind="attrs"
-                                                v-on="on"
+                                                v-model="orderForm.orderNumber"
+                                                label="订单编号"
+                                                :rules="rules"
+                                                required
                                         ></v-text-field>
-                                    </template>
-                                    <v-date-picker
-                                            v-model="orderForm.birthday"
-                                            @input="dateMenu = false"
-                                            locale="zh-cn"
-                                    ></v-date-picker>
-                                </v-menu>
-                                <v-select
-                                        v-model="orderForm.birthdayHour"
-                                        :items="hours"
-                                        label="时(生日)"
-                                        required
-                                        filled
-                                ></v-select>
-                                <v-select
-                                        v-model="orderForm.birthdayMinute"
-                                        :items="minutes"
-                                        label="分(生日)"
-                                        required
-                                        filled
-                                ></v-select>
-                                <v-text-field
-                                        v-model="orderForm.bannedPinyin"
-                                        label="禁用拼音"
-                                ></v-text-field>
-                                <v-text-field
-                                        v-model="orderForm.bannedCharacter"
-                                        label="讨厌的字"
-                                ></v-text-field>
-                                <v-text-field
-                                        v-model="orderForm.generation"
-                                        label="第二个字固定字（字辈）"
-                                ></v-text-field>
-                                <v-textarea
-                                        filled
-                                        label="风格要求"
-                                        v-model="orderForm.style"
-                                ></v-textarea>
-                                <v-textarea
-                                        filled
-                                        label="其他需求"
-                                        v-model="orderForm.notes"
-                                ></v-textarea>
-                                <v-btn
-                                        type="submit"
-                                        :disabled="progress.show"
-                                >
-                                    上传
-                                </v-btn>
+                                    </v-col>
+                                    <v-col cols="4">
+                                        <v-select
+                                                v-model="orderForm.salesman"
+                                                :items="salesmans"
+                                                label="销售姓名"
+                                                :rules="rules"
+                                                required
+                                        ></v-select>
+                                    </v-col>
+                                    <v-col cols="4">
+                                        <v-text-field
+                                                v-model="orderForm.wechatMachine"
+                                                label="微信机号"
+                                                :rules="rules"
+                                                required
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col cols="4">
+                                        <v-select
+                                                v-model="orderForm.nameGiver"
+                                                :items="nameGivers"
+                                                label="指定起名师"
+                                                :rules="rules"
+                                                required
+                                        ></v-select>
+                                    </v-col>
+                                    <v-col cols="4">
+                                        <v-text-field
+                                                v-model="orderForm.bills"
+                                                label="订单金额"
+                                                :rules="rules"
+                                                required
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col cols="4">
+                                        <v-select
+                                                v-model="orderForm.plan"
+                                                :items="plans"
+                                                label="套餐选择"
+                                                :rules="rules"
+                                                required
+                                        ></v-select>
+                                    </v-col>
+                                    <v-col
+                                            cols="4"
+                                            v-if="orderForm.plan!=null && orderForm.plan.startsWith('寓意')"
+                                    >
+                                        <v-text-field
+                                                v-model="orderForm.wuxing"
+                                                label="五行"
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col cols="4">
+                                        <v-select
+                                                v-model="orderForm.tillDeliveryTime"
+                                                :items="tillDeliveryTimes"
+                                                label="应交付时间(小时)"
+                                                :rules="rules"
+                                                required
+                                        ></v-select>
+                                    </v-col>
+                                    <v-col cols="4">
+                                        <v-text-field
+                                                v-model="orderForm.lastname"
+                                                label="姓氏"
+                                                :rules="rules"
+                                                required
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col cols="4">
+                                        <v-select
+                                                v-model="orderForm.sex"
+                                                :items="sexes"
+                                                label="性别"
+                                                :rules="rules"
+                                                required
+                                        ></v-select>
+                                    </v-col>
+                                    <v-col cols="4">
+                                        <v-combobox
+                                                v-model="nameSizeArray"
+                                                :items="nameSizes"
+                                                label="名字字数"
+                                                multiple
+                                                chips
+                                                :rules="listRules"
+                                                required
+                                        ></v-combobox>
+                                    </v-col>
+                                    <v-col cols="4">
+                                        <v-menu
+                                                v-model="dateMenu"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                transition="scale-transition"
+                                                offset-y
+                                                min-width="auto"
+                                        >
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-text-field
+                                                        v-model="orderForm.birthday"
+                                                        label="生日"
+                                                        prepend-icon="mdi-calendar"
+                                                        readonly
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                ></v-text-field>
+                                            </template>
+                                            <v-date-picker
+                                                    v-model="orderForm.birthday"
+                                                    @input="dateMenu = false"
+                                                    locale="zh-cn"
+                                            ></v-date-picker>
+                                        </v-menu>
+                                    </v-col>
+                                    <v-col cols="4">
+                                        <v-select
+                                                v-model="orderForm.birthdayHour"
+                                                :items="hours"
+                                                label="时(生日)"
+                                                required
+                                        ></v-select>
+                                    </v-col>
+                                    <v-col cols="4">
+                                        <v-select
+                                                v-model="orderForm.birthdayMinute"
+                                                :items="minutes"
+                                                label="分(生日)"
+                                                required
+                                        ></v-select>
+                                    </v-col>
+                                    <v-col cols="4">
+                                        <v-text-field
+                                                v-model="orderForm.bannedPinyin"
+                                                label="禁用拼音"
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col cols="4">
+                                        <v-text-field
+                                                v-model="orderForm.bannedCharacter"
+                                                label="讨厌的字"
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col cols="4">
+                                        <v-text-field
+                                                v-model="orderForm.generation"
+                                                label="第二个字固定字（字辈）"
+                                        ></v-text-field>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col cols="6">
+                                        <v-textarea
+                                                label="风格要求"
+                                                v-model="orderForm.style"
+                                        ></v-textarea>
+                                    </v-col>
+                                    <v-col cols="6">
+                                        <v-textarea
+                                                label="其他需求"
+                                                v-model="orderForm.notes"
+                                        ></v-textarea>
+                                    </v-col>
+                                    <v-col cols="6">
+                                        <v-btn
+                                                type="submit"
+                                                :disabled="progress.show"
+                                        >
+                                            上传
+                                        </v-btn>
+                                    </v-col>
+                                </v-row>
                             </v-form>
                         </v-card-text>
                     </v-col>
@@ -156,7 +214,7 @@
                 <v-row justify="center">
                     <v-dialog
                             v-model="dialog"
-                            max-width="480"
+                            max-width="550"
                             scrollable
                             persistent
                     >
@@ -168,21 +226,53 @@
                             </v-card-title>
                             <v-divider></v-divider>
                             <v-card-text
-                                    style="height: 350px;"
+                                    style="height: 550px;"
                             >
                                 <v-form
                                         @submit.prevent="submitWuxing"
                                 >
                                     <v-row>
-                                        <v-col
-                                                v-for="item in wuxings"
-                                                :key="item"
-                                        >
-                                            <v-checkbox
-                                                    v-model="selectedWuxings"
-                                                    :label="item"
-                                                    :value="item"
-                                            ></v-checkbox>
+                                        <v-col>
+                                            <v-card elevation="0">
+                                                <v-card-title>用神</v-card-title>
+                                                <v-card-text>
+                                                    <v-row>
+                                                        <v-col
+                                                                cols="6"
+                                                                v-for="item in yongshen"
+                                                                :key="item"
+                                                        >
+                                                            <v-checkbox
+                                                                    v-model="selectedWuxings"
+                                                                    :label="item"
+                                                                    :value="item"
+                                                            ></v-checkbox>
+                                                        </v-col>
+                                                    </v-row>
+                                                </v-card-text>
+                                            </v-card>
+                                        </v-col>
+                                    </v-row>
+                                    <v-row>
+                                        <v-col>
+                                            <v-card elevation="0">
+                                                <v-card-title>喜神</v-card-title>
+                                                <v-card-text>
+                                                    <v-row>
+                                                        <v-col
+                                                                cols="6"
+                                                                v-for="item in xishen"
+                                                                :key="item"
+                                                        >
+                                                            <v-checkbox
+                                                                    v-model="selectedWuxings"
+                                                                    :label="item"
+                                                                    :value="item"
+                                                            ></v-checkbox>
+                                                        </v-col>
+                                                    </v-row>
+                                                </v-card-text>
+                                            </v-card>
                                         </v-col>
                                     </v-row>
                                 </v-form>
@@ -194,6 +284,7 @@
                                         depressed
                                         color="primary"
                                         @click="submitWuxing"
+                                        :disabled="progress.show"
                                 >
                                     确认
                                 </v-btn>
@@ -219,18 +310,24 @@
         }),
         data: {
             visitCnt: null,
+            rules: [
+                value => !!value || '必填',
+            ],
+            listRules: [
+                value => value.length > 0 || '必填',
+            ],
             orderForm: {
                 orderNumber: null,
-                salesman: "婷婷",
+                salesman: null,
                 wechatMachine: null,
-                nameGiver: "陈嘉清",
+                nameGiver: null,
                 bills: null,
-                plan: "八字起名套餐3【选择本套餐请求红铟八字判断喜用五行及命局接口】",
+                plan: null,
                 wuxing: null,
-                tillDeliveryTime: 48,
+                tillDeliveryTime: null,
                 lastname: null,
-                sex: "未知",
-                nameSize: "三字名",
+                sex: null,
+                nameSize: null,
                 birthday: null,
                 birthdayHour: null,
                 birthdayMinute: null,
@@ -241,7 +338,7 @@
                 notes: null,
             },
             dateMenu: false,
-            nameSizeArray: ["三字名"],
+            nameSizeArray: [],
             nameSizes: ["二字名", "三字名", "四字名",],
             sexes: ["男", "女", "未知"],
             salesmans: ["婷婷", "肖鑫"],
@@ -407,7 +504,8 @@
                 show: false,
                 query: true,
             },
-            wuxings: [],
+            xishen: [],
+            yongshen: [],
             selectedWuxings: [],
             dialog: false,
             orderId: null,
@@ -423,31 +521,37 @@
         },
         methods: {
             submit() {
-                this.progress.show = true
-                axios.post('/order', this.orderForm)
-                    .then((response) => {
-                        if (response.status == 200) {
-                            this.orderId = response.data.id
-                            if (response.data.wuxingList != "" && response.data.wuxingList != null) {
-                                this.wuxings = response.data.wuxingList
-                                this.selectedWuxings = this.wuxings
-                                this.dialog = true
+                if (this.validate()) {
+                    this.progress.show = true
+                    axios.post('/order', this.orderForm)
+                        .then((response) => {
+                            if (response.status == 200) {
+                                this.orderId = response.data.id
+                                if (response.data.xiyongshenMap != "" && response.data.xiyongshenMap != null) {
+                                    this.xishen = response.data.xiyongshenMap.xishen
+                                    this.yongshen = response.data.xiyongshenMap.yongshen
+                                    this.selectedWuxings = this.yongshen.concat(this.xishen)
+                                    this.progress.show = false
+                                    this.dialog = true
+                                } else {
+                                    this.generateCharactersName()
+                                    this.generateNameLibraryName()
+                                    this.snackbar.message = "订单已生成"
+                                    this.progress.show = false
+                                    this.snackbar.show = true
+                                }
                             } else {
-                                this.generateCharactersName()
-                                this.generateNameLibraryName()
-                                this.snackbar.message = "订单已生成"
-                                this.progress.show = false
-                                this.snackbar.show = true
+                                this.errorSnackbar.message = "订单生成失败"
+                                this.errorSnackbar.show = true
                             }
-                        } else {
-                            this.errorSnackbar.message = "订单生成失败"
-                            this.errorSnackbar.show = true
-                        }
-                    })
+                        })
+                }
             },
             submitWuxing() {
+                this.progress.show = true
                 axios.post('/order/updateWuxing/' + this.orderId, this.selectedWuxings)
                     .then((response) => {
+                        this.progress.show = false
                         if (response.status == 200) {
                             this.snackbar.message = "订单已生成"
                             this.dialog = false
@@ -472,6 +576,9 @@
                         }
                     })
             },
+            validate() {
+                return this.$refs.form.validate()
+            },
         },
         watch: {
             'snackbar.show': function () {
@@ -493,6 +600,9 @@
                 .then((response) => {
                     this.visitCnt = response.data;
                 })
+        },
+        mounted() {
+            this.validate()
         },
     })
 

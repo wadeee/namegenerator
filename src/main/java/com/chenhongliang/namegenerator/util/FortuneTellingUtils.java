@@ -9,7 +9,7 @@ import java.util.*;
 
 public class FortuneTellingUtils {
 
-    public static List<String> getXiYongShen(OrderForm orderForm) {
+    public static Map<String, List<String>> getXiYongShen(OrderForm orderForm) {
 
         Map<String, String> querys = new HashMap<>();
         querys.put("birthday", orderForm.getBirthday());
@@ -22,7 +22,10 @@ public class FortuneTellingUtils {
 
         //八字命盘
         Map<String, String> result = getMapFromAPI("/openapi/bazi/getMingpen", querys);
-        return getWuxingFromString(result.get("YongShen")+result.get("XiShen"));
+        Map<String, List<String>> xiyongshenMap = new LinkedHashMap<>();
+        xiyongshenMap.put("yongshen", getWuxingFromString(result.get("YongShen")));
+        xiyongshenMap.put("xishen", getWuxingFromString(result.get("XiShen")));
+        return xiyongshenMap;
     }
 
     private static List<String> getWuxingFromString(String str) {

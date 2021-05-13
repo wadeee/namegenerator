@@ -61,12 +61,12 @@ public class OrderServiceImpl implements OrderService {
         orderModel.setStatus("待交付");
         orderModel.setUpdateTime(DateUtils.dateToString(new Date()));
         orderModel.setDelivered(false);
-        List<String> wuxingList = null;
+        Map<String, List<String>> xiyongshenMap = null;
         if (orderModel.getPlan().startsWith("八字")) {
-            List<String> xiyongshen = FortuneTellingUtils.getXiYongShen(orderForm);
-            orderModel.setWuxing(String.join(" ", xiyongshen));
-            if (xiyongshen.size()>2) {
-                wuxingList = xiyongshen;
+            Map<String, List<String>> xiyongshen = FortuneTellingUtils.getXiYongShen(orderForm);
+            orderModel.setWuxing(String.join(" ", xiyongshen.get("yongshen")) + " " + String.join(" ", xiyongshen.get("xishen")));
+            if (orderModel.getWuxing().length()>3) {
+                xiyongshenMap = xiyongshen;
             }
         }
 
@@ -129,7 +129,7 @@ public class OrderServiceImpl implements OrderService {
 
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("id", orderId);
-        resultMap.put("wuxingList", wuxingList);
+        resultMap.put("xiyongshenMap", xiyongshenMap);
 
         return resultMap;
     }

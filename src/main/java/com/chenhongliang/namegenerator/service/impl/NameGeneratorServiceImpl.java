@@ -77,7 +77,7 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
                 orderGeneratedNameModel.setMeaning(singleCharacterModel.getMeaning());
                 orderGeneratedNameModel.setSource(singleCharacterModel.getIdiom() + "\n" + singleCharacterModel.getPoetry());
             } else {
-                orderGeneratedNameModel.setPinyin(orderGeneratedNameModel.getName() + " " + singleCharacterModel.getPinyin());
+                orderGeneratedNameModel.setPinyin(orderGeneratedNameModel.getPinyin() + " " + singleCharacterModel.getPinyin());
                 orderGeneratedNameModel.setWuxing(orderGeneratedNameModel.getWuxing() + " " + singleCharacterModel.getWuxing());
                 orderGeneratedNameModel.setMeaning(orderGeneratedNameModel.getMeaning() + "\n" + singleCharacterModel.getMeaning());
                 orderGeneratedNameModel.setSource(orderGeneratedNameModel.getSource() + "\n" + singleCharacterModel.getIdiom() + "\n" + singleCharacterModel.getPoetry());
