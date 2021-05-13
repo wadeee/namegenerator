@@ -55,6 +55,11 @@
                                         filled
                                         label="套餐选择"
                                 ></v-select>
+                                <v-text-field
+                                        v-if="orderForm.plan.startsWith('寓意')"
+                                        v-model="orderForm.wuxing"
+                                        label="五行"
+                                ></v-text-field>
                                 <v-select
                                         v-model="orderForm.tillDeliveryTime"
                                         :items="tillDeliveryTimes"
@@ -221,6 +226,7 @@
                 nameGiver: "陈嘉清",
                 bills: null,
                 plan: "八字起名套餐3【选择本套餐请求红铟八字判断喜用五行及命局接口】",
+                wuxing: null,
                 tillDeliveryTime: 48,
                 lastname: null,
                 sex: "未知",
@@ -421,9 +427,9 @@
                 axios.post('/order', this.orderForm)
                     .then((response) => {
                         if (response.status == 200) {
+                            this.orderId = response.data.id
                             if (response.data.wuxingList != "" && response.data.wuxingList != null) {
                                 this.wuxings = response.data.wuxingList
-                                this.orderId = response.data.id
                                 this.selectedWuxings = this.wuxings
                                 this.dialog = true
                             } else {

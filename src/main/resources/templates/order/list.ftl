@@ -88,7 +88,6 @@
                                             label="套餐选择"
                                     ></v-select>
                                     <v-text-field
-                                            v-if="editForm.wuxing != null && editForm.wuxing != ''"
                                             filled
                                             v-model="editForm.wuxing"
                                             label="五行"

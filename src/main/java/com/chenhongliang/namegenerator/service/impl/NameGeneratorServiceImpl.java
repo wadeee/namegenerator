@@ -9,6 +9,7 @@ import com.chenhongliang.namegenerator.model.NameLibraryModel;
 import com.chenhongliang.namegenerator.model.OrderGeneratedNameModel;
 import com.chenhongliang.namegenerator.model.SingleCharacterModel;
 import com.chenhongliang.namegenerator.service.NameGeneratorService;
+import com.chenhongliang.namegenerator.util.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,41 +30,32 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
     @Autowired
     private NameLibraryManageMapper nameLibraryManageMapper;
 
-    static NameConstrainForm preCharacterForm = new NameConstrainForm();
-
-    static NameConstrainForm preNameLibraryForm = new NameConstrainForm();
-
-    static List<SingleCharacterModel> constrainedCharacters = new ArrayList<>();
-
-    static List<NameLibraryModel> constrainedNames = new ArrayList<>();
-
-    static long preRandSeed = new Date().getTime();
+    static Random rand = new Random(new Date().getTime());
 
     @Override
-    public String newNameFromCharacter(NameConstrainForm nameConstrainForm) {
-        Integer nameSize = randomSelect(nameConstrainForm.getNameSize());
-        List<String> wuxingOrder, wuxing1, wuxing2, wuxing3;
-        switch (nameSize) {
-            case 1:
-                wuxing1 = new ArrayList<>();
-                wuxing1.add(randomSelect(nameConstrainForm.getWuxing()));
-                return randomCharacterWithWuxing(nameConstrainForm, wuxing1);
-            case 2:
-                wuxingOrder = disorder(nameConstrainForm.getWuxing(), nameSize);
-                wuxing1 = new ArrayList<>();
-                wuxing1.add(wuxingOrder.get(0));
-                wuxing2 = new ArrayList<>();
-                wuxing2.add(wuxingOrder.get(1));
-                return randomCharacterWithWuxing(nameConstrainForm, wuxing1) + randomCharacterWithWuxing(nameConstrainForm, wuxing2);
-            case 3:
-                wuxingOrder = disorder(nameConstrainForm.getWuxing(), nameSize);
-                wuxing1 = new ArrayList<>();
-                wuxing1.add(wuxingOrder.get(0));
-                wuxing2 = new ArrayList<>();
-                wuxing2.add(wuxingOrder.get(1));
-                wuxing3 = new ArrayList<>();
-                wuxing3.add(wuxingOrder.get(2));
-                return randomCharacterWithWuxing(nameConstrainForm, wuxing1) + randomCharacterWithWuxing(nameConstrainForm, wuxing2) + randomCharacterWithWuxing(nameConstrainForm, wuxing3);
+    public String newNameFromCharacter(NameConstrainForm nameConstrainForm, Map<String, List<String>> wuxingToCharactersMap) {
+        Integer nameSize = RandomUtils.randomSelect(nameConstrainForm.getNameSize());
+        List<String> wuxingOrder;
+        if (Objects.isNull(nameConstrainForm.getWuxing()) || nameConstrainForm.getWuxing().isEmpty()) {
+            switch (nameSize) {
+                case 1:
+                    return RandomUtils.randomSelect(wuxingToCharactersMap.get(""));
+                case 2:
+                    return RandomUtils.randomSelect(wuxingToCharactersMap.get("")) + RandomUtils.randomSelect(wuxingToCharactersMap.get(""));
+                case 3:
+                    return RandomUtils.randomSelect(wuxingToCharactersMap.get("")) + RandomUtils.randomSelect(wuxingToCharactersMap.get("")) + RandomUtils.randomSelect(wuxingToCharactersMap.get(""));
+            }
+        } else {
+            switch (nameSize) {
+                case 1:
+                    return RandomUtils.randomSelect(wuxingToCharactersMap.get(RandomUtils.randomSelect(nameConstrainForm.getWuxing())));
+                case 2:
+                    wuxingOrder = disorder(nameConstrainForm.getWuxing(), nameSize);
+                    return RandomUtils.randomSelect(wuxingToCharactersMap.get(wuxingOrder.get(0))) + RandomUtils.randomSelect(wuxingToCharactersMap.get(wuxingOrder.get(1)));
+                case 3:
+                    wuxingOrder = disorder(nameConstrainForm.getWuxing(), nameSize);
+                    return RandomUtils.randomSelect(wuxingToCharactersMap.get(wuxingOrder.get(0))) + RandomUtils.randomSelect(wuxingToCharactersMap.get(wuxingOrder.get(1))) + RandomUtils.randomSelect(wuxingToCharactersMap.get(wuxingOrder.get(2)));
+            }
         }
         return null;
     }
@@ -95,36 +87,11 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
     }
 
     @Override
-    public String newNameFromNameLibrary(NameConstrainForm nameConstrainForm) {
-        Integer nameSize = randomSelect(nameConstrainForm.getNameSize());
-        List<String> wuxing;
-        List<Integer> nameSizeList;
-        switch (nameSize) {
-            case 1:
-                wuxing = new ArrayList<>();
-                wuxing.add(randomSelect(nameConstrainForm.getWuxing()));
-                nameSizeList = new ArrayList<>();
-                nameSizeList.add(1);
-                return randomNameLibraryWithWuxing(nameConstrainForm, wuxing, nameSizeList);
-            case 2:
-                nameSizeList = new ArrayList<>();
-                nameSizeList.add(2);
-                return randomNameLibraryWithWuxing(nameConstrainForm, nameConstrainForm.getWuxing(), nameSizeList);
-            case 3:
-                nameSizeList = new ArrayList<>();
-                nameSizeList.add(3);
-                return randomNameLibraryWithWuxing(nameConstrainForm, nameConstrainForm.getWuxing(), nameSizeList);
-        }
-        return null;
-    }
-
-    @Override
     public OrderGeneratedNameModel getNameInfoFromNameLibrary(String name) {
         NameLibraryModel nameLibraryModel = nameLibraryManageMapper.selectByName(name);
         OrderGeneratedNameModel orderGeneratedNameModel = new OrderGeneratedNameModel();
         orderGeneratedNameModel.setName(name);
         orderGeneratedNameModel.setNamelibType(true);
-        System.out.println(name);
         orderGeneratedNameModel.setPinyin(nameLibraryModel.getPinyin());
         orderGeneratedNameModel.setWuxing(nameLibraryModel.getWuxing());
         orderGeneratedNameModel.setMeaning(nameLibraryModel.getMeaning());
@@ -132,45 +99,13 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
         return orderGeneratedNameModel;
     }
 
-    private <T> T randomSelect(List<T> constrainedCharacters) {
-        if (constrainedCharacters.size()<=0) return null;
-        Long randSeed = new Date().getTime();
-        if (randSeed.equals(preRandSeed)) {
-            try {
-                Thread.sleep(5);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            randSeed = new Date().getTime();
-        }
-        preRandSeed = randSeed;
-        Random rand = new Random(randSeed);
-        return constrainedCharacters.get(rand.nextInt(constrainedCharacters.size()));
-    }
-
-    private String randomCharacterWithWuxing(NameConstrainForm nameConstrainForm, List<String> wuxing) {
-        NameConstrainForm nameConstrainFormNow = new NameConstrainForm(nameConstrainForm);
-        nameConstrainFormNow.setWuxing(wuxing);
-        System.out.println(nameConstrainForm.toString());
-        return randomSelect(singleCharacterMapper.constrainedCharacters(nameConstrainFormNow));
-    }
-
-    private String randomNameLibraryWithWuxing(NameConstrainForm nameConstrainForm, List<String> wuxing, List<Integer> nameSizeList) {
-        NameConstrainForm nameConstrainFormNow = new NameConstrainForm(nameConstrainForm);
-        nameConstrainFormNow.setWuxing(wuxing);
-        nameConstrainFormNow.setNameSize(nameSizeList);
-        System.out.println(nameConstrainFormNow.toString());
-        return randomSelect(nameLibraryMapper.constrainedNames(nameConstrainFormNow));
-    }
-
-
     private List<String> disorder(List<String> wuxing, Integer nameSize) {
         List<String> result = new ArrayList<>();
         for (int i = 0; i < nameSize; i++) {
-            result.add(randomSelect(wuxing));
+            result.add(RandomUtils.randomSelect(wuxing));
         }
         Set<String> resultSet = new HashSet<>(result);
-        if (resultSet.size()<=1) return disorder(wuxing, nameSize);
+        if (wuxing.size()>1 && resultSet.size()<=1) return disorder(wuxing, nameSize);
         return result;
     }
 }

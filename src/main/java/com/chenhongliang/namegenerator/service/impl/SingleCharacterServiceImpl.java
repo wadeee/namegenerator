@@ -13,7 +13,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -59,37 +58,6 @@ public class SingleCharacterServiceImpl implements SingleCharacterService {
             singleCharacterMapper.updatePinyin(entry.getKey(), entry.getValue(), PinyinUtils.atonalPinyin(entry.getValue()));
         }
         return "success";
-    }
-
-//    private void analyseCharacters(List<String> maleCharacters,
-//                                   Map<String, List<String>> pinyinSelectMap,
-//                                   List<String> charactersAddFailed) throws Exception {
-//        for (String character : maleCharacters) {
-//            if (character.length()>1) {
-//                charactersAddFailed.add(character);
-//            }else if (character.length() == 1) {
-//                if (singleCharacterMapper.isEverExist(character)) {
-//                    singleCharacterMapper.updateDelFlag(character, false);
-//                } else {
-//                    SingleCharacterModel singleCharacterModel = getInfoFromApi(character);
-//                    try {
-//                        singleCharacterModel.setAtonalPinyin(PinyinUtils.atonalPinyin(singleCharacterModel.getPinyin()));
-//                        singleCharacterMapper.insert(singleCharacterModel);
-//                        List<String> pinyinList = Arrays.asList(singleCharacterModel.getPinyin().split("(　|\\s)*(,|，)(　|\\s)*"));
-//                        if (pinyinList.size() > 1) {
-//                            pinyinSelectMap.put(character, pinyinList);
-//                        }
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                        charactersAddFailed.add(character);
-//                    }
-//                }
-//            }
-//        }
-//    }
-
-    private List<String> splitString(String str) {
-        return Arrays.asList(str.split("(　|\\s)*(,|，|　|\\s)(　|\\s)*"));
     }
 
     private SingleCharacterModel getInfoFromApi(String character) throws Exception {

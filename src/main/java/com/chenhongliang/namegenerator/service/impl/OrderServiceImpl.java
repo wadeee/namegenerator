@@ -57,6 +57,7 @@ public class OrderServiceImpl implements OrderService {
         orderModel.setGeneration(orderForm.getGeneration());
         orderModel.setStyle(orderForm.getStyle());
         orderModel.setNotes(orderForm.getNotes());
+        orderModel.setWuxing(orderForm.getWuxing());
         orderModel.setStatus("待交付");
         orderModel.setUpdateTime(DateUtils.dateToString(new Date()));
         orderModel.setDelivered(false);
@@ -76,67 +77,6 @@ public class OrderServiceImpl implements OrderService {
         orderModel.setDeliveryTime(DateUtils.dateToStringLong(cal.getTime()));
         orderMapper.insert(orderModel);
         Integer orderId = orderModel.getId();
-
-//        NameConstrainForm nameConstrainForm = new NameConstrainForm();
-//        nameConstrainForm.setLastname(orderForm.getLastname());
-//        nameConstrainForm.setSex(orderForm.getSex());
-//        List<Integer> nameSizeList = new ArrayList<>();
-//        if (orderForm.getNameSize().contains("二字名")) {
-//            nameSizeList.add(1);
-//        }
-//        if (orderForm.getNameSize().contains("三字名")) {
-//            nameSizeList.add(2);
-//        }
-//        if (orderForm.getNameSize().contains("四字名")) {
-//            nameSizeList.add(3);
-//        }
-//        nameConstrainForm.setNameSize(nameSizeList);
-//        nameConstrainForm.setGeneration(orderForm.getGeneration());
-//        if (!Objects.isNull(orderModel.getWuxing())) {
-//            nameConstrainForm.setWuxing(Arrays.asList(orderModel.getWuxing().split(" ")));
-//        }
-//        nameConstrainForm.setBannedCharacter(splitString(orderForm.getBannedCharacter()));
-//        nameConstrainForm.setBannedPinyin(splitString(orderForm.getBannedPinyin()));
-//        List<OrderGeneratedNameModel> generatedCharacterNameList = new ArrayList<>();
-//        while (generatedCharacterNameList.size() < 20) {
-//            String generatedName = nameGeneratorService.newNameFromCharacter(nameConstrainForm);
-//            if (Objects.isNull(generatedName)) continue;
-//            Boolean flag = true;
-//            for (OrderGeneratedNameModel temp : generatedCharacterNameList) {
-//                if (generatedName.equals(temp.getName())) {
-//                    flag = false;
-//                }
-//            }
-//            if (flag) {
-//                OrderGeneratedNameModel generatedNameModel = nameGeneratorService.getNameInfoFromCharacter(generatedName);
-//                generatedNameModel.setOrderId(orderId);
-//                generatedCharacterNameList.add(generatedNameModel);
-//            }
-//        }
-//        for (OrderGeneratedNameModel temp : generatedCharacterNameList) {
-//            orderMapper.addGeneratedName(temp);
-//        }
-//
-//        List<OrderGeneratedNameModel> generatedNameLibraryNameList = new ArrayList<>();
-//        while (generatedNameLibraryNameList.size() < 20) {
-//            String generatedName = nameGeneratorService.newNameFromNameLibrary(nameConstrainForm);
-//            System.out.println(generatedName);
-//            if (Objects.isNull(generatedName)) continue;
-//            Boolean flag = true;
-//            for (OrderGeneratedNameModel temp : generatedNameLibraryNameList) {
-//                if (generatedName.equals(temp.getName())) {
-//                    flag = false;
-//                }
-//            }
-//            if (flag) {
-//                OrderGeneratedNameModel generatedNameModel = nameGeneratorService.getNameInfoFromNameLibrary(generatedName);
-//                generatedNameModel.setOrderId(orderId);
-//                generatedNameLibraryNameList.add(generatedNameModel);
-//            }
-//        }
-//        for (OrderGeneratedNameModel temp : generatedNameLibraryNameList) {
-//            orderMapper.addGeneratedName(temp);
-//        }
 
         if (orderModel.getPlan().startsWith("八字")) {
             Map<String, String> querys = new HashMap<>();

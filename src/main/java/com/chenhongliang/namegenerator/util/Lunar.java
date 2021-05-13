@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * 注意！此类所得到的农历日期是正确的，但年份是错误的。故，只使用其计算所得的农历日期。 例如： Calendar cal =
  * Calendar.getInstance(); cal.set(1973,4,5); Lunar lunar = new Lunar(cal);
- * System.out.println(lunar.toString());//计算输出阴历日期
+ * lunar.toString();//计算输出阴历日期
  *
  * */
 
@@ -239,13 +239,11 @@ public class Lunar {
      * java.util.Date());//加载当前日期
      * //today.setTime(chineseDateFormat.parse("2006年10月30日"));//加载自定义日期 Lunar
      * lunar = new Lunar(today);
-     * System.out.print(lunar.cyclical()+"年");//计算输出阴历年份
-     * System.out.println(lunar.toString());//计算输出阴历日期
-     * System.out.println(lunar.animalsYear());//计算输出属相 System.out.println(new
-     * java.sql.Date(today.getTime().getTime()));//输出阳历日期
-     * System.out.println("星期"
-     * +lunar.getChinaWeekdayString(today.getTime().toString
-     * ().substring(0,3)));//计算输出星期几 }
+     * lunar.cyclical()+"年";//计算输出阴历年份
+     * lunar.toString();//计算输出阴历日期
+     * lunar.animalsYear();//计算输出属相
+     * new java.sql.Date(today.getTime().getTime()));//输出阳历日期
+     * "星期" +lunar.getChinaWeekdayString(today.getTime().toString().substring(0,3)));//计算输出星期几 }
      */
 
 }
