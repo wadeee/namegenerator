@@ -287,7 +287,7 @@
                                 <v-btn
                                         depressed
                                         color="red"
-                                        @click="deleteOrder()"
+                                        @click="deleteOrderInDialog()"
                                 >
                                     删除
                                 </v-btn>
@@ -638,7 +638,7 @@
                         this.snackbar.show = true
                     })
             },
-            deleteOrder() {
+            deleteOrderInDialog() {
                 axios.get('/order/delete/' + this.editForm.id)
                     .then(() => {
                         this.refreshList()
