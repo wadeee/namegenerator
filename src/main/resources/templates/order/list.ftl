@@ -38,7 +38,6 @@
                         >
                             <template v-slot:item.actions="{ item }">
                                 <v-btn
-                                        v-if="!item.status.startsWith('待调整')"
                                         outlined
                                         small
                                         color="indigo"

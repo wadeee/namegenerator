@@ -93,6 +93,14 @@
                                     </v-col>
                                     <v-col cols="6">
                                         <v-list-item>
+                                            <v-list-item-action>性别</v-list-item-action>
+                                            <v-list-item-content>
+                                                <v-list-item-title>{{orderInfo.sex}}</v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-col>
+                                    <v-col cols="6">
+                                        <v-list-item>
                                             <v-list-item-action>名字字数</v-list-item-action>
                                             <v-list-item-content>
                                                 <v-list-item-title>{{orderInfo.nameSize}}</v-list-item-title>
