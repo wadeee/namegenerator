@@ -6,6 +6,7 @@ import com.chenhongliang.namegenerator.model.MingjuModel;
 import com.chenhongliang.namegenerator.model.MingpenModel;
 import com.chenhongliang.namegenerator.model.OrderCommentModel;
 import com.chenhongliang.namegenerator.model.OrderModel;
+import com.chenhongliang.namegenerator.service.NameGeneratorService;
 import com.chenhongliang.namegenerator.service.OrderService;
 import com.chenhongliang.namegenerator.vo.OrderListVo;
 import com.github.pagehelper.PageInfo;
@@ -24,6 +25,9 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private NameGeneratorService nameGeneratorService;
 
     @GetMapping
     public String index() {
@@ -68,6 +72,10 @@ public class OrderController {
     @PostMapping("/update")
     @ResponseBody
     public Boolean update(@RequestBody OrderModel orderModel) {
+        orderService.updateOrder(orderModel);
+        nameGeneratorService.removeGeneratedNames(orderModel.getId().toString());
+        nameGeneratorService.newNamesFromCharacter(orderModel.getId().toString());
+        nameGeneratorService.newNamesFromNameLibrary(orderModel.getId().toString());
         return orderService.updateOrder(orderModel);
     }
 

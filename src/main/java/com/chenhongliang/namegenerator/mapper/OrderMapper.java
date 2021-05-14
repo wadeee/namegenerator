@@ -48,4 +48,6 @@ public interface OrderMapper {
     Boolean deleteOrder(String orderId);
 
     Boolean finishOrder(String orderId, String resultName);
+
+    Boolean clearGeneratedNames(String orderId);
 }

@@ -8,6 +8,12 @@ import java.util.Map;
 
 public interface NameGeneratorService {
 
+    List<OrderGeneratedNameModel> newNamesFromCharacter(String orderId);
+
+    List<OrderGeneratedNameModel> newNamesFromNameLibrary(String orderId);
+
+    Boolean removeGeneratedNames(String orderId);
+
     String newNameFromCharacter(NameConstrainForm nameConstrainForm, Map<String, List<String>> wuxingToCharactersMap);
 
     OrderGeneratedNameModel getNameInfoFromCharacter(String name);
