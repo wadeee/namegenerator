@@ -32,7 +32,6 @@
                                                 v-model="orderForm.orderNumber"
                                                 label="订单编号"
                                                 :rules="rules"
-                                                required
                                         ></v-text-field>
                                     </v-col>
                                     <v-col cols="4">
@@ -41,7 +40,6 @@
                                                 :items="salesmans"
                                                 label="销售姓名"
                                                 :rules="rules"
-                                                required
                                         ></v-select>
                                     </v-col>
                                     <v-col cols="4">
@@ -49,7 +47,6 @@
                                                 v-model="orderForm.wechatMachine"
                                                 label="微信机号"
                                                 :rules="rules"
-                                                required
                                         ></v-text-field>
                                     </v-col>
                                     <v-col cols="4">
@@ -58,7 +55,6 @@
                                                 :items="nameGivers"
                                                 label="指定起名师"
                                                 :rules="rules"
-                                                required
                                         ></v-select>
                                     </v-col>
                                     <v-col cols="4">
@@ -66,7 +62,6 @@
                                                 v-model="orderForm.bills"
                                                 label="订单金额"
                                                 :rules="rules"
-                                                required
                                         ></v-text-field>
                                     </v-col>
                                     <v-col cols="4">
@@ -75,7 +70,6 @@
                                                 :items="plans"
                                                 label="套餐选择"
                                                 :rules="rules"
-                                                required
                                         ></v-select>
                                     </v-col>
                                     <v-col
@@ -93,7 +87,6 @@
                                                 :items="tillDeliveryTimes"
                                                 label="应交付时间(小时)"
                                                 :rules="rules"
-                                                required
                                         ></v-select>
                                     </v-col>
                                     <v-col cols="4">
@@ -101,7 +94,6 @@
                                                 v-model="orderForm.lastname"
                                                 label="姓氏"
                                                 :rules="rules"
-                                                required
                                         ></v-text-field>
                                     </v-col>
                                     <v-col cols="4">
@@ -110,7 +102,6 @@
                                                 :items="sexes"
                                                 label="性别"
                                                 :rules="rules"
-                                                required
                                         ></v-select>
                                     </v-col>
                                     <v-col cols="4">
@@ -121,7 +112,6 @@
                                                 multiple
                                                 chips
                                                 :rules="listRules"
-                                                required
                                         ></v-combobox>
                                     </v-col>
                                     <v-col cols="4">

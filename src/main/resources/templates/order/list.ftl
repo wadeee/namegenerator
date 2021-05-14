@@ -25,7 +25,8 @@
                                         small
                                         color="indigo"
                                         @click="commentOrder(item)"
-                                >调整</v-btn>
+                                >调整
+                                </v-btn>
                             </template>
                         </v-data-table>
                     </v-col>
@@ -54,148 +55,190 @@
                             <v-card-text>
                                 <v-form
                                         @submit.prevent="updateAndAdd"
+                                        ref="form"
                                 >
-                                    <v-text-field
-                                            filled
-                                            v-model="editForm.orderNumber"
-                                            label="订单编号"
-                                            disabled
-                                    ></v-text-field>
-                                    <v-select
-                                            v-model="editForm.salesman"
-                                            :items="salesmans"
-                                            filled
-                                            label="销售姓名"
-                                    ></v-select>
-                                    <v-text-field
-                                            v-model="editForm.wechatMachine"
-                                            label="微信机号"
-                                    ></v-text-field>
-                                    <v-select
-                                            v-model="editForm.nameGiver"
-                                            :items="nameGivers"
-                                            filled
-                                            label="指定起名师"
-                                    ></v-select>
-                                    <v-text-field
-                                            v-model="editForm.bills"
-                                            label="订单金额"
-                                    ></v-text-field>
-                                    <v-select
-                                            v-model="editForm.plan"
-                                            :items="plans"
-                                            filled
-                                            label="套餐选择"
-                                    ></v-select>
-                                    <v-text-field
-                                            filled
-                                            v-model="editForm.wuxing"
-                                            label="五行"
-                                    ></v-text-field>
-                                    <v-text-field
-                                            filled
-                                            disabled
-                                            v-model="editForm.deliveryTime"
-                                            label="应交付时间"
-                                    ></v-text-field>
-                                    <v-text-field
-                                            v-model="editForm.lastname"
-                                            label="姓氏"
-                                    ></v-text-field>
-                                    <v-select
-                                            v-model="editForm.sex"
-                                            :items="sexes"
-                                            filled
-                                            label="性别"
-                                    ></v-select>
-                                    <v-combobox
-                                            v-model="nameSizeArray"
-                                            :items="nameSizes"
-                                            label="名字字数"
-                                            multiple
-                                            chips
-                                    ></v-combobox>
-                                    <v-menu
-                                            v-model="dateMenu"
-                                            :close-on-content-click="false"
-                                            :nudge-right="40"
-                                            transition="scale-transition"
-                                            offset-y
-                                            min-width="auto"
-                                    >
-                                        <template v-slot:activator="{ on, attrs }">
+                                    <v-row>
+                                        <v-col cols="6">
                                             <v-text-field
-                                                    v-model="editForm.birthday"
-                                                    label="生日"
-                                                    prepend-icon="mdi-calendar"
-                                                    readonly
-                                                    v-bind="attrs"
-                                                    v-on="on"
+                                                    v-model="editForm.orderNumber"
+                                                    label="订单编号"
+                                                    disabled
                                             ></v-text-field>
-                                        </template>
-                                        <v-date-picker
-                                                v-model="editForm.birthday"
-                                                @input="dateMenu = false"
-                                                locale="zh-cn"
-                                        ></v-date-picker>
-                                    </v-menu>
-                                    <v-select
-                                            v-model="editForm.birthdayHour"
-                                            :items="hours"
-                                            label="时(生日)"
-                                            required
-                                            filled
-                                    ></v-select>
-                                    <v-select
-                                            v-model="editForm.birthdayMinute"
-                                            :items="minutes"
-                                            label="分(生日)"
-                                            required
-                                            filled
-                                    ></v-select>
-                                    <v-text-field
-                                            v-model="editForm.bannedPinyin"
-                                            label="禁用拼音"
-                                    ></v-text-field>
-                                    <v-text-field
-                                            v-model="editForm.bannedCharacter"
-                                            label="讨厌的字"
-                                    ></v-text-field>
-                                    <v-text-field
-                                            v-model="editForm.generation"
-                                            label="第二个字固定字（字辈）"
-                                    ></v-text-field>
-                                    <v-textarea
-                                            filled
-                                            label="风格要求"
-                                            v-model="editForm.style"
-                                    ></v-textarea>
-                                    <v-textarea
-                                            filled
-                                            label="其他需求"
-                                            v-model="editForm.notes"
-                                    ></v-textarea>
-                                    <v-textarea
-                                            filled
-                                            v-for="(item, index) in comments"
-                                            :key="index"
-                                            :label="'待调整——' + (index+1)"
-                                            v-model="item.comment"
-                                            disabled
-                                    >
-                                    </v-textarea>
-                                    <v-textarea
-                                            filled
-                                            label="本次调整"
-                                            v-model="commentForm.comment"
-                                    >
-                                    </v-textarea>
-                                    <v-select
-                                            v-model="editForm.tillDeliveryTime"
-                                            :items="tillDeliveryTimes"
-                                            filled
-                                            label="应交付时间(小时)"
-                                    ></v-select>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-select
+                                                    v-model="editForm.salesman"
+                                                    :items="salesmans"
+                                                    :rules="rules"
+                                                    label="销售姓名"
+                                            ></v-select>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-text-field
+                                                    v-model="editForm.wechatMachine"
+                                                    label="微信机号"
+                                                    :rules="rules"
+                                            ></v-text-field>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-select
+                                                    v-model="editForm.nameGiver"
+                                                    :items="nameGivers"
+                                                    label="指定起名师"
+                                                    :rules="rules"
+                                            ></v-select>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-text-field
+                                                    v-model="editForm.bills"
+                                                    label="订单金额"
+                                                    :rules="rules"
+                                            ></v-text-field>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-select
+                                                    v-model="editForm.plan"
+                                                    :items="plans"
+                                                    label="套餐选择"
+                                                    disabled
+                                            ></v-select>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-text-field
+                                                    v-model="editForm.wuxing"
+                                                    label="五行"
+                                            ></v-text-field>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-text-field
+                                                    disabled
+                                                    v-model="editForm.deliveryTime"
+                                                    label="应交付时间"
+                                            ></v-text-field>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-text-field
+                                                    v-model="editForm.lastname"
+                                                    label="姓氏"
+                                                    :rules="rules"
+                                            ></v-text-field>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-select
+                                                    v-model="editForm.sex"
+                                                    :items="sexes"
+                                                    label="性别"
+                                                    :rules="rules"
+                                            ></v-select>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-combobox
+                                                    v-model="nameSizeArray"
+                                                    :items="nameSizes"
+                                                    label="名字字数"
+                                                    multiple
+                                                    :rules="listRules"
+                                                    chips
+                                            ></v-combobox>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-menu
+                                                    v-model="dateMenu"
+                                                    :close-on-content-click="false"
+                                                    :nudge-right="40"
+                                                    transition="scale-transition"
+                                                    offset-y
+                                                    min-width="auto"
+                                            >
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-text-field
+                                                            v-model="editForm.birthday"
+                                                            label="生日"
+                                                            prepend-icon="mdi-calendar"
+                                                            readonly
+                                                            v-bind="attrs"
+                                                            v-on="on"
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-date-picker
+                                                        v-model="editForm.birthday"
+                                                        @input="dateMenu = false"
+                                                        locale="zh-cn"
+                                                ></v-date-picker>
+                                            </v-menu>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-select
+                                                    v-model="editForm.birthdayHour"
+                                                    :items="hours"
+                                                    label="时(生日)"
+                                                    required
+                                            ></v-select>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-select
+                                                    v-model="editForm.birthdayMinute"
+                                                    :items="minutes"
+                                                    label="分(生日)"
+                                                    required
+                                            ></v-select>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-text-field
+                                                    v-model="editForm.bannedPinyin"
+                                                    label="禁用拼音"
+                                            ></v-text-field>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-text-field
+                                                    v-model="editForm.bannedCharacter"
+                                                    label="讨厌的字"
+                                            ></v-text-field>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-text-field
+                                                    v-model="editForm.generation"
+                                                    label="第二个字固定字（字辈）"
+                                            ></v-text-field>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-select
+                                                    v-model="editForm.tillDeliveryTime"
+                                                    :items="tillDeliveryTimes"
+                                                    label="应交付时间(小时)"
+                                                    :rules="rules"
+                                            ></v-select>
+                                        </v-col>
+                                        <v-col cols="12">
+                                            <v-textarea
+                                                    label="风格要求"
+                                                    v-model="editForm.style"
+                                            ></v-textarea>
+                                        </v-col>
+                                        <v-col cols="12">
+                                            <v-textarea
+                                                    label="其他需求"
+                                                    v-model="editForm.notes"
+                                            ></v-textarea>
+                                        </v-col>
+                                        <v-col cols="12">
+                                            <v-textarea
+                                                    v-for="(item, index) in comments"
+                                                    :key="index"
+                                                    :label="'待调整——' + (index+1)"
+                                                    v-model="item.comment"
+                                                    disabled
+                                            >
+                                            </v-textarea>
+                                        </v-col>
+                                        <v-col cols="12">
+                                            <v-textarea
+                                                    label="本次调整"
+                                                    v-model="commentForm.comment"
+                                            >
+                                            </v-textarea>
+                                        </v-col>
+                                    </v-row>
                                 </v-form>
                             </v-card-text>
                             <v-divider></v-divider>
@@ -265,8 +308,7 @@
                     sortable: false,
                 },
             ],
-            orderList: [
-            ],
+            orderList: [],
             editForm: {
                 id: null,
                 orderNumber: null,
@@ -290,6 +332,12 @@
                 style: null,
                 notes: null,
             },
+            rules: [
+                value => !!value || '必填',
+            ],
+            listRules: [
+                value => value.length > 0 || '必填',
+            ],
             commentForm: {
                 orderId: null,
                 comment: null,
@@ -473,15 +521,18 @@
             },
             commentOrder(item) {
                 this.commentForm.orderId = item.id
-                axios.get('/order/detail/' + item.id )
+                axios.get('/order/detail/' + item.id)
                     .then((response) => {
                         this.editForm = response.data
+                        this.commentsDialog = true
                     })
-                axios.get('/order/comments/' + item.id )
+                    .finally(() => {
+                        this.validate()
+                    })
+                axios.get('/order/comments/' + item.id)
                     .then((response) => {
                         this.comments = response.data
                         this.commentForm.commentCnt = this.comments.length + 1
-                        this.commentsDialog = true
                     })
             },
             updateAndAdd() {
@@ -504,7 +555,10 @@
                             this.errorSnackbar.show = true
                         }
                     })
-            }
+            },
+            validate() {
+                return this.$refs.form.validate()
+            },
         },
         watch: {
             'nameSizeArray': function () {
@@ -512,7 +566,7 @@
             },
             'pageNo': function () {
                 this.refreshList()
-            }
+            },
         },
         created() {
             this.refreshList()
