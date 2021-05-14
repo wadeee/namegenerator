@@ -650,11 +650,10 @@
                 axios.get('/order/detail-by-orderNumber/' + this.searchOrderNumber)
                     .then((response) => {
                         this.editForm = response.data
+                        this.commentForm.orderId = this.editForm.id
                         this.commentsDialog = true
                     })
-                    .finally(() => {
-                        this.validate()
-                    })
+                    .finally(this.validate())
                 axios.get('/order/comments-by-orderNumbner/' + this.searchOrderNumber)
                     .then((response) => {
                         this.comments = response.data
@@ -662,10 +661,12 @@
                     })
             },
             updateAndAdd() {
-                this.updateOrder()
+                if (this.validate()) {
+                    this.updateOrder()
+                }
             },
             updateOrder() {
-                axios.post('/order/update', this.editForm).then(this.addComment())
+                axios.post('/order/update', this.editForm).finally(this.addComment())
             },
             addComment() {
                 axios.post('/order/comments/add', this.commentForm)
