@@ -94,6 +94,7 @@
             status
         from `order`
         where not (delivered = true and update_time &lt; #{dateLine})
+            and (status != '已完成')
         order by id
     </select>
 
@@ -109,6 +110,14 @@
         from `order`
         where id = #{id}
     </select>
+
+    <select id="getDetailByOrderNumber" parameterType="String" resultMap="OrderModelMap">
+        select
+            *
+        from `order`
+        where order_number = #{orderNumber}
+    </select>
+
 
     <update id="updateOrder" parameterType="OrderModel">
         update `order`
@@ -147,6 +156,14 @@
         where order_id = #{orderId}
     </select>
 
+    <select id="getCommentsByOrderNumber" resultType="OrderCommentModel">
+        select
+            comment,
+            create_time createTime
+        from order_comment
+        where order_id in (select id from `order` where order_number = #{orderNumber})
+    </select>
+
     <insert id="addComment" parameterType="OrderCommentForm">
         insert into order_comment
         (order_id, comment)
@@ -176,7 +193,7 @@
             status
         from `order`
         where status like '%待%'
-        order by id
+        order by delivery_time
     </select>
 
     <insert id="addGeneratedName" parameterType="OrderGeneratedNameModel">
@@ -216,4 +233,16 @@
         from mingju
         where order_id = #{orderId}
     </select>
+
+    <delete id="deleteOrder" parameterType="String">
+        delete from `order`
+        where id = #{orderId}
+    </delete>
+
+    <update id="finishOrder" >
+        update `order`
+        set status = '已完成',
+            result_name = #{resultName}
+        where id = #{orderId}
+    </update>
 </mapper>

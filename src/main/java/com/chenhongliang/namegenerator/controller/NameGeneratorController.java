@@ -68,7 +68,6 @@ public class NameGeneratorController {
             if (flag) {
                 OrderGeneratedNameModel generatedNameModel = nameGeneratorService.getNameInfoFromCharacter(generatedName);
                 generatedNameModel.setOrderId(Integer.parseInt(orderId));
-                generatedNameModel.setName(orderModel.getLastname() + generatedNameModel.getName());
                 orderGeneratedNameModelList.add(generatedNameModel);
                 addList.add(generatedNameModel);
             }
@@ -119,11 +118,13 @@ public class NameGeneratorController {
                 if (flag) {
                     OrderGeneratedNameModel generatedNameModel = nameGeneratorService.getNameInfoFromNameLibrary(generatedName);
                     generatedNameModel.setOrderId(Integer.parseInt(orderId));
-                    generatedNameModel.setName(orderModel.getLastname() + generatedNameModel.getName());
+                    generatedNameModel.setName(generatedNameModel.getName());
                     orderGeneratedNameModelList.add(generatedNameModel);
                     addList.add(generatedNameModel);
                 }
             }
+        }
+        if (addList.size() < 20) {
             namesList = new ArrayList<>();
             for (Integer temp: nameConstrainForm.getNameSize()) {
                 if (!temp.equals(1)) {
@@ -152,7 +153,7 @@ public class NameGeneratorController {
             if (flag) {
                 OrderGeneratedNameModel generatedNameModel = nameGeneratorService.getNameInfoFromNameLibrary(generatedName);
                 generatedNameModel.setOrderId(Integer.parseInt(orderId));
-                generatedNameModel.setName(orderModel.getLastname() + generatedNameModel.getName());
+                generatedNameModel.setName(generatedNameModel.getName());
                 orderGeneratedNameModelList.add(generatedNameModel);
                 addList.add(generatedNameModel);
             }

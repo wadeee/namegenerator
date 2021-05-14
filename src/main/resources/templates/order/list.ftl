@@ -9,6 +9,24 @@
         <#include "/common/nav.ftl">
         <v-main>
             <v-container>
+                <v-form>
+                    <v-row>
+                        <v-col cols="10">
+                            <v-text-field
+                                    label="订单编号"
+                                    v-model="searchOrderNumber"
+                            >
+                            </v-text-field>
+                        </v-col>
+                        <v-col cols="2">
+                            <v-btn
+                                    class="mr-4"
+                                    @click="seekOrder()"
+                            >搜索订单
+                            </v-btn>
+                        </v-col>
+                    </v-row>
+                </v-form>
                 <v-row>
                     <v-col>
                         <v-data-table
@@ -26,6 +44,21 @@
                                         color="indigo"
                                         @click="commentOrder(item)"
                                 >调整
+                                </v-btn>
+                                <v-btn
+                                        outlined
+                                        small
+                                        color="red"
+                                        @click="deleteOrder(item)"
+                                >删除
+                                </v-btn>
+                                <v-btn
+                                        v-if="item.status.startsWith('已')"
+                                        outlined
+                                        small
+                                        color="pink"
+                                        @click="finishOrderDialogShow(item)"
+                                >完成
                                 </v-btn>
                             </template>
                         </v-data-table>
@@ -253,8 +286,64 @@
                                 </v-btn>
                                 <v-btn
                                         depressed
+                                        color="red"
+                                        @click="deleteOrder()"
+                                >
+                                    删除
+                                </v-btn>
+                                <v-btn
+                                        depressed
                                         color="primary"
                                         @click="updateAndAdd"
+                                >
+                                    确认
+                                </v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-dialog>
+                </v-row>
+                <v-row justify="center">
+                    <v-dialog
+                            v-model="finishOrderDialog"
+                            scrollable
+                            max-width="800"
+                    >
+                        <v-card>
+                            <v-card-title
+                                    class="headline"
+                            >
+                                完成订单
+                            </v-card-title>
+                            <v-divider></v-divider>
+                            <v-card-text>
+                                <v-form
+                                        @submit.prevent="finishOrder"
+                                        ref="form"
+                                >
+                                    <v-row>
+                                        <v-col>
+                                            <v-text-field
+                                                    v-model="finishOrderForm.resultName"
+                                                    label="最终定名"
+                                            ></v-text-field>
+                                        </v-col>
+                                    </v-row>
+                                </v-form>
+                            </v-card-text>
+                            <v-divider></v-divider>
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+
+                                <v-btn
+                                        depressed
+                                        @click="finishOrderDialog = false"
+                                >
+                                    关闭
+                                </v-btn>
+                                <v-btn
+                                        depressed
+                                        color="primary"
+                                        @click="finishOrder"
                                 >
                                     确认
                                 </v-btn>
@@ -280,6 +369,12 @@
         }),
         data: {
             visitCnt: null,
+            searchOrderNumber: null,
+            finishOrderForm: {
+                resultName: null,
+                orderId: null,
+            },
+            finishOrderDialog: false,
             headers: [
                 {
                     text: '订单编号',
@@ -535,6 +630,37 @@
                         this.commentForm.commentCnt = this.comments.length + 1
                     })
             },
+            deleteOrder(item) {
+                axios.get('/order/delete/' + item.id)
+                    .then(() => {
+                        this.refreshList()
+                        this.snackbar.message = "订单删除成功"
+                        this.snackbar.show = true
+                    })
+            },
+            deleteOrder() {
+                axios.get('/order/delete/' + this.editForm.id)
+                    .then(() => {
+                        this.refreshList()
+                        this.snackbar.message = "订单删除成功"
+                        this.snackbar.show = true
+                    })
+            },
+            seekOrder() {
+                axios.get('/order/detail-by-orderNumber/' + this.searchOrderNumber)
+                    .then((response) => {
+                        this.editForm = response.data
+                        this.commentsDialog = true
+                    })
+                    .finally(() => {
+                        this.validate()
+                    })
+                axios.get('/order/comments-by-orderNumbner/' + this.searchOrderNumber)
+                    .then((response) => {
+                        this.comments = response.data
+                        this.commentForm.commentCnt = this.comments.length + 1
+                    })
+            },
             updateAndAdd() {
                 this.updateOrder()
             },
@@ -553,6 +679,20 @@
                         } else {
                             this.errorSnackbar.message = "订单调整失败"
                             this.errorSnackbar.show = true
+                        }
+                    })
+            },
+            finishOrderDialogShow(item) {
+                this.finishOrderForm.orderId = item.id
+                this.finishOrderDialog = true
+            },
+            finishOrder() {
+                axios.post('/order/finish/' + this.finishOrderForm.orderId, this.finishOrderForm)
+                    .then((response) => {
+                        if (response.status == 200) {
+                            this.refreshList()
+                            this.finishOrderDialog = false
+                            this.snackbar.message = "订单完成成功"
                         }
                     })
             },

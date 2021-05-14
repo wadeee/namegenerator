@@ -59,6 +59,12 @@ public class OrderController {
         return orderService.getDetail(id);
     }
 
+    @GetMapping("/detail-by-orderNumber/{orderNumber}")
+    @ResponseBody
+    public OrderModel detailByOrderNumber(@PathVariable("orderNumber") String orderNumber) {
+        return orderService.getDetailByOrderNumber(orderNumber);
+    }
+
     @PostMapping("/update")
     @ResponseBody
     public Boolean update(@RequestBody OrderModel orderModel) {
@@ -69,6 +75,12 @@ public class OrderController {
     @ResponseBody
     public List<OrderCommentModel> comments(@PathVariable("id") String id) {
         return orderService.getComments(id);
+    }
+
+    @GetMapping("/comments-by-orderNumbner/{orderNumber}")
+    @ResponseBody
+    public List<OrderCommentModel> commentsByOrderNumber(@PathVariable("orderNumber") String orderNumber) {
+        return orderService.getCommentsByOrderNumber(orderNumber);
     }
 
     @PostMapping("/comments/add")
@@ -121,6 +133,18 @@ public class OrderController {
     @ResponseBody
     public MingjuModel mingju(@PathVariable("id") String id) {
         return orderService.getMingju(id);
+    }
+
+    @GetMapping("/delete/{id}")
+    @ResponseBody
+    public Boolean deleteOrder(@PathVariable("id") String id) {
+        return orderService.deleteOrder(id);
+    }
+
+    @PostMapping("/finish/{id}")
+    @ResponseBody
+    public Boolean finishOrder(@PathVariable("id") String id, @RequestBody Map<String, String> info) {
+        return orderService.finishOrder(id, info.get("resultName"));
     }
 
 }

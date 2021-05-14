@@ -396,7 +396,7 @@
                                                 <v-list-item>
                                                     <v-list-item-action>姓名</v-list-item-action>
                                                     <v-list-item-content>
-                                                        <v-list-item-title>{{item.name}}</v-list-item-title>
+                                                        <v-list-item-title>{{orderInfo.lastname + item.name}}</v-list-item-title>
                                                     </v-list-item-content>
                                                 </v-list-item>
                                                 <v-list-item>
@@ -453,7 +453,7 @@
                                                 <v-list-item>
                                                     <v-list-item-action>姓名</v-list-item-action>
                                                     <v-list-item-content>
-                                                        <v-list-item-title>{{item.name}}</v-list-item-title>
+                                                        <v-list-item-title>{{orderInfo.lastname + item.name}}</v-list-item-title>
                                                     </v-list-item-content>
                                                 </v-list-item>
                                                 <v-list-item>
@@ -638,7 +638,7 @@
                     })
             },
             copyContent(item) {
-                let result = '姓名：' + item.name + '\n' +
+                let result = '姓名：' + this.orderInfo.lastname + item.name + '\n' +
                     '拼音：' + item.pinyin + '\n' +
                     '五行：' + item.wuxing + '\n' +
                     '字义：' + item.meaning + '\n' +

@@ -169,6 +169,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public OrderModel getDetailByOrderNumber(String orderNumber) {
+        return orderMapper.getDetailByOrderNumber(orderNumber);
+    }
+
+    @Override
     public Boolean updateOrder(OrderModel orderModel) {
         if (!Objects.isNull(orderModel.getTillDeliveryTime())) {
             Date dateNow = new Date();
@@ -185,6 +190,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderCommentModel> getComments(String orderId) {
         return orderMapper.getComments(orderId);
+    }
+
+    @Override
+    public List<OrderCommentModel> getCommentsByOrderNumber(String orderNumber) {
+        return orderMapper.getCommentsByOrderNumber(orderNumber);
     }
 
     @Override
@@ -220,6 +230,16 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public MingjuModel getMingju(String orderId) {
         return orderMapper.getMingju(orderId);
+    }
+
+    @Override
+    public Boolean deleteOrder(String orderId) {
+        return orderMapper.deleteOrder(orderId);
+    }
+
+    @Override
+    public Boolean finishOrder(String orderId, String resultName) {
+        return orderMapper.finishOrder(orderId, resultName);
     }
 
     private Map getMapFromAPI(String path, Map<String, String> querys){

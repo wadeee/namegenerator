@@ -19,9 +19,13 @@ public interface OrderService {
 
     OrderModel getDetail(String id);
 
+    OrderModel getDetailByOrderNumber(String orderNumber);
+
     Boolean updateOrder(OrderModel orderModel);
 
     List<OrderCommentModel> getComments(String orderId);
+
+    List<OrderCommentModel> getCommentsByOrderNumber(String orderNumber);
 
     Boolean addComment(OrderCommentForm orderCommentForm);
 
@@ -34,4 +38,8 @@ public interface OrderService {
     MingpenModel getMingpen(String orderId);
 
     MingjuModel getMingju(String orderId);
+
+    Boolean deleteOrder(String orderId);
+
+    Boolean finishOrder(String orderId, String resultName);
 }
