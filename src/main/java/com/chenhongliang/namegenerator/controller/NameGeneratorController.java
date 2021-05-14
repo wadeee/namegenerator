@@ -107,7 +107,7 @@ public class NameGeneratorController {
                 namesList.addAll(nameLibraryMapper.constrainedNames(nameConstrainFormNow));
             }
         }
-        if (namesList.size()<20) {
+        if (namesList.size() - orderGeneratedNameModelList.size()<20) {
             for (String generatedName: namesList) {
                 Boolean flag = true;
                 for (OrderGeneratedNameModel temp : orderGeneratedNameModelList) {
@@ -123,20 +123,20 @@ public class NameGeneratorController {
                     addList.add(generatedNameModel);
                 }
             }
-        }
-        if (addList.size() < 20) {
-            namesList = new ArrayList<>();
-            for (Integer temp: nameConstrainForm.getNameSize()) {
-                if (!temp.equals(1)) {
-                    for (String wx: nameConstrainForm.getWuxing()) {
-                        List<Integer> nsl = new ArrayList<>();
-                        nsl.add(temp);
-                        List<String> wxl = new ArrayList<>();
-                        wxl.add(wx);
-                        NameConstrainForm nameConstrainFormNow = new NameConstrainForm(nameConstrainForm);
-                        nameConstrainFormNow.setNameSize(nsl);
-                        nameConstrainFormNow.setWuxing(wxl);
-                        namesList.addAll(nameLibraryMapper.constrainedNames(nameConstrainFormNow));
+            if (addList.size() < 20) {
+                namesList = new ArrayList<>();
+                for (Integer temp: nameConstrainForm.getNameSize()) {
+                    if (!temp.equals(1)) {
+                        for (String wx: nameConstrainForm.getWuxing()) {
+                            List<Integer> nsl = new ArrayList<>();
+                            nsl.add(temp);
+                            List<String> wxl = new ArrayList<>();
+                            wxl.add(wx);
+                            NameConstrainForm nameConstrainFormNow = new NameConstrainForm(nameConstrainForm);
+                            nameConstrainFormNow.setNameSize(nsl);
+                            nameConstrainFormNow.setWuxing(wxl);
+                            namesList.addAll(nameLibraryMapper.constrainedNames(nameConstrainFormNow));
+                        }
                     }
                 }
             }
