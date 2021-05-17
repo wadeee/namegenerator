@@ -103,6 +103,7 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
                 namesList.addAll(nameLibraryMapper.constrainedNames(nameConstrainFormNow));
             }
         }
+        Collections.shuffle(namesList);
         if (namesList.size() - orderGeneratedNameModelList.size()<20) {
             for (String generatedName: namesList) {
                 Boolean flag = true;
@@ -137,8 +138,9 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
                 }
             }
         }
-        while (addList.size() < 20) {
-            String generatedName = RandomUtils.randomSelect(namesList);
+        Collections.shuffle(namesList);
+        for (String generatedName: namesList) {
+            if (addList.size() >= 20) break;
             if (Objects.isNull(generatedName)) continue;
             Boolean flag = true;
             for (OrderGeneratedNameModel temp : orderGeneratedNameModelList) {
@@ -260,6 +262,8 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
         nameConstrainForm.setGeneration(orderModel.getGeneration());
         if (!Objects.isNull(orderModel.getWuxing())) {
             nameConstrainForm.setWuxing(Arrays.asList(orderModel.getWuxing().split(" ")));
+        } else {
+            nameConstrainForm.setWuxing(new ArrayList<>());
         }
         nameConstrainForm.setBannedCharacter(splitString(orderModel.getBannedCharacter()));
         nameConstrainForm.setBannedPinyin(splitString(orderModel.getBannedPinyin()));

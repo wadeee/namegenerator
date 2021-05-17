@@ -80,7 +80,7 @@
                         <v-card>
                             <v-card-title
                                     class="headline"
-                                    v-text="editForm.orderNumber + ' 订单调整'"
+                                    v-text="'订单调整[' + editForm.orderNumber + ']'"
                             >
                             </v-card-title>
                             <v-divider></v-divider>
@@ -652,7 +652,9 @@
                         this.commentForm.orderId = this.editForm.id
                         this.commentsDialog = true
                     })
-                    .finally(this.validate())
+                    .finally(() => {
+                        this.validate()
+                    })
                 axios.get('/order/comments-by-orderNumbner/' + this.searchOrderNumber)
                     .then((response) => {
                         this.comments = response.data

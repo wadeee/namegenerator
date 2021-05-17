@@ -313,7 +313,7 @@
                 nameGiver: null,
                 bills: null,
                 plan: null,
-                wuxing: null,
+                wuxing: '',
                 tillDeliveryTime: null,
                 lastname: null,
                 sex: null,
