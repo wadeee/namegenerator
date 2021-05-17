@@ -95,9 +95,38 @@
                 </foreach>
             </if>
             <if test="wuxing != null and wuxing.size > 0">
+                <foreach item="item" collection="wuxing">
+                    and wuxing like concat('%', #{item}, '%')
+                </foreach>
+            </if>
+            <if test="generation != null and generation != ''">
+                and `name` like concat(#{generation}, '%')
+            </if>
+            and length(`name`) = #{nameSize[0]}*3
+        </where>
+    </select>
+
+    <select id="constrainedNamesForCorrectWuxing" resultType="String">
+        select `name`
+        from name_library
+        <where>
+            del_flag = false
+            <if test='sex == "男"'>and male = true</if>
+            <if test='sex == "女"'>and female = true</if>
+            <if test="bannedPinyin != null and bannedPinyin.size > 0">
+                <foreach item="item" collection="bannedPinyin">
+                    and pinyin not like concat('%', #{item}, ' %')
+                </foreach>
+            </if>
+            <if test="bannedCharacter != null and bannedCharacter.size > 0">
+                <foreach item="item" collection="bannedCharacter">
+                    and `name` not like concat('%', #{item}, '%')
+                </foreach>
+            </if>
+            <if test="wuxing != null and wuxing.size > 0">
                 and
-                <foreach item="item" collection="wuxing" open="(" close=")" separator=" and ">
-                    wuxing like concat('%', #{item}, '%')
+                <foreach item="item" collection="wuxing" open="(" close=")" separator=" or ">
+                    wuxing = #{item}
                 </foreach>
             </if>
             <if test="generation != null and generation != ''">

@@ -23,4 +23,6 @@ public interface NameLibraryMapper {
     Integer updatePinyin(String name, String pinyin, String atonalPinyin);
 
     List<String> constrainedNames(NameConstrainForm nameConstrainForm);
+
+    List<String> constrainedNamesForCorrectWuxing(NameConstrainForm nameConstrainForm);
 }

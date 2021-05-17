@@ -105,41 +105,6 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
             }
         }
         Collections.shuffle(namesList);
-        if (namesList.size() - orderGeneratedNameModelList.size() < 20) {
-            for (String generatedName : namesList) {
-                Boolean flag = true;
-                for (OrderGeneratedNameModel temp : orderGeneratedNameModelList) {
-                    if (generatedName.equals(temp.getName())) {
-                        flag = false;
-                    }
-                }
-                if (flag) {
-                    OrderGeneratedNameModel generatedNameModel = getNameInfoFromNameLibrary(generatedName);
-                    generatedNameModel.setOrderId(Integer.parseInt(orderId));
-                    generatedNameModel.setName(generatedNameModel.getName());
-                    orderGeneratedNameModelList.add(generatedNameModel);
-                    addList.add(generatedNameModel);
-                }
-            }
-            if (addList.size() < 20) {
-                namesList = new ArrayList<>();
-                for (Integer temp : nameConstrainForm.getNameSize()) {
-                    if (!temp.equals(1)) {
-                        for (String wx : nameConstrainForm.getWuxing()) {
-                            List<Integer> nsl = new ArrayList<>();
-                            nsl.add(temp);
-                            List<String> wxl = new ArrayList<>();
-                            wxl.add(wx);
-                            NameConstrainForm nameConstrainFormNow = new NameConstrainForm(nameConstrainForm);
-                            nameConstrainFormNow.setNameSize(nsl);
-                            nameConstrainFormNow.setWuxing(wxl);
-                            namesList.addAll(nameLibraryMapper.constrainedNames(nameConstrainFormNow));
-                        }
-                    }
-                }
-            }
-        }
-        Collections.shuffle(namesList);
         for (String generatedName : namesList) {
             if (addList.size() >= 20) break;
             if (Objects.isNull(generatedName)) continue;
@@ -155,6 +120,71 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
                 generatedNameModel.setName(generatedNameModel.getName());
                 orderGeneratedNameModelList.add(generatedNameModel);
                 addList.add(generatedNameModel);
+            }
+        }
+        if (addList.size() < 20) {
+            namesList = new ArrayList<>();
+            List<String> wuxingList = new ArrayList<>();
+            for (String wuxing: nameConstrainForm.getWuxing()) {
+                wuxingList.add(wuxing);
+                wuxingList.add(wuxing + " " + wuxing);
+                wuxingList.add(wuxing + " " + wuxing + " " + wuxing);
+            }
+            NameConstrainForm nameConstrainFormNow = new NameConstrainForm(nameConstrainForm);
+            nameConstrainFormNow.setWuxing(wuxingList);
+            namesList.addAll(nameLibraryMapper.constrainedNamesForCorrectWuxing(nameConstrainFormNow));
+            Collections.shuffle(namesList);
+            for (String generatedName : namesList) {
+                if (addList.size() >= 20) break;
+                if (Objects.isNull(generatedName)) continue;
+                Boolean flag = true;
+                for (OrderGeneratedNameModel temp : orderGeneratedNameModelList) {
+                    if (generatedName.equals(temp.getName())) {
+                        flag = false;
+                    }
+                }
+                if (flag) {
+                    OrderGeneratedNameModel generatedNameModel = getNameInfoFromNameLibrary(generatedName);
+                    generatedNameModel.setOrderId(Integer.parseInt(orderId));
+                    generatedNameModel.setName(generatedNameModel.getName());
+                    orderGeneratedNameModelList.add(generatedNameModel);
+                    addList.add(generatedNameModel);
+                }
+            }
+        }
+        if (addList.size() < 20) {
+            namesList = new ArrayList<>();
+            for (Integer temp : nameConstrainForm.getNameSize()) {
+                if (!temp.equals(1)) {
+                    for (String wx : nameConstrainForm.getWuxing()) {
+                        List<Integer> nsl = new ArrayList<>();
+                        nsl.add(temp);
+                        List<String> wxl = new ArrayList<>();
+                        wxl.add(wx);
+                        NameConstrainForm nameConstrainFormNow = new NameConstrainForm(nameConstrainForm);
+                        nameConstrainFormNow.setNameSize(nsl);
+                        nameConstrainFormNow.setWuxing(wxl);
+                        namesList.addAll(nameLibraryMapper.constrainedNames(nameConstrainFormNow));
+                    }
+                }
+            }
+            Collections.shuffle(namesList);
+            for (String generatedName : namesList) {
+                if (addList.size() >= 20) break;
+                if (Objects.isNull(generatedName)) continue;
+                Boolean flag = true;
+                for (OrderGeneratedNameModel temp : orderGeneratedNameModelList) {
+                    if (generatedName.equals(temp.getName())) {
+                        flag = false;
+                    }
+                }
+                if (flag) {
+                    OrderGeneratedNameModel generatedNameModel = getNameInfoFromNameLibrary(generatedName);
+                    generatedNameModel.setOrderId(Integer.parseInt(orderId));
+                    generatedNameModel.setName(generatedNameModel.getName());
+                    orderGeneratedNameModelList.add(generatedNameModel);
+                    addList.add(generatedNameModel);
+                }
             }
         }
         for (OrderGeneratedNameModel temp : addList) {
