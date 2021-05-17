@@ -66,7 +66,6 @@
                                     </v-col>
                                     <v-col
                                             cols="6"
-                                            v-if="orderInfo.wuxing != null && orderInfo.wuxing != ''"
                                     >
                                         <v-list-item>
                                             <v-list-item-action>五行</v-list-item-action>

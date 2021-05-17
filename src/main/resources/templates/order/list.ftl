@@ -618,6 +618,7 @@
                 axios.get('/order/detail/' + item.id)
                     .then((response) => {
                         this.editForm = response.data
+                        this.nameSizeArray = this.editForm.nameSize.split(', ')
                         this.commentsDialog = true
                     })
                     .finally(() => {
