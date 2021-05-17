@@ -64,6 +64,11 @@
                     value: 'orderNumber',
                 },
                 {
+                    text: '指定起名师',
+                    value: 'nameGiver',
+                    sortable: false,
+                },
+                {
                     text: '套餐',
                     value: 'plan',
                     sortable: false,

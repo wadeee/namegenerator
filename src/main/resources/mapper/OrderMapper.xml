@@ -188,6 +188,7 @@
         select
             id,
             order_number orderNumber,
+            name_giver nameGiver,
             plan,
             delivery_time deliveryTime,
             status
