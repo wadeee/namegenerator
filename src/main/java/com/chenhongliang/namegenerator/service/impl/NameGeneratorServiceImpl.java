@@ -280,7 +280,7 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
         nameConstrainForm.setLastname(orderModel.getLastname());
         nameConstrainForm.setSex(orderModel.getSex());
         List<Integer> nameSizeList = new ArrayList<>();
-        Integer generationCounter = isNameLibrary ? 0 : orderModel.getGeneration().length();
+        Integer generationCounter = isNameLibrary ? 0 : (Objects.isNull(orderModel.getGeneration())?0:orderModel.getGeneration().length());
         if (orderModel.getNameSize().contains("二字名")) {
             nameSizeList.add(1 - generationCounter);
         }
