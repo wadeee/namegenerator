@@ -404,7 +404,7 @@
                                                 <v-list-item>
                                                     <v-list-item-action>姓名</v-list-item-action>
                                                     <v-list-item-content>
-                                                        <v-list-item-title>{{orderInfo.lastname + item.name}}</v-list-item-title>
+                                                        <v-list-item-title>{{orderInfo.lastname + orderInfo.generation + item.name}}</v-list-item-title>
                                                     </v-list-item-content>
                                                 </v-list-item>
                                                 <v-list-item>

@@ -32,8 +32,9 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
     private NameLibraryManageMapper nameLibraryManageMapper;
 
     @Override
-    public List<OrderGeneratedNameModel> newNamesFromCharacter(String orderId) {        OrderModel orderModel = orderMapper.getDetail(orderId);
-        NameConstrainForm nameConstrainForm = orderModelToNameConstrainForm(orderModel);
+    public List<OrderGeneratedNameModel> newNamesFromCharacter(String orderId) {
+        OrderModel orderModel = orderMapper.getDetail(orderId);
+        NameConstrainForm nameConstrainForm = orderModelToNameConstrainForm(orderModel, false);
 
         List<OrderGeneratedNameModel> orderGeneratedNameModelList = orderMapper.getGeneratedNames(orderId, false);
         List<OrderGeneratedNameModel> addList = new ArrayList<>();
@@ -78,14 +79,14 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
     @Override
     public List<OrderGeneratedNameModel> newNamesFromNameLibrary(String orderId) {
         OrderModel orderModel = orderMapper.getDetail(orderId);
-        NameConstrainForm nameConstrainForm = orderModelToNameConstrainForm(orderModel);
+        NameConstrainForm nameConstrainForm = orderModelToNameConstrainForm(orderModel, true);
 
         List<OrderGeneratedNameModel> orderGeneratedNameModelList = orderMapper.getGeneratedNames(orderId, true);
         List<OrderGeneratedNameModel> addList = new ArrayList<>();
         List<String> namesList = new ArrayList<>();
-        for (Integer temp: nameConstrainForm.getNameSize()) {
+        for (Integer temp : nameConstrainForm.getNameSize()) {
             if (temp.equals(1)) {
-                for (String wx: nameConstrainForm.getWuxing()) {
+                for (String wx : nameConstrainForm.getWuxing()) {
                     List<Integer> nsl = new ArrayList<>();
                     nsl.add(temp);
                     List<String> wxl = new ArrayList<>();
@@ -104,8 +105,8 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
             }
         }
         Collections.shuffle(namesList);
-        if (namesList.size() - orderGeneratedNameModelList.size()<20) {
-            for (String generatedName: namesList) {
+        if (namesList.size() - orderGeneratedNameModelList.size() < 20) {
+            for (String generatedName : namesList) {
                 Boolean flag = true;
                 for (OrderGeneratedNameModel temp : orderGeneratedNameModelList) {
                     if (generatedName.equals(temp.getName())) {
@@ -122,9 +123,9 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
             }
             if (addList.size() < 20) {
                 namesList = new ArrayList<>();
-                for (Integer temp: nameConstrainForm.getNameSize()) {
+                for (Integer temp : nameConstrainForm.getNameSize()) {
                     if (!temp.equals(1)) {
-                        for (String wx: nameConstrainForm.getWuxing()) {
+                        for (String wx : nameConstrainForm.getWuxing()) {
                             List<Integer> nsl = new ArrayList<>();
                             nsl.add(temp);
                             List<String> wxl = new ArrayList<>();
@@ -139,7 +140,7 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
             }
         }
         Collections.shuffle(namesList);
-        for (String generatedName: namesList) {
+        for (String generatedName : namesList) {
             if (addList.size() >= 20) break;
             if (Objects.isNull(generatedName)) continue;
             Boolean flag = true;
@@ -205,8 +206,8 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
         orderGeneratedNameModel.setSource("");
         orderGeneratedNameModel.setNamelibType(false);
         for (int i = 0; i < name.length(); i++) {
-            SingleCharacterModel singleCharacterModel = singleCharacterManageMapper.selectByCharacter(name.substring(i, i+1));
-            if (i==0) {
+            SingleCharacterModel singleCharacterModel = singleCharacterManageMapper.selectByCharacter(name.substring(i, i + 1));
+            if (i == 0) {
                 orderGeneratedNameModel.setPinyin(singleCharacterModel.getPinyin());
                 orderGeneratedNameModel.setWuxing(singleCharacterModel.getWuxing());
                 orderGeneratedNameModel.setMeaning(singleCharacterModel.getMeaning());
@@ -240,23 +241,24 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
             result.add(RandomUtils.randomSelect(wuxing));
         }
         Set<String> resultSet = new HashSet<>(result);
-        if (wuxing.size()>1 && resultSet.size()<=1) return disorder(wuxing, nameSize);
+        if (wuxing.size() > 1 && resultSet.size() <= 1) return disorder(wuxing, nameSize);
         return result;
     }
 
-    private NameConstrainForm orderModelToNameConstrainForm(OrderModel orderModel) {
+    private NameConstrainForm orderModelToNameConstrainForm(OrderModel orderModel, Boolean isNameLibrary) {
         NameConstrainForm nameConstrainForm = new NameConstrainForm();
         nameConstrainForm.setLastname(orderModel.getLastname());
         nameConstrainForm.setSex(orderModel.getSex());
         List<Integer> nameSizeList = new ArrayList<>();
+        Integer generationCounter = isNameLibrary ? 0 : orderModel.getGeneration().length();
         if (orderModel.getNameSize().contains("二字名")) {
-            nameSizeList.add(1);
+            nameSizeList.add(1 - generationCounter);
         }
         if (orderModel.getNameSize().contains("三字名")) {
-            nameSizeList.add(2);
+            nameSizeList.add(2 - generationCounter);
         }
         if (orderModel.getNameSize().contains("四字名")) {
-            nameSizeList.add(3);
+            nameSizeList.add(3 - generationCounter);
         }
         nameConstrainForm.setNameSize(nameSizeList);
         nameConstrainForm.setGeneration(orderModel.getGeneration());
