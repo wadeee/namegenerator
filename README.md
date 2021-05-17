@@ -2,6 +2,13 @@
 
 仅限内部使用
 
+## 使用技术
+
+- Spring Boot
+- Vue + Vuetify
+- FreeMarker
+- Mybatis
+
 ## 页面统计
 
 共10个页面，7个弹窗
