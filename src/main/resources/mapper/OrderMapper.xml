@@ -133,17 +133,17 @@
             <if test="sex != null and sex != ''">sex = #{sex},</if>
             <if test="nameSize != null and nameSize != ''">name_size = #{nameSize},</if>
             <if test="birthday != null and birthday != ''">birthday = #{birthday},</if>
-            <if test="birthdayLunar != null and birthdayLunar != ''">birthday_lunar = #{birthdayLunar},</if>
-            <if test="birthdayHour != null and birthdayHour != ''">birthday_hour = #{birthdayHour},</if>
-            <if test="birthdayMinute != null and birthdayMinute != ''">birthday_minute = #{birthdayMinute},</if>
-            <if test="bannedPinyin != null and bannedPinyin != ''">banned_pinyin = #{bannedPinyin},</if>
-            <if test="bannedCharacter != null and bannedCharacter != ''">banned_character = #{bannedCharacter},</if>
-            <if test="generation != null and generation != ''">generation = #{generation},</if>
-            <if test="style != null and style != ''">`style` = #{style},</if>
-            <if test="notes != null and notes != ''">notes = #{notes},</if>
-            <if test="wuxing != null and wuxing != ''">wuxing = #{wuxing},</if>
-            <if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
-            <if test="delivered != null and delivered != ''">delivered = #{delivered},</if>
+            birthday_lunar = #{birthdayLunar},
+            birthday_hour = #{birthdayHour},
+            birthday_minute = #{birthdayMinute},
+            banned_pinyin = #{bannedPinyin},
+            banned_character = #{bannedCharacter},
+            generation = #{generation},
+            `style` = #{style},
+            notes = #{notes},
+            wuxing = #{wuxing},
+            update_time = #{updateTime},
+            delivered = #{delivered},
         </set>
         where id = #{id}
     </update>
