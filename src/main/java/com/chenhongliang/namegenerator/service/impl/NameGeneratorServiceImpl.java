@@ -292,7 +292,7 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
         }
         nameConstrainForm.setNameSize(nameSizeList);
         nameConstrainForm.setGeneration(orderModel.getGeneration());
-        if (!Objects.isNull(orderModel.getWuxing())) {
+        if (!Objects.isNull(orderModel.getWuxing()) && !orderModel.getWuxing().isEmpty()) {
             nameConstrainForm.setWuxing(Arrays.asList(orderModel.getWuxing().split(" ")));
         } else {
             nameConstrainForm.setWuxing(new ArrayList<>());
