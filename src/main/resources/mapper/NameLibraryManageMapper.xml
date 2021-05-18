@@ -15,6 +15,7 @@
         from name_library
         where del_flag = false
             and `name` = #{name}
+        limit 1
     </select>
 
     <update id="updateName" parameterType="NameLibraryManageForm">
