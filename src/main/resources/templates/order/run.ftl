@@ -380,6 +380,14 @@
                                                 </v-list-item-content>
                                             </v-list-item>
                                         </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>宜忌</v-list-item-action>
+                                                <v-list-item-content>
+                                                    {{mingju.yiji}}
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
                                     </v-row>
                                 </v-list>
                             </v-card-text>
