@@ -46,6 +46,12 @@ public class OrderController {
         return orderService.updateWuxing(id, wuxing);
     }
 
+    @GetMapping("updateWuxing/{id}/{wuxing}")
+    @ResponseBody
+    public Boolean updateWuxingsStr(@PathVariable("id") String id, @PathVariable("wuxing") String wuxing) {
+        return orderService.updateWuxingStr(id, wuxing);
+    }
+
     @GetMapping("/list")
     public String list() {
         return "order/list";

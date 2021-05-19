@@ -15,6 +15,8 @@ public interface OrderService {
 
     Boolean updateWuxing(String id, List<String> wuxing);
 
+    Boolean updateWuxingStr(String id, String wuxing);
+
     PageInfo<OrderListVo> orderList(Integer pageNo, Integer pageSize);
 
     OrderModel getDetail(String id);

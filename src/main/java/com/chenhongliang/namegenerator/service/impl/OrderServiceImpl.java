@@ -129,7 +129,8 @@ public class OrderServiceImpl implements OrderService {
 
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("id", orderId);
-        resultMap.put("xiyongshenMap", xiyongshenMap);
+//        resultMap.put("xiyongshenMap", xiyongshenMap);
+        resultMap.put("xiyongshenMap", null);
 
         return resultMap;
     }
@@ -137,6 +138,16 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Boolean updateWuxing(String id, List<String> wuxing) {
         Boolean result = orderMapper.updateWuxing(id, String.join(" ", wuxing));
+        nameGeneratorService.removeGeneratedNames(id);
+        nameGeneratorController.fromCharacters(id);
+        nameGeneratorController.fromNameLibrary(id);
+        return result;
+    }
+
+    @Override
+    public Boolean updateWuxingStr(String id, String wuxing) {
+        Boolean result = orderMapper.updateWuxing(id, wuxing);
+        nameGeneratorService.removeGeneratedNames(id);
         nameGeneratorController.fromCharacters(id);
         nameGeneratorController.fromNameLibrary(id);
         return result;

@@ -9,6 +9,14 @@
         <#include "/common/nav.ftl">
         <v-main>
             <v-container>
+                <v-progress-linear
+                        v-model="progress.value"
+                        :active="progress.show"
+                        :indeterminate="progress.query"
+                        :query="progress.query"
+                        fixed
+                        bottom
+                ></v-progress-linear>
                 <v-row>
                     <v-col>
                         <v-card-title>执行订单</v-card-title>
@@ -70,7 +78,25 @@
                                         <v-list-item>
                                             <v-list-item-action>五行</v-list-item-action>
                                             <v-list-item-content>
-                                                <v-list-item-title>{{orderInfo.wuxing}}</v-list-item-title>
+                                                <v-list-item-title>
+                                                    <v-row>
+                                                        <v-col cols="6">
+                                                            <v-text-field
+                                                                    v-model="orderInfo.wuxing"
+                                                                    class="top-zero"
+                                                            ></v-text-field>
+                                                        </v-col>
+                                                        <v-col cols="6">
+                                                            <v-btn
+                                                                    depressed
+                                                                    @click="submitWuxing"
+                                                                    :disabled="progress.show"
+                                                            >
+                                                                修改
+                                                            </v-btn>
+                                                        </v-col>
+                                                    </v-row>
+                                                </v-list-item-title>
                                             </v-list-item-content>
                                         </v-list-item>
                                     </v-col>
@@ -543,6 +569,11 @@
             },
         }),
         data: {
+            progress: {
+                value: 0,
+                show: false,
+                query: true,
+            },
             visitCnt: null,
             mingpen: null,
             mingju: null,
@@ -659,7 +690,20 @@
                     '字义：' + item.meaning + '\n' +
                     '出处：' + item.source + '\n'
                 return result
-            }
+            },
+            submitWuxing() {
+                this.progress.show = true
+                axios.get('/order/updateWuxing/' + this.orderInfo.id + '/' + this.orderInfo.wuxing)
+                    .then((response) => {
+                        this.progress.show = false
+                        if (response.status == 200) {
+                            this.snackbar.message = "订单已更新"
+                            this.progress.show = false
+                            this.snackbar.show = true
+                            location.reload()
+                        }
+                    })
+            },
         },
         watch: {
             'snackbar.show': function () {
