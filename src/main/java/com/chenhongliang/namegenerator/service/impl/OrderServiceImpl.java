@@ -9,7 +9,6 @@ import com.chenhongliang.namegenerator.model.*;
 import com.chenhongliang.namegenerator.service.NameGeneratorService;
 import com.chenhongliang.namegenerator.service.OrderService;
 import com.chenhongliang.namegenerator.util.DateUtils;
-import com.chenhongliang.namegenerator.util.FortuneTellingUtils;
 import com.chenhongliang.namegenerator.util.HttpUtils;
 import com.chenhongliang.namegenerator.util.Lunar;
 import com.chenhongliang.namegenerator.vo.OrderListVo;
@@ -61,14 +60,14 @@ public class OrderServiceImpl implements OrderService {
         orderModel.setStatus("待交付");
         orderModel.setUpdateTime(DateUtils.dateToString(new Date()));
         orderModel.setDelivered(false);
-        Map<String, List<String>> xiyongshenMap = null;
-        if (orderModel.getPlan().startsWith("八字")) {
-            Map<String, List<String>> xiyongshen = FortuneTellingUtils.getXiYongShen(orderForm);
-            orderModel.setWuxing(String.join(" ", xiyongshen.get("yongshen")) + " " + String.join(" ", xiyongshen.get("xishen")));
-            if (orderModel.getWuxing().length()>3) {
-                xiyongshenMap = xiyongshen;
-            }
-        }
+//        Map<String, List<String>> xiyongshenMap = null;
+//        if (orderModel.getPlan().startsWith("八字")) {
+//            Map<String, List<String>> xiyongshen = FortuneTellingUtils.getXiYongShen(orderForm);
+//            orderModel.setWuxing(String.join(" ", xiyongshen.get("yongshen")) + " " + String.join(" ", xiyongshen.get("xishen")));
+//            if (orderModel.getWuxing().length()>3) {
+//                xiyongshenMap = xiyongshen;
+//            }
+//        }
 
         Date dateNow = new Date();
         Calendar cal = Calendar.getInstance();
