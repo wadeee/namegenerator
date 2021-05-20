@@ -8,9 +8,9 @@ import com.chenhongliang.namegenerator.mapper.OrderMapper;
 import com.chenhongliang.namegenerator.model.*;
 import com.chenhongliang.namegenerator.service.NameGeneratorService;
 import com.chenhongliang.namegenerator.service.OrderService;
-import com.chenhongliang.namegenerator.util.DateUtils;
+import com.chenhongliang.namegenerator.util.DateStringUtils;
 import com.chenhongliang.namegenerator.util.HttpUtils;
-import com.chenhongliang.namegenerator.util.Lunar;
+import com.chenhongliang.namegenerator.util.LunarUtils;
 import com.chenhongliang.namegenerator.vo.OrderListVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -58,7 +58,7 @@ public class OrderServiceImpl implements OrderService {
         orderModel.setNotes(orderForm.getNotes());
         orderModel.setWuxing(orderForm.getWuxing());
         orderModel.setStatus("待交付");
-        orderModel.setUpdateTime(DateUtils.dateToString(new Date()));
+        orderModel.setUpdateTime(DateStringUtils.dateToString(new Date()));
         orderModel.setDelivered(false);
 //        Map<String, List<String>> xiyongshenMap = null;
 //        if (orderModel.getPlan().startsWith("八字")) {
@@ -73,7 +73,7 @@ public class OrderServiceImpl implements OrderService {
         Calendar cal = Calendar.getInstance();
         cal.setTime(dateNow);
         cal.add(Calendar.HOUR, orderForm.getTillDeliveryTime());
-        orderModel.setDeliveryTime(DateUtils.dateToStringLong(cal.getTime()));
+        orderModel.setDeliveryTime(DateStringUtils.dateToStringLong(cal.getTime()));
         orderMapper.insert(orderModel);
         Integer orderId = orderModel.getId();
 
@@ -156,11 +156,6 @@ public class OrderServiceImpl implements OrderService {
         return Objects.isNull(obj)?null:String.valueOf(obj);
     }
 
-    private List<String> splitString(String str) {
-        if (Objects.isNull(str)) return new ArrayList<>();
-        return Arrays.asList(str.split("(　|\\s)*(,|，|　|\\s)(　|\\s)*"));
-    }
-
     @Override
     public PageInfo<OrderListVo> orderList(Integer pageNo, Integer pageSize) {
         PageHelper.startPage(pageNo, pageSize);
@@ -168,7 +163,7 @@ public class OrderServiceImpl implements OrderService {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.add(Calendar.DATE, -7);
-        List<OrderListVo> orderList = orderMapper.getList(DateUtils.dateToString(cal.getTime()));
+        List<OrderListVo> orderList = orderMapper.getList(DateStringUtils.dateToString(cal.getTime()));
         PageInfo<OrderListVo> pageInfo = new PageInfo<>(orderList);
         return pageInfo;
     }
@@ -190,9 +185,9 @@ public class OrderServiceImpl implements OrderService {
             Calendar cal = Calendar.getInstance();
             cal.setTime(dateNow);
             cal.add(Calendar.HOUR, orderModel.getTillDeliveryTime());
-            orderModel.setDeliveryTime(DateUtils.dateToStringLong(cal.getTime()));
+            orderModel.setDeliveryTime(DateStringUtils.dateToStringLong(cal.getTime()));
         }
-        orderModel.setUpdateTime(DateUtils.dateToString(new Date()));
+        orderModel.setUpdateTime(DateStringUtils.dateToString(new Date()));
         orderModel.setBirthdayLunar(solarToLunar(orderModel.getBirthday()));
         return orderMapper.updateOrder(orderModel);
     }
@@ -209,7 +204,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Boolean addComment(OrderCommentForm orderCommentForm) {
-        orderMapper.updateStatus(orderCommentForm.getOrderId(), "待调整-" + orderCommentForm.getCommentCnt(), DateUtils.dateToString(new Date()), false);
+        orderMapper.updateStatus(orderCommentForm.getOrderId(), "待调整-" + orderCommentForm.getCommentCnt(), DateStringUtils.dateToString(new Date()), false);
         return orderMapper.addComment(orderCommentForm);
     }
 
@@ -229,7 +224,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Boolean deliverOrder(String id) {
         String status = orderMapper.getStatus(id);
-        return orderMapper.updateStatus(id, status.replace("待", "已"), DateUtils.dateToString(new Date()), true);
+        return orderMapper.updateStatus(id, status.replace("待", "已"), DateStringUtils.dateToString(new Date()), true);
     }
 
     @Override
@@ -289,7 +284,7 @@ public class OrderServiceImpl implements OrderService {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        Lunar lunar = new Lunar(day);
+        LunarUtils lunar = new LunarUtils(day);
         return lunar.cyclical() + "年" + lunar.toString();
     }
 

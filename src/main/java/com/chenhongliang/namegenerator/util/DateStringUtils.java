@@ -5,7 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class DateUtils {
+public class DateStringUtils {
 
     public static String dateToString(Date date) {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");

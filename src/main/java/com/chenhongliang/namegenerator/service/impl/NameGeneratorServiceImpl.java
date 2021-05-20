@@ -8,6 +8,7 @@ import com.chenhongliang.namegenerator.model.OrderModel;
 import com.chenhongliang.namegenerator.model.SingleCharacterModel;
 import com.chenhongliang.namegenerator.service.NameGeneratorService;
 import com.chenhongliang.namegenerator.util.RandomUtils;
+import com.chenhongliang.namegenerator.util.SplitStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -297,15 +298,9 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
         } else {
             nameConstrainForm.setWuxing(new ArrayList<>());
         }
-        nameConstrainForm.setBannedCharacter(splitString(orderModel.getBannedCharacter()));
-        nameConstrainForm.setBannedPinyin(splitString(orderModel.getBannedPinyin()));
+        nameConstrainForm.setBannedCharacter(SplitStringUtils.splitString(orderModel.getBannedCharacter()));
+        nameConstrainForm.setBannedPinyin(SplitStringUtils.splitString(orderModel.getBannedPinyin()));
         return nameConstrainForm;
     }
-
-    private List<String> splitString(String str) {
-        if (Objects.isNull(str) || str.isEmpty()) return new ArrayList<>();
-        return Arrays.asList(str.split("(　|\\s)*(,|，|　|\\s)(　|\\s)*"));
-    }
-
 
 }

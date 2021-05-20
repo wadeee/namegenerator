@@ -12,7 +12,7 @@ import java.util.Date;
  *
  * */
 
-public class Lunar {
+public class LunarUtils {
     private int year;
     private int month;
     private int day;
@@ -110,7 +110,7 @@ public class Lunar {
      * @param cal
      * @return
      */
-    public Lunar(Calendar cal) {
+    public LunarUtils(Calendar cal) {
         int yearCyl, monCyl, dayCyl;
         int leapMonth = 0;
         Date baseDate = null;

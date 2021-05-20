@@ -4,7 +4,7 @@ import com.chenhongliang.namegenerator.form.CustomerInfoForm;
 import com.chenhongliang.namegenerator.mapper.CustomerInfoMapper;
 import com.chenhongliang.namegenerator.model.CustomerInfoModel;
 import com.chenhongliang.namegenerator.service.CustomerInfoService;
-import com.chenhongliang.namegenerator.util.DateUtils;
+import com.chenhongliang.namegenerator.util.DateStringUtils;
 import com.chenhongliang.namegenerator.vo.CustomerInfoVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -30,12 +30,12 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         customerInfoModel.setSalesman(customerInfoForm.getSalesman());
         customerInfoModel.setBirthday(customerInfoForm.getBirthday());
 
-        Date birthday = DateUtils.stringToDate(customerInfoForm.getBirthday());
+        Date birthday = DateStringUtils.stringToDate(customerInfoForm.getBirthday());
         Calendar cal = Calendar.getInstance();
         cal.setTime(birthday);
         cal.add(Calendar.DATE, -2);
 
-        customerInfoModel.setVisitDate(DateUtils.dateToString(cal.getTime()));
+        customerInfoModel.setVisitDate(DateStringUtils.dateToString(cal.getTime()));
 
         return customerInfoMapper.insert(customerInfoModel);
     }
@@ -43,7 +43,7 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
     @Override
     public PageInfo<CustomerInfoVo> cutomerInfoList(Integer pageNo, Integer pageSize) {
         PageHelper.startPage(pageNo,pageSize);
-        List<CustomerInfoVo> customerInfoVoList = customerInfoMapper.getList(DateUtils.dateToString(new Date()));
+        List<CustomerInfoVo> customerInfoVoList = customerInfoMapper.getList(DateStringUtils.dateToString(new Date()));
         PageInfo<CustomerInfoVo> pageInfo = new PageInfo<>(customerInfoVoList);
         return pageInfo;
     }
@@ -55,6 +55,6 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
 
     @Override
     public Integer getVisitCnt() {
-        return customerInfoMapper.getVisitCnt(DateUtils.dateToString(new Date()));
+        return customerInfoMapper.getVisitCnt(DateStringUtils.dateToString(new Date()));
     }
 }
