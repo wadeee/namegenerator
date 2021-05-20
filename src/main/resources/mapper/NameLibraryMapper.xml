@@ -86,7 +86,7 @@
             <if test='sex == "女"'>and female = true</if>
             <if test="bannedPinyin != null and bannedPinyin.size > 0">
                 <foreach item="item" collection="bannedPinyin">
-                    and pinyin not like concat('%', #{item}, ' %')
+                    and atonal_pinyin not like concat('%', #{item}, '%')
                 </foreach>
             </if>
             <if test="bannedCharacter != null and bannedCharacter.size > 0">
@@ -115,7 +115,7 @@
             <if test='sex == "女"'>and female = true</if>
             <if test="bannedPinyin != null and bannedPinyin.size > 0">
                 <foreach item="item" collection="bannedPinyin">
-                    and pinyin not like concat('%', #{item}, ' %')
+                    and atonal_pinyin not like concat('%', #{item}, '%')
                 </foreach>
             </if>
             <if test="bannedCharacter != null and bannedCharacter.size > 0">

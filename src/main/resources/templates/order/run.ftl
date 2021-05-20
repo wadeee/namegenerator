@@ -522,6 +522,13 @@
                                                     <v-list-item-content class="wrapper">{{item.source}}</v-list-item-content>
                                                 </v-list-item>
                                             </v-list>
+                                            <v-btn
+                                                    class="copy"
+                                                    depressed
+                                                    v-clipboard:copy="copyContent(item)"
+                                            >
+                                                复制
+                                            </v-btn>
                                         </v-expansion-panel-content>
                                     </v-expansion-panel>
                                 </v-expansion-panels>
@@ -684,7 +691,7 @@
                     })
             },
             copyContent(item) {
-                let result = '姓名：' + this.orderInfo.lastname + item.name + '\n' +
+                let result = '姓名：' + this.orderInfo.lastname + (item.name.startsWith(this.orderInfo.generation)?'':this.orderInfo.generation) + item.name + '\n' +
                     '拼音：' + item.pinyin + '\n' +
                     '五行：' + item.wuxing + '\n' +
                     '字义：' + item.meaning + '\n' +

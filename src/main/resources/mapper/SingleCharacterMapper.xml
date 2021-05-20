@@ -72,7 +72,7 @@
             <if test='sex == "男"'>and male = true</if>
             <if test='sex == "女"'>and female = true</if>
             <if test="bannedPinyin != null and bannedPinyin.size > 0">
-                and pinyin not in
+                and atonal_pinyin not in
                 <foreach item="item" collection="bannedPinyin" open="(" close=")" separator=",">
                     #{item}
                 </foreach>
