@@ -8,9 +8,7 @@ import com.chenhongliang.namegenerator.mapper.OrderMapper;
 import com.chenhongliang.namegenerator.model.*;
 import com.chenhongliang.namegenerator.service.NameGeneratorService;
 import com.chenhongliang.namegenerator.service.OrderService;
-import com.chenhongliang.namegenerator.util.DateStringUtils;
-import com.chenhongliang.namegenerator.util.HttpUtils;
-import com.chenhongliang.namegenerator.util.LunarUtils;
+import com.chenhongliang.namegenerator.util.*;
 import com.chenhongliang.namegenerator.vo.OrderListVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -51,8 +49,8 @@ public class OrderServiceImpl implements OrderService {
         orderModel.setBirthdayLunar(solarToLunar(orderForm.getBirthday()));
         orderModel.setBirthdayHour(orderForm.getBirthdayHour());
         orderModel.setBirthdayMinute(orderForm.getBirthdayMinute());
-        orderModel.setBannedPinyin(orderForm.getBannedPinyin());
-        orderModel.setBannedCharacter(orderForm.getBannedCharacter());
+        orderModel.setBannedPinyin(SplitStringUtils.commaInit(PinyinUtils.getPinyin(orderForm.getBannedPinyin())));
+        orderModel.setBannedCharacter(SplitStringUtils.commaInit(orderForm.getBannedCharacter()));
         orderModel.setGeneration(orderForm.getGeneration());
         orderModel.setStyle(orderForm.getStyle());
         orderModel.setNotes(orderForm.getNotes());
@@ -180,6 +178,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Boolean updateOrder(OrderModel orderModel) {
+        orderModel.setBannedPinyin(SplitStringUtils.commaInit(PinyinUtils.getPinyin(orderModel.getBannedPinyin())));
+        orderModel.setBannedCharacter(SplitStringUtils.commaInit(orderModel.getBannedCharacter()));
         if (!Objects.isNull(orderModel.getTillDeliveryTime())) {
             Date dateNow = new Date();
             Calendar cal = Calendar.getInstance();
