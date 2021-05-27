@@ -618,6 +618,8 @@
                 axios.get('/order/detail/' + item.id)
                     .then((response) => {
                         this.editForm = response.data
+                        this.editForm.birthdayHour = Number(this.editForm.birthdayHour)
+                        this.editForm.birthdayMinute = Number(this.editForm.birthdayMinute)
                         this.nameSizeArray = this.editForm.nameSize.split(', ')
                         this.commentsDialog = true
                     })
