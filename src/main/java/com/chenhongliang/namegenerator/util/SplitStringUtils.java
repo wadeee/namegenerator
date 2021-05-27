@@ -9,7 +9,7 @@ public class SplitStringUtils {
 
     public static List<String> splitString(String str) {
         if (Objects.isNull(str) || str.isEmpty()) return new ArrayList<>();
-        return Arrays.asList(str.split("(　|\\s)*(,|，|　|\\s)(　|\\s)*"));
+        return Arrays.asList(str.split("[　\\s]*[、,，　\\s][　\\s]*"));
     }
 
     public static String commaInit(String str) {
