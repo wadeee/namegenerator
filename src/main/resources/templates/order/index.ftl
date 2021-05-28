@@ -19,7 +19,19 @@
                 ></v-progress-linear>
                 <v-row>
                     <v-col>
-                        <v-card-title>添加订单</v-card-title>
+                        <v-card-title>
+                            添加订单
+                            <v-chip
+                                    class="mr-2"
+                                    @click="getClipboardContent"
+                                    small
+                            >
+                                <v-icon left small>
+                                    mdi-brightness-5
+                                </v-icon>
+                                读取粘贴板
+                            </v-chip>
+                        </v-card-title>
 
                         <v-card-text>
                             <v-form
@@ -327,9 +339,15 @@
                 style: null,
                 notes: null,
             },
+            clipboardContent: null,
             dateMenu: false,
             nameSizeArray: [],
             nameSizes: ["二字名", "三字名", "四字名",],
+            nameSizeMapper: {
+                '2': "二字名",
+                '3': "三字名",
+                '4': "四字名",
+            },
             sexes: ["男", "女", "未知"],
             salesmans: ["婷婷", "肖鑫"],
             nameGivers: ["陈嘉清", "江钰婷"],
@@ -568,6 +586,40 @@
             },
             validate() {
                 return this.$refs.form.validate()
+            },
+            getClipboardContent() {
+                navigator.clipboard.readText()
+                    .then((value) => {
+                        this.clipboardContent = value
+                        this.orderForm.lastname = this.matcher(value, /(?<=姓氏：[　\s]*)[^　\s]+/)
+                        this.orderForm.sex = this.matcher(value, /(?<=性别：[　\s]*)([男女]|未知)/)
+                        this.nameSizeArray = this.nameSizeMatcher(value, /(?<=名字字数【姓\+名】：.*)\d+/g)
+                        this.orderForm.birthday = this.matcher(value, /(?<=【阳历】：[　\s]*)\d*-\d*-\d*/)
+                        this.orderForm.birthdayHour = Number(this.matcher(value, /(?<=【阳历】：.*)\d*(?=:\d*)/))
+                        this.orderForm.birthdayMinute = Number(this.matcher(value, /(?<=【阳历】：.*\d*:)\d*/))
+                        this.orderForm.bannedPinyin = this.matcher(value, /(?<=需避开长辈的字：[　\s]*)[^　\s].+/)
+                        this.orderForm.bannedCharacter = this.matcher(value, /(?<=讨厌的字：[　\s]*)[^　\s].+/)
+                        this.orderForm.style = this.matcher(value, /父母名字：[　\s]*[^　\s].+/) + "\n" + this.matcher(value, /(?<=风格要求：[　\s]*)[^　\s].+/)
+                    })
+                    .catch(() => {
+                        this.errorSnackbar.message = '您的格式不对'
+                        this.errorSnackbar.show = true
+                    })
+            },
+            matcher(str, pattern) {
+                if (str.match(pattern)) {
+                    return str.match(pattern)[0]
+                }
+                return ''
+            },
+            nameSizeMatcher(str, pattern) {
+                let result = []
+                if (str.match(pattern)) {
+                    for(let v of str.match(pattern)) {
+                        result.push(this.nameSizeMapper[v])
+                    }
+                }
+                return result
             },
         },
         watch: {
