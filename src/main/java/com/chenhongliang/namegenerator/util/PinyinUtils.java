@@ -9,6 +9,7 @@ import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombi
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Objects;
 
 public class PinyinUtils {
 
@@ -29,18 +30,20 @@ public class PinyinUtils {
         // outputFormat.setVCharType(HanyuPinyinVCharType.WITH_V);
 
         StringBuilder sb = new StringBuilder();
-        try {
-            for (char c : str.toCharArray()) {
-                // 如果包含有中文标点除号，需要使用正则表达式
-                if (Character.toString(c).matches("[\\u4E00-\\u9FA5]+")) {
-                    // if (c > 128) {
-                    sb.append(Arrays.asList(PinyinHelper.toHanyuPinyinStringArray(c, outputFormat)).toString().replace("[","").replace("]",""));
-                } else {
-                    sb.append(c);
+        if (!Objects.isNull(str)) {
+            try {
+                for (char c : str.toCharArray()) {
+                    // 如果包含有中文标点除号，需要使用正则表达式
+                    if (Character.toString(c).matches("[\\u4E00-\\u9FA5]+")) {
+                        // if (c > 128) {
+                        sb.append(Arrays.asList(PinyinHelper.toHanyuPinyinStringArray(c, outputFormat)).toString().replace("[", "").replace("]", ""));
+                    } else {
+                        sb.append(c);
+                    }
                 }
+            } catch (BadHanyuPinyinOutputFormatCombination e) {
+                e.printStackTrace();
             }
-        } catch (BadHanyuPinyinOutputFormatCombination e) {
-            e.printStackTrace();
         }
         return sb.toString();
     }
