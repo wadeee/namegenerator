@@ -23,7 +23,7 @@
                             添加订单
                             <v-chip
                                     class="mr-2"
-                                    @click="getClipboardContent"
+                                    @click="showClipboardDialog"
                                     small
                             >
                                 <v-icon left small>
@@ -294,6 +294,48 @@
                         </v-card>
                     </v-dialog>
                 </v-row>
+                <v-row justify="center">
+                    <v-dialog
+                            v-model="clipboardDialog"
+                            max-width="550"
+                            scrollable
+                    >
+                        <v-card>
+                            <v-card-title
+                                    class="headline"
+                            >
+                                自动填写
+                            </v-card-title>
+                            <v-divider></v-divider>
+                            <v-card-text
+                            >
+                                <v-row>
+                                    <v-col>
+                                        <v-form
+                                                @submit.prevent="getClipboardContent"
+                                        >
+                                            <v-textarea
+                                                    rows="16"
+                                                    v-model="clipboardContent"
+                                            ></v-textarea>
+                                        </v-form>
+                                    </v-col>
+                                </v-row>
+                            </v-card-text>
+                            <v-divider></v-divider>
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn
+                                        depressed
+                                        color="primary"
+                                        @click="getClipboardContent"
+                                >
+                                    确认
+                                </v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-dialog>
+                </v-row>
             </v-container>
         </v-main>
         <#include "/common/snakbar.ftl">
@@ -312,6 +354,7 @@
         }),
         data: {
             visitCnt: null,
+            clipboardDialog: false,
             rules: [
                 value => !!value || '必填',
             ],
@@ -339,7 +382,7 @@
                 style: null,
                 notes: null,
             },
-            clipboardContent: null,
+            clipboardContent: "姓氏：\n性别：\n名字字数【姓+名】：\n出生时间【注明早中晚精确到几点几分】\n【阳历】：\n【农历】：\n需避开长辈的字：\n{主要是避免重音或者重名}\n出生地点：\n讨厌的字：\n父母名字：\n风格要求：\n其他需求【是否排辈等】：\n",
             dateMenu: false,
             nameSizeArray: [],
             nameSizes: ["二字名", "三字名", "四字名",],
@@ -588,27 +631,25 @@
                 return this.$refs.form.validate()
             },
             getClipboardContent() {
-                navigator.clipboard.readText()
-                    .then((value) => {
-                        this.clipboardContent = value
-                        this.orderForm.lastname = this.matcher(value, /(?<=姓氏：[　\s]*)[^　\s]+/)
-                        this.orderForm.sex = this.matcher(value, /(?<=性别：[　\s]*)([男女]|未知)/)
-                        this.nameSizeArray = this.nameSizeMatcher(value, /(?<=名字字数【姓\+名】：.*)\d+/g)
-                        this.orderForm.birthday = this.matcher(value, /(?<=【阳历】：[　\s]*)\d*-\d*-\d*/)
-                        this.orderForm.birthdayHour = Number(this.matcher(value, /(?<=【阳历】：.*)\d*(?=:\d*)/))
-                        this.orderForm.birthdayMinute = Number(this.matcher(value, /(?<=【阳历】：.*\d*:)\d*/))
-                        this.orderForm.bannedPinyin = this.matcher(value, /(?<=需避开长辈的字：[　\s]*)[^　\s].+/)
-                        this.orderForm.bannedCharacter = this.matcher(value, /(?<=讨厌的字：[　\s]*)[^　\s].+/)
-                        this.orderForm.style = this.matcher(value, /父母名字：[　\s]*[^　\s].+/) + "\n" + this.matcher(value, /(?<=风格要求：[　\s]*)[^　\s].+/)
-                        this.orderForm.notes = this.matcher(value, /(?<=其他需求【是否排辈等】：[　\s]*)[^　\s].+/)
-                    })
-                    .catch(() => {
-                        this.errorSnackbar.message = '您的格式不对'
-                        this.errorSnackbar.show = true
-                    })
+                this.orderForm.lastname = this.matcher(this.clipboardContent, /(?<=姓氏：[　\s]*)[^　\s]*/)
+                this.orderForm.sex = this.matcher(this.clipboardContent, /(?<=性别：[　\s]*)([男女]|未知)/)
+                this.nameSizeArray = this.nameSizeMatcher(this.clipboardContent, /(?<=名字字数【姓\+名】：.*)\d+/g)
+                this.orderForm.birthday = this.matcher(this.clipboardContent, /(?<=【阳历】：[　\s]*)\d*-\d*-\d*/)
+                this.orderForm.birthdayHour = Number(this.matcher(this.clipboardContent, /(?<=【阳历】：.*)\d*(?=:\d*)/))
+                this.orderForm.birthdayMinute = Number(this.matcher(this.clipboardContent, /(?<=【阳历】：.*\d*:)\d*/))
+                this.orderForm.bannedPinyin = this.matcher(this.clipboardContent, /(?<=需避开长辈的字：[　\s]*).*/)
+                this.orderForm.bannedCharacter = this.matcher(this.clipboardContent, /(?<=讨厌的字：[　\s]*).*/)
+                let parentsName = this.matcher(this.clipboardContent, /(?<=父母名字：[　\s]*).*/)
+                this.orderForm.style = (parentsName===''?'':'父母名字：' + parentsName + "\n") + this.matcher(this.clipboardContent, /(?<=风格要求：[　\s]*).*/)
+                this.orderForm.notes = this.matcher(this.clipboardContent, /(?<=其他需求【是否排辈等】：[　\s]*).*/)
+                this.clipboardDialog = false
+            },
+            showClipboardDialog() {
+                this.clipboardDialog = true
             },
             matcher(str, pattern) {
                 if (str.match(pattern)) {
+                    console.log(str.match(pattern))
                     return str.match(pattern)[0]
                 }
                 return ''
