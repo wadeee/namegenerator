@@ -600,6 +600,7 @@
                         this.orderForm.bannedPinyin = this.matcher(value, /(?<=需避开长辈的字：[　\s]*)[^　\s].+/)
                         this.orderForm.bannedCharacter = this.matcher(value, /(?<=讨厌的字：[　\s]*)[^　\s].+/)
                         this.orderForm.style = this.matcher(value, /父母名字：[　\s]*[^　\s].+/) + "\n" + this.matcher(value, /(?<=风格要求：[　\s]*)[^　\s].+/)
+                        this.orderForm.notes = this.matcher(value, /(?<=其他需求【是否排辈等】：[　\s]*)[^　\s].+/)
                     })
                     .catch(() => {
                         this.errorSnackbar.message = '您的格式不对'
