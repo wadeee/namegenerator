@@ -230,7 +230,7 @@
                                         <v-col cols="6">
                                             <v-text-field
                                                     v-model="editForm.generation"
-                                                    label="第二个字固定字（字辈）"
+                                                    label="固定字（字辈）"
                                             ></v-text-field>
                                         </v-col>
                                         <v-col cols="6">

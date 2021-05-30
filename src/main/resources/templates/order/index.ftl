@@ -183,7 +183,7 @@
                                     <v-col cols="4">
                                         <v-text-field
                                                 v-model="orderForm.generation"
-                                                label="第二个字固定字（字辈）"
+                                                label="固定字（字辈）"
                                         ></v-text-field>
                                     </v-col>
                                 </v-row>

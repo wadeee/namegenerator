@@ -16,7 +16,7 @@ public interface NameGeneratorService {
 
     String newNameFromCharacter(NameConstrainForm nameConstrainForm, Map<String, List<String>> wuxingToCharactersMap);
 
-    OrderGeneratedNameModel getNameInfoFromCharacter(String name);
+    OrderGeneratedNameModel getNameInfoFromCharacter(String name, String generation);
 
     OrderGeneratedNameModel getNameInfoFromNameLibrary(String name);
 }

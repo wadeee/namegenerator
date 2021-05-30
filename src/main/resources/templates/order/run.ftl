@@ -182,7 +182,7 @@
                                     </v-col>
                                     <v-col cols="6">
                                         <v-list-item>
-                                            <v-list-item-action>第二个字固定字（字辈）</v-list-item-action>
+                                            <v-list-item-action>固定字（字辈）</v-list-item-action>
                                             <v-list-item-content>
                                                 <v-list-item-title>{{orderInfo.generation}}</v-list-item-title>
                                             </v-list-item-content>
@@ -437,7 +437,7 @@
                                                 <v-list-item>
                                                     <v-list-item-action>姓名</v-list-item-action>
                                                     <v-list-item-content>
-                                                        <v-list-item-title>{{orderInfo.lastname + (orderInfo.generation?orderInfo.generation:'') + item.name}}</v-list-item-title>
+                                                        <v-list-item-title>{{orderInfo.lastname + item.name}}</v-list-item-title>
                                                     </v-list-item-content>
                                                 </v-list-item>
                                                 <v-list-item>
@@ -691,7 +691,7 @@
                     })
             },
             copyContent(item) {
-                let result = '姓名：' + this.orderInfo.lastname + (item.name.startsWith(this.orderInfo.generation)?'':this.orderInfo.generation) + item.name + '\n' +
+                let result = '姓名：' + this.orderInfo.lastname + item.name + '\n' +
                     '拼音：' + item.pinyin + '\n' +
                     '五行：' + item.wuxing + '\n' +
                     '字义：' + item.meaning + '\n' +
