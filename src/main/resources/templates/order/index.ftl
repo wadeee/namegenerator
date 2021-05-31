@@ -29,7 +29,7 @@
                                 <v-icon left small>
                                     mdi-brightness-5
                                 </v-icon>
-                                读取粘贴板
+                                自动填写
                             </v-chip>
                         </v-card-title>
 
