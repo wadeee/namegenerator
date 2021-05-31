@@ -2,6 +2,7 @@ package com.chenhongliang.namegenerator.service.impl;
 
 import com.chenhongliang.namegenerator.form.CustomerInfoForm;
 import com.chenhongliang.namegenerator.mapper.CustomerInfoMapper;
+import com.chenhongliang.namegenerator.mapper.FollowMapper;
 import com.chenhongliang.namegenerator.model.CustomerInfoModel;
 import com.chenhongliang.namegenerator.service.CustomerInfoService;
 import com.chenhongliang.namegenerator.util.DateStringUtils;
@@ -11,9 +12,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class CustomerInfoServiceImpl implements CustomerInfoService {
@@ -21,6 +20,8 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
     @Autowired
     private CustomerInfoMapper customerInfoMapper;
 
+    @Autowired
+    private FollowMapper followMapper;
 
     @Override
     public Boolean insert(CustomerInfoForm customerInfoForm) {
@@ -56,5 +57,20 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
     @Override
     public Integer getVisitCnt() {
         return customerInfoMapper.getVisitCnt(DateStringUtils.dateToString(new Date()));
+    }
+
+    @Override
+    public Map<String, Integer> getSalesmanCount() {
+        Map<String, Integer> result = new LinkedHashMap<>();
+        Calendar cal = Calendar.getInstance();
+        Integer month = cal.get(Calendar.MONTH) + 1;
+        Integer year = cal.get(Calendar.YEAR);
+        result.put("肖鑫", nullToInt(followMapper.getCount(year, month, "肖鑫")));
+        result.put("婷婷", nullToInt(followMapper.getCount(year, month, "婷婷")));
+        return result;
+    }
+
+    private Integer nullToInt(Integer origin) {
+        return Objects.isNull(origin)?0:origin;
     }
 }

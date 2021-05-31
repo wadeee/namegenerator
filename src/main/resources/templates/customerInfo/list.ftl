@@ -11,6 +11,16 @@
             <v-container>
                 <v-row>
                     <v-col>
+                        <v-card-title>
+                            应回访列表
+                            <v-chip
+                                    class="ma-2"
+                                    v-for="(value, key) in salesmanCount"
+                                    :key = 'key'
+                            >
+                                {{key}} | {{value}}
+                            </v-chip>
+                        </v-card-title>
                         <v-data-table
                                 :headers="headers"
                                 :items="customerInfoList"
@@ -55,6 +65,7 @@
         }),
         data: {
             visitCnt: null,
+            salesmanCount: {},
             headers: [
                 {
                     text: '微信号',
@@ -120,6 +131,12 @@
                         }
                     })
             },
+            refreshSalesmanCount() {
+                axios.get('/customer-info/salesman-count')
+                    .then((response) => {
+                        this.salesmanCount = response.data
+                    })
+            },
         },
         watch: {
             'pageNo': function () {
@@ -132,6 +149,7 @@
                 .then((response) => {
                     this.visitCnt = response.data;
                 })
+            this.refreshSalesmanCount()
         },
     })
 

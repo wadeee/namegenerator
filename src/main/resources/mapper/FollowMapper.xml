@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chenhongliang.namegenerator.mapper.FollowMapper">
+
+    <insert id="insert">
+        insert into follow
+            (`year`, `month`, `name`)
+        select #{year}, #{month}, #{name}
+        from dual
+        where not exists(select 1 from follow where `year` = #{year} and `month` = #{month} and `name` = #{name})
+    </insert>
+
+    <insert id="update">
+        update follow set `count` = `count` + 1
+        where `year` = #{year}
+            and `month` = #{month}
+            and `name` = #{name}
+    </insert>
+
+    <select id="getCount" resultType="Integer">
+        select `count`
+        from follow
+        where `year` = #{year}
+          and `month` = #{month}
+          and `name` = #{name}
+    </select>
+</mapper>
