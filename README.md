@@ -8,6 +8,7 @@
 - Vue + Vuetify
 - FreeMarker
 - Mybatis
+- cloc（代码统计）
 
 ## 页面统计
 
