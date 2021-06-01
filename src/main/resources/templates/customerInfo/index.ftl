@@ -89,7 +89,7 @@
                 birthday: null,
             },
             dateMenu: false,
-            salesmans: ["婷婷", "肖鑫"],
+            salesmans: ["婷婷", "肖鑫", "林煌涛"],
             errorSnackbar: {
                 message: "客户信息上传失败",
                 show: false,

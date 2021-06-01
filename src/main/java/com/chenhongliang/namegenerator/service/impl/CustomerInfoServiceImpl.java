@@ -67,6 +67,7 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         Integer year = cal.get(Calendar.YEAR);
         result.put("肖鑫", nullToInt(followMapper.getCount(year, month, "肖鑫")));
         result.put("婷婷", nullToInt(followMapper.getCount(year, month, "婷婷")));
+        result.put("林煌涛", nullToInt(followMapper.getCount(year, month, "林煌涛")));
         return result;
     }
 

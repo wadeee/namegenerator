@@ -443,7 +443,7 @@
             nameSizeArray: ["三字名"],
             nameSizes: ["二字名", "三字名", "四字名",],
             sexes: ["男", "女", "未知"],
-            salesmans: ["婷婷", "肖鑫"],
+            salesmans: ["婷婷", "肖鑫", "林煌涛"],
             nameGivers: ["陈嘉清", "江钰婷"],
             plans: [
                 "寓意起名套餐1",
