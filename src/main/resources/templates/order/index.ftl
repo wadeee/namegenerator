@@ -649,7 +649,6 @@
             },
             matcher(str, pattern) {
                 if (str.match(pattern)) {
-                    console.log(str.match(pattern))
                     return str.match(pattern)[0]
                 }
                 return ''
