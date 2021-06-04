@@ -133,6 +133,18 @@
                 <v-list-item-title>待交付列表</v-list-item-title>
             </v-list-item-content>
         </v-list-item>
+        <v-list-item
+                link
+                href="/hongyan"
+                active
+        >
+            <v-list-item-icon>
+                <v-icon>mdi-zip-box</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+                <v-list-item-title>红铟API</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
     </v-list>
 
 </v-navigation-drawer>
