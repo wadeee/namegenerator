@@ -27,7 +27,7 @@ public class HongyanController {
 
     @GetMapping
     public String index(Model model) {
-        model.addAttribute("title", "玖言国学起名八字算命系统");
+        model.addAttribute("title", "红铟API请求");
         return "hongyan/index";
     }
 
@@ -64,7 +64,7 @@ public class HongyanController {
         querys.put("xing", lastName);
 
         model.addAttribute("formInfo", formInfo);
-        model.addAttribute("title", "玖言国学起名八字算命系统");
+        model.addAttribute("title", "红铟API请求");
 
         if (service != null) {
             if (service.contains("mingpen")) {
