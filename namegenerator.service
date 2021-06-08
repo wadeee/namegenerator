@@ -1,7 +1,0 @@
-[Unit]
-Description=namegenerator
-[Service]
-TimeoutStartSec=0
-ExecStart=/bin/java -XX:CompressedClassSpaceSize=15m -XX:ReservedCodeCacheSize=20m -XX:InitialCodeCacheSize=20m -Xms160m -Xmx160m -Xmn70m -jar /root/NameGenerator/build/libs/namegenerator-1.0.jar --server.port=5002
-[Install]
-WantedBy=multi-user.target
