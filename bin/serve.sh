@@ -1,13 +1,14 @@
 #!/bin/sh
 
 ## make this file runnable
-chmod +x ./inst.sh
+chmod +x ./*.sh
 
 cd ../
 
 ## build the jar ##
 gradle bootJar --no-daemon
-cp --path ./build/libs/namegenerator-1.0.jar /root/jars/namegenerator.jar
+mkdir -p /root/jars
+cp ./build/libs/namegenerator-1.0.jar /root/jars/namegenerator.jar
 
 cd ./bin/config
 
