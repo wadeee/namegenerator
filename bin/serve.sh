@@ -1,6 +1,6 @@
 #!/bin/sh
 
-## make this file runnable
+## make shell file runnable
 chmod +x ./*.sh
 
 cd ../
