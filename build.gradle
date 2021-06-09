@@ -20,7 +20,7 @@ remotes {
 
 group = 'com.chenhongliang'
 version = '1.0'
-sourceCompatibility = '1.8'
+sourceCompatibility = JavaVersion.VERSION_1_8
 
 configurations {
     compileOnly {
