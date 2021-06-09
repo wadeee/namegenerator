@@ -6,8 +6,13 @@ plugins {
 }
 
 remotes {
-    webServer {
+    stage {
         host = '192.168.0.91'
+        user = 'root'
+        identity = file('C:/Users/TS/.ssh/id_rsa_ssh8')
+    }
+    production {
+        host = '47.105.99.75'
         user = 'root'
         identity = file('C:/Users/TS/.ssh/id_rsa_ssh8')
     }
@@ -63,13 +68,34 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
+task deployStage(dependsOn: bootJar) {
+    doLast {
+        ssh.settings {
+            knownHosts = allowAnyHosts
+        }
+        ssh.run {
+            session(remotes.stage) {
+                put from: "${buildDir}/libs/namegenerator-${version}.jar", into: '/root/jars/namegenerator.jar'
+                put from: "${rootDir}/bin/config/namegenerator.service", into: '/etc/systemd/system/'
+                put from: "${rootDir}/bin/config/namegenerator.nginx.http.conf", into: '/etc/nginx/conf.d/'
+                execute """
+                    systemctl daemon-reload
+                    systemctl enable namegenerator
+                    systemctl restart namegenerator
+                    systemctl restart nginx
+                """
+            }
+        }
+    }
+}
+
 task deploy(dependsOn: bootJar) {
     doLast {
         ssh.settings {
             knownHosts = allowAnyHosts
         }
         ssh.run {
-            session(remotes.webServer) {
+            session(remotes.production) {
                 put from: "${buildDir}/libs/namegenerator-${version}.jar", into: '/root/jars/namegenerator.jar'
                 put from: "${rootDir}/bin/config/namegenerator.service", into: '/etc/systemd/system/'
                 put from: "${rootDir}/bin/config/namegenerator.nginx.http.conf", into: '/etc/nginx/conf.d/'
