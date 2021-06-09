@@ -2,6 +2,15 @@ plugins {
     id 'org.springframework.boot' version '2.4.4'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id 'org.hidetake.ssh' version '2.10.1'
+}
+
+remotes {
+    webServer {
+        host = '192.168.0.91'
+        user = 'root'
+        identity = file('C:/Users/TS/.ssh/id_rsa_ssh8')
+    }
 }
 
 group = 'com.chenhongliang'
@@ -52,6 +61,27 @@ dependencies {
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+task deploy(dependsOn: bootJar) {
+    doLast {
+        ssh.settings {
+            knownHosts = allowAnyHosts
+        }
+        ssh.run {
+            session(remotes.webServer) {
+                put from: "${buildDir}/libs/namegenerator-${version}.jar", into: '/root/jars/namegenerator.jar'
+                put from: "${rootDir}/bin/config/namegenerator.service", into: '/etc/systemd/system/'
+                put from: "${rootDir}/bin/config/namegenerator.nginx.http.conf", into: '/etc/nginx/conf.d/'
+                execute """
+                    systemctl daemon-reload
+                    systemctl enable namegenerator
+                    systemctl restart namegenerator
+                    systemctl restart nginx
+                """
+            }
+        }
+    }
 }
 
 test {
