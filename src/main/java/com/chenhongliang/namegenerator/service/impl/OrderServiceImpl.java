@@ -276,8 +276,6 @@ public class OrderServiceImpl implements OrderService {
 
         if (orderModel.getPlan().startsWith("八字")) {
             List<String> wuxingLack = new ArrayList<>();
-            System.out.println(Integer.valueOf(mingpenModel.getMu().substring(2,3)));
-            System.out.println(Integer.valueOf(mingpenModel.getMu().substring(2,3)).equals(0));
             if (Integer.valueOf(mingpenModel.getJin().substring(2,3)).equals(0)) {
                 wuxingLack.add("金");
             }
@@ -298,6 +296,8 @@ public class OrderServiceImpl implements OrderService {
             } else {
                 replaceMap.put("${wuxinglack}", "缺" + StringUtils.join(wuxingLack, "、"));
             }
+
+            replaceMap.put("${xiyongwuxing}", Objects.isNull(orderModel.getWuxing())?"":orderModel.getWuxing().replace(" ",""));
         }
 
         for (Integer i = 0; i < 20; i++) {
@@ -305,8 +305,8 @@ public class OrderServiceImpl implements OrderService {
                 replaceMap.put("${name" + i + "}", orderModel.getLastname() + runInfoModelList.get(i).getName() + "【" + runInfoModelList.get(i).getWuxing() + "】");
                 replaceMap.put("${meaning" + i + "}", runInfoModelList.get(i).getMeaning());
             } else {
-                replaceMap.put("${name" + i + "}", "");
-                replaceMap.put("${meaning" + i + "}", "");
+                replaceMap.put("${name" + i + "}", null);
+                replaceMap.put("${meaning" + i + "}", null);
             }
         }
 
@@ -325,13 +325,11 @@ public class OrderServiceImpl implements OrderService {
             if (!Objects.isNull(text) && !text.isEmpty()) {
                 for (String key : replaceMap.keySet()) {
                     if (text.contains(key)) {
-                        if (replaceMap.get(key).isEmpty()) {
+                        if (Objects.isNull(replaceMap.get(key))) {
                             toDeleteList.add(p);
                         } else {
                             List<XWPFRun> runs = p.getRuns();
                             for (XWPFRun r : runs) {
-                                System.out.println("[r]");
-                                System.out.println(r.text());
                                 if (r.text().contains(key)) {
                                     r.setText(replaceMap.get(key), 0);
                                     if (key.startsWith("${mean")) {
