@@ -12,11 +12,19 @@ import com.chenhongliang.namegenerator.util.*;
 import com.chenhongliang.namegenerator.vo.OrderListVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
+import org.apache.poi.xwpf.usermodel.BreakType;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -151,7 +159,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private String objToString(Object obj) {
-        return Objects.isNull(obj)?null:String.valueOf(obj);
+        return Objects.isNull(obj) ? null : String.valueOf(obj);
     }
 
     @Override
@@ -247,7 +255,116 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.finishOrder(orderId, resultName);
     }
 
-    private Map getMapFromAPI(String path, Map<String, String> querys){
+    @Override
+    public List<OrderRunInfoModel> getOrderRunInfo(String orderId) {
+        return orderMapper.getOrderRunInfo(orderId);
+    }
+
+    @Override
+    public Boolean modifyOrderRunInfo(String orderId,
+                                      List<OrderRunInfoModel> runInfoModelList,
+                                      HttpServletResponse response) throws IOException {
+        orderMapper.removeOrderRunInfo(orderId);
+        for (OrderRunInfoModel item : runInfoModelList) {
+            orderMapper.addOrderRunInfo(item);
+        }
+        OrderModel orderModel = orderMapper.getDetail(orderId);
+        MingjuModel mingjuModel = orderMapper.getMingju(orderId);
+        MingpenModel mingpenModel = orderMapper.getMingpen(orderId);
+        Map<String, String> replaceMap = new HashMap<>();
+
+
+        if (orderModel.getPlan().startsWith("八字")) {
+            List<String> wuxingLack = new ArrayList<>();
+            System.out.println(Integer.valueOf(mingpenModel.getMu().substring(2,3)));
+            System.out.println(Integer.valueOf(mingpenModel.getMu().substring(2,3)).equals(0));
+            if (Integer.valueOf(mingpenModel.getJin().substring(2,3)).equals(0)) {
+                wuxingLack.add("金");
+            }
+            if (Integer.valueOf(mingpenModel.getMu().substring(2,3)).equals(0)) {
+                wuxingLack.add("木");
+            }
+            if (Integer.valueOf(mingpenModel.getShui().substring(2,3)).equals(0)) {
+                wuxingLack.add("水");
+            }
+            if (Integer.valueOf(mingpenModel.getHuo().substring(2,3)).equals(0)) {
+                wuxingLack.add("火");
+            }
+            if (Integer.valueOf(mingpenModel.getTu().substring(2,3)).equals(0)) {
+                wuxingLack.add("土");
+            }
+            if (wuxingLack.isEmpty()) {
+                replaceMap.put("${wuxinglack}", "全");
+            } else {
+                replaceMap.put("${wuxinglack}", "缺" + StringUtils.join(wuxingLack, "、"));
+            }
+        }
+
+        for (Integer i = 0; i < 20; i++) {
+            if (i < runInfoModelList.size()) {
+                replaceMap.put("${name" + i + "}", orderModel.getLastname() + runInfoModelList.get(i).getName() + "【" + runInfoModelList.get(i).getWuxing() + "】");
+                replaceMap.put("${meaning" + i + "}", runInfoModelList.get(i).getMeaning());
+            } else {
+                replaceMap.put("${name" + i + "}", "");
+                replaceMap.put("${meaning" + i + "}", "");
+            }
+        }
+
+        ClassPathResource resource = new ClassPathResource("wordTemplate/template.docx");
+        XWPFDocument doc = new XWPFDocument(resource.getInputStream());
+        List<XWPFParagraph> toDeleteList = new ArrayList<>();
+
+        /**
+         * 替换段落中指定的文本
+         */
+        for (int i = doc.getParagraphs().size() - 1; i >= 0; i--) {
+            XWPFParagraph p = doc.getParagraphs().get(i);
+            String text = p.getText();
+            System.out.println("[p]");
+            System.out.println(text);
+            if (!Objects.isNull(text) && !text.isEmpty()) {
+                for (String key : replaceMap.keySet()) {
+                    if (text.contains(key)) {
+                        if (replaceMap.get(key).isEmpty()) {
+                            toDeleteList.add(p);
+                        } else {
+                            List<XWPFRun> runs = p.getRuns();
+                            for (XWPFRun r : runs) {
+                                System.out.println("[r]");
+                                System.out.println(r.text());
+                                if (r.text().contains(key)) {
+                                    r.setText(replaceMap.get(key), 0);
+                                    if (key.startsWith("${mean")) {
+                                        r.addBreak(BreakType.TEXT_WRAPPING);
+                                        r.addBreak(BreakType.TEXT_WRAPPING);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        for (XWPFParagraph toDelete : toDeleteList) {
+            doc.removeBodyElement(doc.getPosOfParagraph(toDelete));
+        }
+
+        docToResponse(doc, response);
+
+        return true;
+    }
+
+    private void docToResponse(XWPFDocument doc, HttpServletResponse response) throws IOException {
+
+        doc.write(response.getOutputStream());
+        response.addHeader("Content-Disposition", "attachment; filename=template.docx");
+        response.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+        response.getOutputStream().flush();
+        response.getOutputStream().close();
+    }
+
+    private Map getMapFromAPI(String path, Map<String, String> querys) {
         String host = "https://openapi.fatebox.cn";
         String method = "GET";
         String appcode = "32cf3b4f21904b27bd7877354307b724";

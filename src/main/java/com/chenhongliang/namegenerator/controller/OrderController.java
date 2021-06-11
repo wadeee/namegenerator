@@ -2,10 +2,7 @@ package com.chenhongliang.namegenerator.controller;
 
 import com.chenhongliang.namegenerator.form.OrderCommentForm;
 import com.chenhongliang.namegenerator.form.OrderForm;
-import com.chenhongliang.namegenerator.model.MingjuModel;
-import com.chenhongliang.namegenerator.model.MingpenModel;
-import com.chenhongliang.namegenerator.model.OrderCommentModel;
-import com.chenhongliang.namegenerator.model.OrderModel;
+import com.chenhongliang.namegenerator.model.*;
 import com.chenhongliang.namegenerator.service.NameGeneratorService;
 import com.chenhongliang.namegenerator.service.OrderService;
 import com.chenhongliang.namegenerator.vo.OrderListVo;
@@ -15,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -159,6 +158,20 @@ public class OrderController {
     @ResponseBody
     public Boolean finishOrder(@PathVariable("id") String id, @RequestBody Map<String, String> info) {
         return orderService.finishOrder(id, info.get("resultName"));
+    }
+
+    @GetMapping("/run-info/{id}")
+    @ResponseBody
+    public List<OrderRunInfoModel> orderRunInfo(@PathVariable("id") String id) {
+        return orderService.getOrderRunInfo(id);
+    }
+
+    @PostMapping("/run-info/{id}")
+    @ResponseBody
+    public void modifyOrderRunInfo(@PathVariable("id") String id,
+                                      @RequestBody List<OrderRunInfoModel> info,
+                                      HttpServletResponse response) throws IOException {
+        orderService.modifyOrderRunInfo(id, info, response);
     }
 
 }
