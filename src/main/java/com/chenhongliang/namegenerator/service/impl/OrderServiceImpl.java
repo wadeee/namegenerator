@@ -298,6 +298,19 @@ public class OrderServiceImpl implements OrderService {
             }
 
             replaceMap.put("${xiyongwuxing}", Objects.isNull(orderModel.getWuxing())?"":orderModel.getWuxing().replace(" ",""));
+
+            if (Objects.isNull(orderModel.getBirthday()) || orderModel.getBirthday().isEmpty()) {
+                Calendar cal = Calendar.getInstance();
+                replaceMap.put("${shangyun}", NumberUtil.int2chineseNum(Integer.valueOf(mingpenModel.getJiaoyunshijian().substring(0, 4)) - Integer.valueOf(cal.get(Calendar.YEAR))));
+            } else {
+                replaceMap.put("${shangyun}", NumberUtil.int2chineseNum(Integer.valueOf(mingpenModel.getJiaoyunshijian().substring(0, 4)) - Integer.valueOf(orderModel.getBirthday().substring(0, 4))));
+            }
+
+            List<String> yiji = Arrays.asList(mingjuModel.getYiji().replace("。", "。/n").split("/n"));
+            for (String yiji: ) {
+
+            }
+            replaceMap.put("${yiji}", yiji);
         }
 
         for (Integer i = 0; i < 20; i++) {
@@ -322,6 +335,13 @@ public class OrderServiceImpl implements OrderService {
             String text = p.getText();
             System.out.println("[p]");
             System.out.println(text);
+            {
+                List<XWPFRun> runs = p.getRuns();
+                for (XWPFRun r : runs) {
+                    System.out.println("[r]");
+                    System.out.println(r.text());
+                }
+            }
             if (!Objects.isNull(text) && !text.isEmpty()) {
                 for (String key : replaceMap.keySet()) {
                     if (text.contains(key)) {
@@ -330,6 +350,8 @@ public class OrderServiceImpl implements OrderService {
                         } else {
                             List<XWPFRun> runs = p.getRuns();
                             for (XWPFRun r : runs) {
+//                                System.out.println("[r]");
+//                                System.out.println(r.text());
                                 if (r.text().contains(key)) {
                                     r.setText(replaceMap.get(key), 0);
                                     if (key.startsWith("${mean")) {
