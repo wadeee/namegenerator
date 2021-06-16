@@ -75,14 +75,37 @@ task deployStage(dependsOn: bootJar) {
         }
         ssh.run {
             session(remotes.stage) {
-                put from: "${buildDir}/libs/namegenerator-${version}.jar", into: '/root/jars/namegenerator.jar'
-                put from: "${rootDir}/bin/config/namegenerator.service", into: '/etc/systemd/system/'
-                put from: "${rootDir}/bin/config/namegenerator.nginx.http.conf", into: '/etc/nginx/conf.d/'
+                put from: "${buildDir}/libs/${rootProject.name}-${version}.jar", into: "/root/jars/${rootProject.name}.jar"
+                put from: "${rootDir}/bin/config/${rootProject.name}.service", into: "/usr/lib/systemd/system/"
+                put from: "${rootDir}/bin/config/${rootProject.name}.nginx.http.conf", into: "/etc/nginx/conf.d/"
                 execute """
                     systemctl daemon-reload
-                    systemctl enable namegenerator
-                    systemctl restart namegenerator
+                    systemctl enable ${rootProject.name}
+                    systemctl restart ${rootProject.name}
                     systemctl restart nginx
+                """
+            }
+        }
+    }
+}
+
+task removeStage {
+    doLast {
+        ssh.settings {
+            knownHosts = allowAnyHosts
+        }
+        ssh.run {
+            session(remotes.stage) {
+                execute """
+                    systemctl stop ${rootProject.name}
+                    systemctl disable ${rootProject.name}
+                    rm /usr/lib/systemd/system/${rootProject.name}.service
+                    systemctl daemon-reload
+                    
+                    rm /etc/nginx/conf.d/${rootProject.name}.nginx.http.conf
+                    systemctl restart nginx
+                    
+                    rm /root/jars/${rootProject.name}.jar
                 """
             }
         }
@@ -96,14 +119,37 @@ task deploy(dependsOn: bootJar) {
         }
         ssh.run {
             session(remotes.production) {
-                put from: "${buildDir}/libs/namegenerator-${version}.jar", into: '/root/jars/namegenerator.jar'
-                put from: "${rootDir}/bin/config/namegenerator.service", into: '/etc/systemd/system/'
-                put from: "${rootDir}/bin/config/namegenerator.nginx.http.conf", into: '/etc/nginx/conf.d/'
+                put from: "${buildDir}/libs/${rootProject.name}-${version}.jar", into: "/root/jars/${rootProject.name}.jar"
+                put from: "${rootDir}/bin/config/${rootProject.name}.service", into: "/usr/lib/systemd/system/"
+                put from: "${rootDir}/bin/config/${rootProject.name}.nginx.http.conf", into: "/etc/nginx/conf.d/"
                 execute """
                     systemctl daemon-reload
-                    systemctl enable namegenerator
-                    systemctl restart namegenerator
+                    systemctl enable ${rootProject.name}
+                    systemctl restart ${rootProject.name}
                     systemctl restart nginx
+                """
+            }
+        }
+    }
+}
+
+task removeDeploy {
+    doLast {
+        ssh.settings {
+            knownHosts = allowAnyHosts
+        }
+        ssh.run {
+            session(remotes.production) {
+                execute """
+                    systemctl stop ${rootProject.name}
+                    systemctl disable ${rootProject.name}
+                    rm /usr/lib/systemd/system/${rootProject.name}.service
+                    systemctl daemon-reload
+                    
+                    rm /etc/nginx/conf.d/${rootProject.name}.nginx.http.conf
+                    systemctl restart nginx
+                    
+                    rm /root/jars/${rootProject.name}.jar
                 """
             }
         }
