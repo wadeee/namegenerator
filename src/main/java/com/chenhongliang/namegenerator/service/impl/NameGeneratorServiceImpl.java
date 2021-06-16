@@ -54,9 +54,15 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
                 wuxingToCharactersMap.put(temp, singleCharacterMapper.constrainedCharacters(nameConstrainFormNow));
             }
         }
+        int loopCnt = 0;
         while (addList.size() < 20) {
             String generatedName = newNameFromCharacter(nameConstrainForm, wuxingToCharactersMap);
-            if (Objects.isNull(generatedName)) continue;
+            if (Objects.isNull(generatedName)) {
+                if (loopCnt > 10) break;
+                loopCnt++;
+                continue;
+            }
+            loopCnt = 0;
             Boolean flag = true;
             for (OrderGeneratedNameModel temp : orderGeneratedNameModelList) {
                 if (generatedName.equals(temp.getName())) {
@@ -127,7 +133,7 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
         if (addList.size() < 20) {
             namesList = new ArrayList<>();
             List<String> wuxingList = new ArrayList<>();
-            for (String wuxing: nameConstrainForm.getWuxing()) {
+            for (String wuxing : nameConstrainForm.getWuxing()) {
                 wuxingList.add(wuxing);
                 wuxingList.add(wuxing + " " + wuxing);
                 wuxingList.add(wuxing + " " + wuxing + " " + wuxing);
@@ -200,8 +206,7 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
         return orderMapper.clearGeneratedNames(orderId);
     }
 
-    @Override
-    public String newNameFromCharacter(NameConstrainForm nameConstrainForm, Map<String, List<String>> wuxingToCharactersMap) {
+    private String newNameFromCharacter(NameConstrainForm nameConstrainForm, Map<String, List<String>> wuxingToCharactersMap) {
         Integer nameSize = RandomUtils.randomSelect(nameConstrainForm.getNameSize());
         List<String> wuxingOrder;
         if (Objects.isNull(nameConstrainForm.getWuxing()) || nameConstrainForm.getWuxing().isEmpty()) {
@@ -286,7 +291,7 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
         nameConstrainForm.setLastname(orderModel.getLastname());
         nameConstrainForm.setSex(orderModel.getSex());
         List<Integer> nameSizeList = new ArrayList<>();
-        Integer generationCounter = isNameLibrary ? 0 : (Objects.isNull(orderModel.getGeneration())?0:orderModel.getGeneration().length());
+        Integer generationCounter = isNameLibrary ? 0 : (Objects.isNull(orderModel.getGeneration()) ? 0 : orderModel.getGeneration().length());
         if (orderModel.getNameSize().contains("二字名")) {
             nameSizeList.add(1 - generationCounter);
         }
