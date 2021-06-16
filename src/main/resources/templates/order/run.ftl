@@ -22,203 +22,203 @@
                         <v-card-title>执行订单</v-card-title>
                         <v-card>
                             <v-card-text>
-                            <v-list>
-                                <v-row>
-                                    <v-col cols="6">
-                                        <v-list-item>
-                                            <v-list-item-action>订单编号</v-list-item-action>
-                                            <v-list-item-content>
-                                                <v-list-item-title>{{orderInfo.orderNumber}}</v-list-item-title>
-                                            </v-list-item-content>
-                                        </v-list-item>
-                                    </v-col>
-                                    <v-col cols="6">
-                                        <v-list-item>
-                                            <v-list-item-action>销售姓名</v-list-item-action>
-                                            <v-list-item-content>
-                                                <v-list-item-title>{{orderInfo.salesman}}</v-list-item-title>
-                                            </v-list-item-content>
-                                        </v-list-item>
-                                    </v-col>
-                                    <v-col cols="6">
-                                        <v-list-item>
-                                            <v-list-item-action>微信机号</v-list-item-action>
-                                            <v-list-item-content>
-                                                <v-list-item-title>{{orderInfo.wechatMachine}}</v-list-item-title>
-                                            </v-list-item-content>
-                                        </v-list-item>
-                                    </v-col>
-                                    <v-col cols="6">
-                                        <v-list-item>
-                                            <v-list-item-action>指定起名师</v-list-item-action>
-                                            <v-list-item-content>
-                                                <v-list-item-title>{{orderInfo.nameGiver}}</v-list-item-title>
-                                            </v-list-item-content>
-                                        </v-list-item>
-                                    </v-col>
-                                    <v-col cols="6">
-                                        <v-list-item>
-                                            <v-list-item-action>订单金额</v-list-item-action>
-                                            <v-list-item-content>
-                                                <v-list-item-title>{{orderInfo.bills}}</v-list-item-title>
-                                            </v-list-item-content>
-                                        </v-list-item>
-                                    </v-col>
-                                    <v-col cols="6">
-                                        <v-list-item>
-                                            <v-list-item-action>套餐</v-list-item-action>
-                                            <v-list-item-content>
-                                                <v-list-item-title>{{orderInfo.plan}}</v-list-item-title>
-                                            </v-list-item-content>
-                                        </v-list-item>
-                                    </v-col>
-                                    <v-col
-                                            cols="6"
-                                    >
-                                        <v-list-item>
-                                            <v-list-item-action>五行</v-list-item-action>
-                                            <v-list-item-content>
-                                                <v-list-item-title>
-                                                    <v-row>
-                                                        <v-col cols="6">
-                                                            <v-text-field
-                                                                    v-model="orderInfo.wuxing"
-                                                                    class="top-zero"
-                                                            ></v-text-field>
-                                                        </v-col>
-                                                        <v-col cols="6">
-                                                            <v-btn
-                                                                    depressed
-                                                                    @click="submitWuxing"
-                                                                    :disabled="progress.show"
-                                                            >
-                                                                修改
-                                                            </v-btn>
-                                                        </v-col>
-                                                    </v-row>
-                                                </v-list-item-title>
-                                            </v-list-item-content>
-                                        </v-list-item>
-                                    </v-col>
-                                    <v-col cols="6">
-                                        <v-list-item>
-                                            <v-list-item-action>应交付时间</v-list-item-action>
-                                            <v-list-item-content>
-                                                <v-list-item-title>{{orderInfo.deliveryTime}}</v-list-item-title>
-                                            </v-list-item-content>
-                                        </v-list-item>
-                                    </v-col>
-                                    <v-col cols="6">
-                                        <v-list-item>
-                                            <v-list-item-action>姓氏</v-list-item-action>
-                                            <v-list-item-content>
-                                                <v-list-item-title>{{orderInfo.lastname}}</v-list-item-title>
-                                            </v-list-item-content>
-                                        </v-list-item>
-                                    </v-col>
-                                    <v-col cols="6">
-                                        <v-list-item>
-                                            <v-list-item-action>性别</v-list-item-action>
-                                            <v-list-item-content>
-                                                <v-list-item-title>{{orderInfo.sex}}</v-list-item-title>
-                                            </v-list-item-content>
-                                        </v-list-item>
-                                    </v-col>
-                                    <v-col cols="6">
-                                        <v-list-item>
-                                            <v-list-item-action>名字字数</v-list-item-action>
-                                            <v-list-item-content>
-                                                <v-list-item-title>{{orderInfo.nameSize}}</v-list-item-title>
-                                            </v-list-item-content>
-                                        </v-list-item>
-                                    </v-col>
-                                    <v-col cols="6">
-                                        <v-list-item>
-                                            <v-list-item-action>生日</v-list-item-action>
-                                            <v-list-item-content>
-                                                <v-list-item-title>{{orderInfo.birthday}}</v-list-item-title>
-                                            </v-list-item-content>
-                                        </v-list-item>
-                                    </v-col>
-                                    <v-col cols="6">
-                                        <v-list-item>
-                                            <v-list-item-action>生日(农历)</v-list-item-action>
-                                            <v-list-item-content>
-                                                <v-list-item-title>{{orderInfo.birthdayLunar}}</v-list-item-title>
-                                            </v-list-item-content>
-                                        </v-list-item>
-                                    </v-col>
-                                    <v-col cols="6">
-                                        <v-list-item>
-                                            <v-list-item-action>时(生日)</v-list-item-action>
-                                            <v-list-item-content>
-                                                <v-list-item-title>{{orderInfo.birthdayHour}}</v-list-item-title>
-                                            </v-list-item-content>
-                                        </v-list-item>
-                                    </v-col>
-                                    <v-col cols="6">
-                                        <v-list-item>
-                                            <v-list-item-action>分(生日)</v-list-item-action>
-                                            <v-list-item-content>
-                                                <v-list-item-title>{{orderInfo.birthdayMinute}}</v-list-item-title>
-                                            </v-list-item-content>
-                                        </v-list-item>
-                                    </v-col>
-                                    <v-col cols="6">
-                                        <v-list-item>
-                                            <v-list-item-action>禁用拼音</v-list-item-action>
-                                            <v-list-item-content>
-                                                <v-list-item-title>{{orderInfo.bannedPinyin}}</v-list-item-title>
-                                            </v-list-item-content>
-                                        </v-list-item>
-                                    </v-col>
-                                    <v-col cols="6">
-                                        <v-list-item>
-                                            <v-list-item-action>讨厌的字</v-list-item-action>
-                                            <v-list-item-content>
-                                                <v-list-item-title>{{orderInfo.bannedCharacter}}</v-list-item-title>
-                                            </v-list-item-content>
-                                        </v-list-item>
-                                    </v-col>
-                                    <v-col cols="6">
-                                        <v-list-item>
-                                            <v-list-item-action>固定字（字辈）</v-list-item-action>
-                                            <v-list-item-content>
-                                                <v-list-item-title>{{orderInfo.generation}}</v-list-item-title>
-                                            </v-list-item-content>
-                                        </v-list-item>
-                                    </v-col>
-                                    <v-col cols="12">
-                                        <v-list-item>
-                                            <v-list-item-action>风格要求</v-list-item-action>
-                                            <v-list-item-content>
-                                                {{orderInfo.style}}
-                                            </v-list-item-content>
-                                        </v-list-item>
-                                    </v-col>
-                                    <v-col cols="12">
-                                        <v-list-item>
-                                            <v-list-item-action>其他需求</v-list-item-action>
-                                            <v-list-item-content>
-                                                {{orderInfo.notes}}
-                                            </v-list-item-content>
-                                        </v-list-item>
-                                    </v-col>
-                                    <v-col
-                                            cols="12"
-                                            v-for="(item, index) in comments"
-                                            :key="index"
-                                    >
-                                        <v-list-item>
-                                            <v-list-item-action>待调整——{{index+1}}</v-list-item-action>
-                                            <v-list-item-content>
-                                                {{item.comment}}
-                                            </v-list-item-content>
-                                        </v-list-item>
-                                    </v-col>
-                                </v-row>
-                            </v-list>
-                        </v-card-text>
+                                <v-list>
+                                    <v-row>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>订单编号</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{orderInfo.orderNumber}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>销售姓名</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{orderInfo.salesman}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>微信机号</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{orderInfo.wechatMachine}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>指定起名师</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{orderInfo.nameGiver}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>订单金额</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{orderInfo.bills}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>套餐</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{orderInfo.plan}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col
+                                                cols="6"
+                                        >
+                                            <v-list-item>
+                                                <v-list-item-action>五行</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>
+                                                        <v-row>
+                                                            <v-col cols="6">
+                                                                <v-text-field
+                                                                        v-model="orderInfo.wuxing"
+                                                                        class="top-zero"
+                                                                ></v-text-field>
+                                                            </v-col>
+                                                            <v-col cols="6">
+                                                                <v-btn
+                                                                        depressed
+                                                                        @click="submitWuxing"
+                                                                        :disabled="progress.show"
+                                                                >
+                                                                    修改
+                                                                </v-btn>
+                                                            </v-col>
+                                                        </v-row>
+                                                    </v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>应交付时间</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{orderInfo.deliveryTime}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>姓氏</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{orderInfo.lastname}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>性别</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{orderInfo.sex}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>名字字数</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{orderInfo.nameSize}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>生日</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{orderInfo.birthday}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>生日(农历)</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{orderInfo.birthdayLunar}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>时(生日)</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{orderInfo.birthdayHour}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>分(生日)</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{orderInfo.birthdayMinute}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>禁用拼音</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{orderInfo.bannedPinyin}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>讨厌的字</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{orderInfo.bannedCharacter}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>固定字（字辈）</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{orderInfo.generation}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="12">
+                                            <v-list-item>
+                                                <v-list-item-action>风格要求</v-list-item-action>
+                                                <v-list-item-content>
+                                                    {{orderInfo.style}}
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="12">
+                                            <v-list-item>
+                                                <v-list-item-action>其他需求</v-list-item-action>
+                                                <v-list-item-content>
+                                                    {{orderInfo.notes}}
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col
+                                                cols="12"
+                                                v-for="(item, index) in comments"
+                                                :key="index"
+                                        >
+                                            <v-list-item>
+                                                <v-list-item-action>待调整——{{index+1}}</v-list-item-action>
+                                                <v-list-item-content>
+                                                    {{item.comment}}
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                    </v-row>
+                                </v-list>
+                            </v-card-text>
                         </v-card>
                     </v-col>
                 </v-row>
@@ -437,7 +437,8 @@
                                                 <v-list-item>
                                                     <v-list-item-action>姓名</v-list-item-action>
                                                     <v-list-item-content>
-                                                        <v-list-item-title>{{orderInfo.lastname + item.name}}</v-list-item-title>
+                                                        <v-list-item-title>{{orderInfo.lastname + item.name}}
+                                                        </v-list-item-title>
                                                     </v-list-item-content>
                                                 </v-list-item>
                                                 <v-list-item>
@@ -458,11 +459,13 @@
                                             <v-list>
                                                 <v-list-item>
                                                     <v-list-item-action>字义</v-list-item-action>
-                                                    <v-list-item-content class="wrapper">{{item.meaning}}</v-list-item-content>
+                                                    <v-list-item-content class="wrapper">{{item.meaning}}
+                                                    </v-list-item-content>
                                                 </v-list-item>
                                                 <v-list-item>
                                                     <v-list-item-action>出处</v-list-item-action>
-                                                    <v-list-item-content class="wrapper">{{item.source}}</v-list-item-content>
+                                                    <v-list-item-content class="wrapper">{{item.source}}
+                                                    </v-list-item-content>
                                                 </v-list-item>
                                             </v-list>
                                             <v-btn
@@ -471,6 +474,13 @@
                                                     v-clipboard:copy="copyContent(item)"
                                             >
                                                 复制
+                                            </v-btn>
+                                            <v-btn
+                                                    :disabled="runInfoNames.has(item.name)"
+                                                    depressed
+                                                    @click="recommend(item)"
+                                            >
+                                                推荐
                                             </v-btn>
                                         </v-expansion-panel-content>
                                     </v-expansion-panel>
@@ -494,7 +504,8 @@
                                                 <v-list-item>
                                                     <v-list-item-action>姓名</v-list-item-action>
                                                     <v-list-item-content>
-                                                        <v-list-item-title>{{orderInfo.lastname + item.name}}</v-list-item-title>
+                                                        <v-list-item-title>{{orderInfo.lastname + item.name}}
+                                                        </v-list-item-title>
                                                     </v-list-item-content>
                                                 </v-list-item>
                                                 <v-list-item>
@@ -515,11 +526,13 @@
                                             <v-list>
                                                 <v-list-item>
                                                     <v-list-item-action>字义</v-list-item-action>
-                                                    <v-list-item-content class="wrapper">{{item.meaning}}</v-list-item-content>
+                                                    <v-list-item-content class="wrapper">{{item.meaning}}
+                                                    </v-list-item-content>
                                                 </v-list-item>
                                                 <v-list-item>
                                                     <v-list-item-action>出处</v-list-item-action>
-                                                    <v-list-item-content class="wrapper">{{item.source}}</v-list-item-content>
+                                                    <v-list-item-content class="wrapper">{{item.source}}
+                                                    </v-list-item-content>
                                                 </v-list-item>
                                             </v-list>
                                             <v-btn
@@ -529,6 +542,13 @@
                                             >
                                                 复制
                                             </v-btn>
+                                            <v-btn
+                                                    :disabled="runInfoNames.has(item.name)"
+                                                    depressed
+                                                    @click="recommend(item)"
+                                            >
+                                                推荐
+                                            </v-btn>
                                         </v-expansion-panel-content>
                                     </v-expansion-panel>
                                 </v-expansion-panels>
@@ -537,6 +557,13 @@
                     </v-col>
                     <v-col>
                         <v-card-text>
+                            <v-btn
+                                    depressed
+                                    color="primary"
+                                    @click="dialog = true"
+                            >
+                                Word生成
+                            </v-btn>
                             <v-btn
                                     depressed
                                     @click="generateCharactersName"
@@ -558,6 +585,88 @@
                             </v-btn>
                         </v-card-text>
                     </v-col>
+                </v-row>
+                <v-row justify="center">
+                    <v-dialog
+                            v-model="dialog"
+                            max-width="750"
+                            scrollable
+                    >
+                        <v-card>
+                            <v-card-title
+                                    class="headline"
+                            >
+                                Word生成
+                            </v-card-title>
+                            <v-divider></v-divider>
+                            <v-card-text
+                                    style="height: 750px;"
+                            >
+                                <v-form
+                                        @submit.prevent="submitRunInfo"
+                                >
+                                    <v-row
+                                            v-for="(item, index) in runInfo"
+                                            :key="index">
+                                        <v-col>
+                                            <v-card>
+                                                <v-card-title
+                                                        class="headline"
+                                                >
+                                                    {{item.name}}
+                                                    <v-chip
+                                                            class="ma-2"
+                                                            close
+                                                            small
+                                                            color="red"
+                                                            text-color="white"
+                                                            @click="removeRecommend(index)"
+                                                            @click:close="removeRecommend(index)"
+                                                    >
+                                                        删除
+                                                    </v-chip>
+                                                    <v-chip
+                                                            v-if="index>0"
+                                                            class="ma-2"
+                                                            color="cyan"
+                                                            text-color="white"
+                                                            @click="upRecommend(index)"
+                                                            small
+                                                    >
+                                                        上移
+                                                    </v-chip>
+                                                </v-card-title>
+                                                <v-card-text>
+                                                    <v-text-field
+                                                            v-model="item.wuxing"
+                                                            label="五行"
+                                                    ></v-text-field>
+                                                    <v-textarea
+                                                            label="意义"
+                                                            v-model="item.meaning"
+                                                            auto-grow
+                                                    >
+                                                    </v-textarea>
+                                                </v-card-text>
+                                            </v-card>
+                                        </v-col>
+                                    </v-row>
+                                </v-form>
+                            </v-card-text>
+                            <v-divider></v-divider>
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn
+                                        depressed
+                                        color="primary"
+                                        @click="submitRunInfo"
+                                        :disabled="progress.show"
+                                >
+                                    确认
+                                </v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-dialog>
                 </v-row>
             </v-container>
         </v-main>
@@ -581,6 +690,7 @@
                 show: false,
                 query: true,
             },
+            dialog: false,
             visitCnt: null,
             mingpen: null,
             mingju: null,
@@ -642,9 +752,9 @@
                 value: 0,
                 show: false,
                 query: true,
-            }
-        },
-        computed: {
+            },
+            runInfo: [],
+            runInfoNames: new Set(),
         },
         methods: {
             submit() {
@@ -711,6 +821,43 @@
                         }
                     })
             },
+            recommend(item) {
+                this.runInfo.push({
+                    orderId: this.orderInfo.id,
+                    name: item.name,
+                    wuxing: item.wuxing,
+                    meaning: this.nullToString(item.meaning) + "\n" + this.nullToString(item.source)
+                })
+                this.runInfoNames.add(item.name)
+            },
+            removeRecommend(i) {
+                this.runInfoNames.delete(this.runInfo[i].name)
+                this.runInfo.splice(i, 1)
+            },
+            upRecommend(i) {
+                this.runInfo[i-1] = this.runInfo.splice(i, 1, this.runInfo[i-1])[0];
+            },
+            nullToString(str) {
+                return (str == null ? '' : str)
+            },
+            submitRunInfo() {
+                this.progress.show = true
+                axios.post('/order/run-info/' + this.orderInfo.id, this.runInfo, {responseType: 'blob'})
+                    .then(this.downloadFile)
+            },
+            downloadFile(response) {
+                if (response.status == 200) {
+                    let url = window.URL.createObjectURL(new Blob([response.data]))
+                    let link = document.createElement('a')
+                    link.style.display = 'none'
+                    link.href = url
+                    link.setAttribute('download', this.orderInfo.id + '.docx')
+                    document.body.appendChild(link)
+                    link.click()
+                    this.progress.show = false
+                    this.dialog=false
+                }
+            },
         },
         watch: {
             'snackbar.show': function () {
@@ -728,10 +875,6 @@
             },
         },
         created() {
-            axios.get('/getVisitCnt')
-                .then((response) => {
-                    this.visitCnt = response.data;
-                })
             axios.get('/order/run/detail/' + this.orderInfo.id)
                 .then((response) => {
                     this.orderInfo = response.data.orderInfo
@@ -741,7 +884,7 @@
                 })
             axios.get('/order/mingpen/' + this.orderInfo.id)
                 .then((response) => {
-                    if (response.data  === "") {
+                    if (response.data === "") {
                         this.mingpen = null
                     } else {
                         this.mingpen = response.data
@@ -749,11 +892,26 @@
                 })
             axios.get('/order/mingju/' + this.orderInfo.id)
                 .then((response) => {
-                    if (response.data  === "") {
+                    if (response.data === "") {
                         this.mingju = null
                     } else {
                         this.mingju = response.data
                     }
+                })
+            axios.get('/order/run-info/' + this.orderInfo.id)
+                .then((response) => {
+                    if (response.data === "") {
+                        this.runInfo = null
+                    } else {
+                        this.runInfo = response.data
+                        for (let i = 0; i < this.runInfo.length; i++) {
+                            this.runInfoNames.add(this.runInfo[i].name)
+                        }
+                    }
+                })
+            axios.get('/getVisitCnt')
+                .then((response) => {
+                    this.visitCnt = response.data;
                 })
         },
     })

@@ -112,7 +112,7 @@ task removeStage {
     }
 }
 
-task deploy(dependsOn: bootJar) {
+task deployProduction(dependsOn: bootJar) {
     doLast {
         ssh.settings {
             knownHosts = allowAnyHosts
@@ -133,7 +133,7 @@ task deploy(dependsOn: bootJar) {
     }
 }
 
-task removeDeploy {
+task removeProduction {
     doLast {
         ssh.settings {
             knownHosts = allowAnyHosts

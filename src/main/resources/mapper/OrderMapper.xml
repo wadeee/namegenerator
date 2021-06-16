@@ -251,4 +251,27 @@
         delete from order_generated_name
         where order_id = #{orderId}
     </delete>
+
+    <select id="getOrderRunInfo" resultType="OrderRunInfoModel">
+        select
+            id,
+            order_id orderId,
+            `name`,
+            wuxing,
+            meaning
+        from order_run_info
+        where order_id = #{orderId}
+    </select>
+
+    <delete id="removeOrderRunInfo" parameterType="String">
+        delete from order_run_info
+        where order_id = #{orderId}
+    </delete>
+
+    <insert id="addOrderRunInfo" parameterType="OrderRunInfoModel">
+        insert into order_run_info
+        (order_id, `name`, wuxing, meaning)
+        values (#{orderId}, #{name}, #{wuxing}, #{meaning})
+    </insert>
+
 </mapper>

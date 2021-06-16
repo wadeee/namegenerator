@@ -6,6 +6,8 @@ import com.chenhongliang.namegenerator.model.*;
 import com.chenhongliang.namegenerator.vo.OrderListVo;
 import com.github.pagehelper.PageInfo;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -44,4 +46,8 @@ public interface OrderService {
     Boolean deleteOrder(String orderId);
 
     Boolean finishOrder(String orderId, String resultName);
+
+    List<OrderRunInfoModel> getOrderRunInfo(String orderId);
+
+    Boolean modifyOrderRunInfo(String orderId, List<OrderRunInfoModel> runInfoModelList, HttpServletResponse response) throws IOException;
 }

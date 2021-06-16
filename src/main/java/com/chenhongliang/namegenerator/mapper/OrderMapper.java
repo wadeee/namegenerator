@@ -50,4 +50,11 @@ public interface OrderMapper {
     Boolean finishOrder(String orderId, String resultName);
 
     Boolean clearGeneratedNames(String orderId);
+
+    List<OrderRunInfoModel> getOrderRunInfo(String orderId);
+
+    Boolean removeOrderRunInfo(String orderId);
+
+    Boolean addOrderRunInfo(OrderRunInfoModel orderRunInfoModel);
+
 }
