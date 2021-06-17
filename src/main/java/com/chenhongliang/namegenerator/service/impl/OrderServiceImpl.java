@@ -315,7 +315,7 @@ public class OrderServiceImpl implements OrderService {
         for (Integer i = 0; i < 20; i++) {
             if (i < runInfoModelList.size()) {
                 replaceMap.put("${name" + i + "}", orderModel.getLastname() + runInfoModelList.get(i).getName() + "【" + runInfoModelList.get(i).getWuxing().replace(" ", "") + "】");
-                replaceMap.put("${meaning" + i + "}", runInfoModelList.get(i).getMeaning());
+                replaceListMap.put("${meaning" + i + "}", Arrays.asList(runInfoModelList.get(i).getMeaning().split("\n")));
             } else {
                 replaceMap.put("${name" + i + "}", null);
                 replaceMap.put("${meaning" + i + "}", null);
