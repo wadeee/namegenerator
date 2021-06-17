@@ -1,6 +1,8 @@
 package com.chenhongliang.namegenerator.constant;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Constant {
@@ -34,4 +36,6 @@ public class Constant {
         result.put('ǜ', 'ü');
         return result;
     }
+
+    public static List<String> wuxings = Arrays.asList(new String[]{"金", "木", "水", "火", "土"});
 }

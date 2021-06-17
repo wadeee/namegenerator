@@ -70,7 +70,6 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
                 }
             }
             if (flag) {
-                System.out.println(orderModel.getGeneration());
                 OrderGeneratedNameModel generatedNameModel = getNameInfoFromCharacter(generatedName, orderModel.getGeneration());
                 generatedNameModel.setOrderId(Integer.parseInt(orderId));
                 orderGeneratedNameModelList.add(generatedNameModel);

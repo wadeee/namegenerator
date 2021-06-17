@@ -1,6 +1,7 @@
 package com.chenhongliang.namegenerator.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.chenhongliang.namegenerator.constant.Constant;
 import com.chenhongliang.namegenerator.controller.NameGeneratorController;
 import com.chenhongliang.namegenerator.form.OrderCommentForm;
 import com.chenhongliang.namegenerator.form.OrderForm;
@@ -66,14 +67,6 @@ public class OrderServiceImpl implements OrderService {
         orderModel.setStatus("待交付");
         orderModel.setUpdateTime(DateStringUtils.dateToString(new Date()));
         orderModel.setDelivered(false);
-//        Map<String, List<String>> xiyongshenMap = null;
-//        if (orderModel.getPlan().startsWith("八字")) {
-//            Map<String, List<String>> xiyongshen = FortuneTellingUtils.getXiYongShen(orderForm);
-//            orderModel.setWuxing(String.join(" ", xiyongshen.get("yongshen")) + " " + String.join(" ", xiyongshen.get("xishen")));
-//            if (orderModel.getWuxing().length()>3) {
-//                xiyongshenMap = xiyongshen;
-//            }
-//        }
 
         Date dateNow = new Date();
         Calendar cal = Calendar.getInstance();
@@ -111,6 +104,7 @@ public class OrderServiceImpl implements OrderService {
             mingpenModel.setShui(objToString(mingpen.get("Shui")));
             mingpenModel.setTu(objToString(mingpen.get("Tu")));
             mingpenModel.setHuo(objToString(mingpen.get("Huo")));
+            orderMapper.updateWuxing(orderModel.getId().toString(), String.join(" ", getWuxingFromString(mingpenModel.getXishen()+mingpenModel.getYongshen())));
             orderMapper.addMingpen(mingpenModel);
             if (!orderModel.getPlan().startsWith("八字起名套餐1")) {
                 Map mingju = getMapFromAPI("/openapi/bazi/getMingju", querys);
@@ -134,7 +128,6 @@ public class OrderServiceImpl implements OrderService {
 
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("id", orderId);
-//        resultMap.put("xiyongshenMap", xiyongshenMap);
         resultMap.put("xiyongshenMap", null);
 
         return resultMap;
@@ -448,6 +441,16 @@ public class OrderServiceImpl implements OrderService {
         }
         LunarUtils lunar = new LunarUtils(day);
         return lunar.cyclical() + "年" + lunar.toString();
+    }
+
+    private static List<String> getWuxingFromString(String str) {
+        Set<String> result = new HashSet<>();
+        for (String xing: Constant.wuxings) {
+            if (str.indexOf(xing)>=0) {
+                result.add(xing);
+            }
+        }
+        return new ArrayList<>(result);
     }
 
 }
