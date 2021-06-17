@@ -15,7 +15,7 @@
                         :indeterminate="progress.query"
                         :query="progress.query"
                         fixed
-                        bottom
+                        top
                 ></v-progress-linear>
                 <v-row>
                     <v-col>
@@ -421,7 +421,10 @@
                     </v-col>
                 </v-row>
                 <v-row>
-                    <v-col cols="6">
+                    <v-col
+                            cols="6"
+                            style="margin-bottom: 68px"
+                    >
                         <v-card-title>字库生成名({{generatedCharacterNames.length}})</v-card-title>
                         <v-row
                                 v-for="(item, index) in generatedCharacterNames"
@@ -431,13 +434,23 @@
                                 <v-expansion-panels
                                         multiple
                                 >
+                                    <v-btn
+                                            :disabled="usedRunInfoNames.has(item.name)"
+                                            depressed
+                                            :color="runInfoNames.has(item.name) ? 'primary' : 'blue-grey'"
+                                            @click="recommend(item)"
+                                            width="100%"
+                                            small
+                                    >
+                                    </v-btn>
                                     <v-expansion-panel>
                                         <v-expansion-panel-header>
                                             <v-list>
                                                 <v-list-item>
                                                     <v-list-item-action>姓名</v-list-item-action>
                                                     <v-list-item-content>
-                                                        <v-list-item-title>{{orderInfo.lastname + item.name}}
+                                                        <v-list-item-title>
+                                                            {{orderInfo.lastname + item.name}}
                                                         </v-list-item-title>
                                                     </v-list-item-content>
                                                 </v-list-item>
@@ -476,7 +489,7 @@
                                                 复制
                                             </v-btn>
                                             <v-btn
-                                                    :disabled="runInfoNames.has(item.name)"
+                                                    :disabled="runInfoNames.has(item.name) || usedRunInfoNames.has(item.name)"
                                                     depressed
                                                     @click="recommend(item)"
                                             >
@@ -488,7 +501,10 @@
                             </v-col>
                         </v-row>
                     </v-col>
-                    <v-col cols="6">
+                    <v-col
+                            cols="6"
+                            style="margin-bottom: 68px"
+                    >
                         <v-card-title>名库生成名({{generatedNameLibraryNames.length}})</v-card-title>
                         <v-row
                                 v-for="(item, index) in generatedNameLibraryNames"
@@ -498,6 +514,15 @@
                                 <v-expansion-panels
                                         multiple
                                 >
+                                    <v-btn
+                                            :disabled="usedRunInfoNames.has(item.name)"
+                                            depressed
+                                            :color="runInfoNames.has(item.name) ? 'primary' : 'blue-grey'"
+                                            @click="recommend(item)"
+                                            width="100%"
+                                            small
+                                    >
+                                    </v-btn>
                                     <v-expansion-panel>
                                         <v-expansion-panel-header>
                                             <v-list>
@@ -543,7 +568,7 @@
                                                 复制
                                             </v-btn>
                                             <v-btn
-                                                    :disabled="runInfoNames.has(item.name)"
+                                                    :disabled="runInfoNames.has(item.name) || usedRunInfoNames.has(item.name)"
                                                     depressed
                                                     @click="recommend(item)"
                                             >
@@ -554,36 +579,6 @@
                                 </v-expansion-panels>
                             </v-col>
                         </v-row>
-                    </v-col>
-                    <v-col>
-                        <v-card-text>
-                            <v-btn
-                                    depressed
-                                    color="primary"
-                                    @click="dialog = true"
-                            >
-                                Word生成
-                            </v-btn>
-                            <v-btn
-                                    depressed
-                                    @click="generateCharactersName"
-                            >
-                                字库名字再生成
-                            </v-btn>
-                            <v-btn
-                                    depressed
-                                    @click="generateNameLibraryName"
-                            >
-                                名库名字再生成
-                            </v-btn>
-                            <v-btn
-                                    depressed
-                                    color="primary"
-                                    @click="deliver"
-                            >
-                                交付
-                            </v-btn>
-                        </v-card-text>
                     </v-col>
                 </v-row>
                 <v-row justify="center">
@@ -668,6 +663,54 @@
                         </v-card>
                     </v-dialog>
                 </v-row>
+                <v-footer
+                        fixed
+                        color="white"
+                        padless
+                        style="left: 256px"
+                >
+                    <v-card
+                            tile
+                            width="100%"
+                    >
+                        <v-card-text>
+                            <v-btn
+                                    depressed
+                                    color="primary"
+                                    @click="deliver"
+                            >
+                                交付
+                            </v-btn>
+                            <v-btn
+                                    depressed
+                                    @click="generateCharactersName"
+                            >
+                                字库名字再生成
+                            </v-btn>
+                            <v-btn
+                                    depressed
+                                    @click="generateNameLibraryName"
+                            >
+                                名库名字再生成
+                            </v-btn>
+                            <v-badge
+                                    bordered
+                                    color="primary"
+                                    :content="runInfo.length"
+                                    :value="runInfo.length>0"
+                                    overlap
+                            >
+                                <v-btn
+                                        depressed
+                                        color="primary"
+                                        @click="dialog = true"
+                                >
+                                    Word生成
+                                </v-btn>
+                            </v-badge>
+                        </v-card-text>
+                    </v-card>
+                </v-footer>
             </v-container>
         </v-main>
         <#include "/common/snakbar.ftl">
@@ -755,6 +798,7 @@
             },
             runInfo: [],
             runInfoNames: new Set(),
+            usedRunInfoNames: new Set(),
         },
         methods: {
             submit() {
@@ -835,7 +879,7 @@
                 this.runInfo.splice(i, 1)
             },
             upRecommend(i) {
-                this.runInfo[i-1] = this.runInfo.splice(i, 1, this.runInfo[i-1])[0];
+                this.runInfo[i - 1] = this.runInfo.splice(i, 1, this.runInfo[i - 1])[0];
             },
             nullToString(str) {
                 return (str == null ? '' : str)
@@ -847,16 +891,30 @@
             },
             downloadFile(response) {
                 if (response.status == 200) {
+                    this.refreshRunInfo()
                     let url = window.URL.createObjectURL(new Blob([response.data]))
                     let link = document.createElement('a')
                     link.style.display = 'none'
                     link.href = url
-                    link.setAttribute('download', this.orderInfo.id + '.docx')
+                    link.setAttribute('download', this.orderInfo.orderNumber + this.orderInfo.lastname + (this.orderInfo.sex === "未知" ? "" : this.orderInfo.sex) + '宝起名.docx')
                     document.body.appendChild(link)
                     link.click()
                     this.progress.show = false
-                    this.dialog=false
+                    this.dialog = false
                 }
+            },
+            refreshRunInfo() {
+                axios.get('/order/run-info/' + this.orderInfo.id)
+                    .then((response) => {
+                        if (response.data !== "") {
+                            this.usedRunInfoNames = new Set();
+                            this.runInfoNames = new Set();
+                            this.runInfo = [];
+                            for (let i = 0; i < response.data.length; i++) {
+                                this.usedRunInfoNames.add(response.data[i].name)
+                            }
+                        }
+                    })
             },
         },
         watch: {
@@ -900,12 +958,9 @@
                 })
             axios.get('/order/run-info/' + this.orderInfo.id)
                 .then((response) => {
-                    if (response.data === "") {
-                        this.runInfo = null
-                    } else {
-                        this.runInfo = response.data
-                        for (let i = 0; i < this.runInfo.length; i++) {
-                            this.runInfoNames.add(this.runInfo[i].name)
+                    if (response.data !== "") {
+                        for (let i = 0; i < response.data.length; i++) {
+                            this.usedRunInfoNames.add(response.data[i].name)
                         }
                     }
                 })

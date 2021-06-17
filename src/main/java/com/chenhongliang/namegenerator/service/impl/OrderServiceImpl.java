@@ -104,7 +104,7 @@ public class OrderServiceImpl implements OrderService {
             mingpenModel.setShui(objToString(mingpen.get("Shui")));
             mingpenModel.setTu(objToString(mingpen.get("Tu")));
             mingpenModel.setHuo(objToString(mingpen.get("Huo")));
-            orderMapper.updateWuxing(orderModel.getId().toString(), String.join(" ", getWuxingFromString(mingpenModel.getXishen()+mingpenModel.getYongshen())));
+            orderMapper.updateWuxing(orderModel.getId().toString(), String.join(" ", getWuxingFromString(mingpenModel.getXishen() + mingpenModel.getYongshen())));
             orderMapper.addMingpen(mingpenModel);
             if (!orderModel.getPlan().startsWith("八字起名套餐1")) {
                 Map mingju = getMapFromAPI("/openapi/bazi/getMingju", querys);
@@ -257,7 +257,6 @@ public class OrderServiceImpl implements OrderService {
     public Boolean modifyOrderRunInfo(String orderId,
                                       List<OrderRunInfoModel> runInfoModelList,
                                       HttpServletResponse response) throws IOException {
-        orderMapper.removeOrderRunInfo(orderId);
         for (OrderRunInfoModel item : runInfoModelList) {
             orderMapper.addOrderRunInfo(item);
         }
@@ -267,6 +266,7 @@ public class OrderServiceImpl implements OrderService {
         Map<String, String> replaceMap = new HashMap<>();
         Map<String, List<String>> replaceListMap = new HashMap<>();
         Boolean isBaziPlan = orderModel.getPlan().startsWith("八字");
+        Boolean isBaziPlanOne = orderModel.getPlan().startsWith("八字起名套餐1");
 
         if (isBaziPlan) {
             List<String> wuxingLack = new ArrayList<>();
@@ -300,9 +300,11 @@ public class OrderServiceImpl implements OrderService {
                 replaceMap.put("${shangyun}", NumberUtil.int2chineseNum(Integer.valueOf(mingpenModel.getJiaoyunshijian().substring(0, 4)) - Integer.valueOf(orderModel.getBirthday().substring(0, 4))));
             }
 
-            replaceListMap.put("${yiji}", strToCntList(mingjuModel.getYiji()));
-            replaceListMap.put("${xingge}", strToCntList(mingjuModel.getXingge()));
-            replaceListMap.put("${caifushiye}", strToCntList(mingjuModel.getCaifushiye()));
+            if (!isBaziPlanOne) {
+                replaceListMap.put("${yiji}", strToCntList(mingjuModel.getYiji()));
+                replaceListMap.put("${xingge}", strToCntList(mingjuModel.getXingge()));
+                replaceListMap.put("${caifushiye}", strToCntList(mingjuModel.getCaifushiye()));
+            }
         }
 
         for (Integer i = 0; i < 20; i++) {
@@ -315,7 +317,8 @@ public class OrderServiceImpl implements OrderService {
             }
         }
 
-        ClassPathResource resource = isBaziPlan ? new ClassPathResource("docs/bazi_tmpl.docx") : new ClassPathResource("docs/yuyi_tmpl.docx");
+        ClassPathResource resource = isBaziPlanOne ? new ClassPathResource("docs/bazione_tmpl.docx") :
+                isBaziPlan ? new ClassPathResource("docs/bazi_tmpl.docx") : new ClassPathResource("docs/yuyi_tmpl.docx");
         XWPFDocument doc = new XWPFDocument(resource.getInputStream());
         List<XWPFParagraph> toDeleteList = new ArrayList<>();
 
@@ -445,8 +448,8 @@ public class OrderServiceImpl implements OrderService {
 
     private static List<String> getWuxingFromString(String str) {
         Set<String> result = new HashSet<>();
-        for (String xing: Constant.wuxings) {
-            if (str.indexOf(xing)>=0) {
+        for (String xing : Constant.wuxings) {
+            if (str.indexOf(xing) >= 0) {
                 result.add(xing);
             }
         }
