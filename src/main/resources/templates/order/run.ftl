@@ -896,7 +896,7 @@
                     let link = document.createElement('a')
                     link.style.display = 'none'
                     link.href = url
-                    link.setAttribute('download', this.orderInfo.orderNumber + this.orderInfo.lastname + (this.orderInfo.sex === "未知" ? "" : this.orderInfo.sex) + '宝起名.docx')
+                    link.setAttribute('download', this.orderInfo.orderNumber + this.orderInfo.lastname + (this.orderInfo.sex === "未知" ? "" : this.orderInfo.sex) + '起名.docx')
                     document.body.appendChild(link)
                     link.click()
                     this.progress.show = false
