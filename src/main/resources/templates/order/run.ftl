@@ -496,13 +496,6 @@
                                             >
                                                 复制
                                             </v-btn>
-                                            <v-btn
-                                                    :disabled="runInfoNames.has(item.name) || usedRunInfoNames.has(item.name)"
-                                                    depressed
-                                                    @click="recommend(item)"
-                                            >
-                                                推荐
-                                            </v-btn>
                                         </v-expansion-panel-content>
                                     </v-expansion-panel>
                                 </v-expansion-panels>
@@ -574,13 +567,6 @@
                                                     v-clipboard:copy="copyContent(item)"
                                             >
                                                 复制
-                                            </v-btn>
-                                            <v-btn
-                                                    :disabled="runInfoNames.has(item.name) || usedRunInfoNames.has(item.name)"
-                                                    depressed
-                                                    @click="recommend(item)"
-                                            >
-                                                推荐
                                             </v-btn>
                                         </v-expansion-panel-content>
                                     </v-expansion-panel>
