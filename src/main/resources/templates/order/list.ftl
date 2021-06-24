@@ -230,8 +230,16 @@
                                         <v-col cols="6">
                                             <v-text-field
                                                     v-model="editForm.generation"
-                                                    label="固定字（字辈）"
+                                                    label="指定字"
                                             ></v-text-field>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-select
+                                                    v-model="editForm.generationPos"
+                                                    :items="positions"
+                                                    label="指定字位置"
+                                                    :disabled="editForm.generation == null || editForm.generation == ''"
+                                            ></v-select>
                                         </v-col>
                                         <v-col cols="6">
                                             <v-select
@@ -423,9 +431,14 @@
                 bannedPinyin: null,
                 bannedCharacter: null,
                 generation: null,
+                generationPos: null,
                 style: null,
                 notes: null,
             },
+            positions: [
+                2,
+                3,
+            ],
             rules: [
                 value => !!value || '必填',
             ],
@@ -711,6 +724,13 @@
             },
             'pageNo': function () {
                 this.refreshList()
+            },
+            'editForm.generation': function () {
+                if (this.editForm.generation == null || this.editForm.generation === '') {
+                    this.editForm.generationPos = null
+                } else {
+                    this.editForm.generationPos = this.positions[0]
+                }
             },
         },
         created() {

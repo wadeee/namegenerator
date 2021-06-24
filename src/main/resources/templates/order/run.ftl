@@ -182,9 +182,17 @@
                                         </v-col>
                                         <v-col cols="6">
                                             <v-list-item>
-                                                <v-list-item-action>固定字（字辈）</v-list-item-action>
+                                                <v-list-item-action>指定字</v-list-item-action>
                                                 <v-list-item-content>
                                                     <v-list-item-title>{{orderInfo.generation}}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-list-item>
+                                                <v-list-item-action>指定字位置</v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{orderInfo.generationPos}}</v-list-item-title>
                                                 </v-list-item-content>
                                             </v-list-item>
                                         </v-col>
@@ -757,6 +765,7 @@
                 bannedPinyin: null,
                 bannedCharacter: null,
                 generation: null,
+                generationPos: null,
                 style: null,
                 notes: null,
             },

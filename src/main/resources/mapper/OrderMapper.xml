@@ -23,6 +23,7 @@
         <id column="banned_pinyin" property="bannedPinyin"/>
         <id column="banned_character" property="bannedCharacter"/>
         <id column="generation" property="generation"/>
+        <id column="generation_pos" property="generationPos"/>
         <id column="style" property="style"/>
         <id column="notes" property="notes"/>
         <id column="status" property="status"/>
@@ -51,6 +52,7 @@
             <if test="bannedPinyin != null and bannedPinyin != ''">banned_pinyin,</if>
             <if test="bannedCharacter != null and bannedCharacter != ''">banned_character,</if>
             <if test="generation != null and generation != ''">generation,</if>
+            <if test="generationPos != null and generationPos != ''">generation_pos,</if>
             <if test="style != null and style != ''">`style`,</if>
             <if test="notes != null and notes != ''">notes,</if>
             <if test="status != null and status != ''">status,</if>
@@ -76,6 +78,7 @@
             <if test="bannedPinyin != null and bannedPinyin != ''">#{bannedPinyin},</if>
             <if test="bannedCharacter != null and bannedCharacter != ''">#{bannedCharacter},</if>
             <if test="generation != null and generation != ''">#{generation},</if>
+            <if test="generationPos != null and generationPos != ''">#{generationPos},</if>
             <if test="style != null and style != ''">#{style},</if>
             <if test="notes != null and notes != ''">#{notes},</if>
             <if test="status != null and status != ''">#{status},</if>
@@ -139,6 +142,7 @@
             banned_pinyin = #{bannedPinyin},
             banned_character = #{bannedCharacter},
             generation = #{generation},
+            generation_pos = #{generationPos},
             `style` = #{style},
             notes = #{notes},
             wuxing = #{wuxing},

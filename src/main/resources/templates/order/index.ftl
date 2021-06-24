@@ -183,8 +183,16 @@
                                     <v-col cols="4">
                                         <v-text-field
                                                 v-model="orderForm.generation"
-                                                label="固定字（字辈）"
+                                                label="指定字"
                                         ></v-text-field>
+                                    </v-col>
+                                    <v-col cols="4">
+                                        <v-select
+                                                v-model="orderForm.generationPos"
+                                                :items="positions"
+                                                label="指定字位置"
+                                                :disabled="orderForm.generation == null || orderForm.generation == ''"
+                                        ></v-select>
                                     </v-col>
                                 </v-row>
                                 <v-row>
@@ -379,6 +387,7 @@
                 bannedPinyin: null,
                 bannedCharacter: null,
                 generation: null,
+                generationPos: null,
                 style: null,
                 notes: null,
             },
@@ -555,6 +564,10 @@
                 show: false,
                 query: true,
             },
+            positions: [
+                2,
+                3,
+            ],
             xishen: [],
             yongshen: [],
             selectedWuxings: [],
@@ -676,6 +689,13 @@
             },
             'nameSizeArray': function () {
                 this.orderForm.nameSize = this.nameSizeArray.join(', ')
+            },
+            'orderForm.generation': function () {
+                if (this.orderForm.generation == null || this.orderForm.generation === '') {
+                    this.orderForm.generationPos = null
+                } else {
+                    this.orderForm.generationPos = this.positions[0]
+                }
             },
         },
         created() {

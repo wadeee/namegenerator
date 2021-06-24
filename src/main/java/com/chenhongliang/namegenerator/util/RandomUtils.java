@@ -13,9 +13,9 @@ public class RandomUtils {
     }
 
     public static String randomInsert(String origin, String inStr) {
-        StringBuffer stringBuffer = new StringBuffer(origin);
-        stringBuffer.insert(rand.nextInt(origin.length() + 1), inStr);
-        return stringBuffer.toString();
+        StringBuilder stringBuilder = new StringBuilder(origin);
+        stringBuilder.insert(rand.nextInt(origin.length() + 1), inStr);
+        return stringBuilder.toString();
     }
 
 }

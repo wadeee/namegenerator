@@ -12,7 +12,5 @@ public interface NameGeneratorService {
 
     Boolean removeGeneratedNames(String orderId);
 
-    OrderGeneratedNameModel getNameInfoFromCharacter(String name, String generation);
-
     OrderGeneratedNameModel getNameInfoFromNameLibrary(String name);
 }

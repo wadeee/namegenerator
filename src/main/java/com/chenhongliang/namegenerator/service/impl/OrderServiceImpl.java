@@ -61,6 +61,7 @@ public class OrderServiceImpl implements OrderService {
         orderModel.setBannedPinyin(SplitStringUtils.commaInit(PinyinUtils.getPinyin(orderForm.getBannedPinyin())));
         orderModel.setBannedCharacter(SplitStringUtils.commaInit(orderForm.getBannedCharacter()));
         orderModel.setGeneration(orderForm.getGeneration());
+        orderModel.setGenerationPos(orderForm.getGenerationPos());
         orderModel.setStyle(orderForm.getStyle());
         orderModel.setNotes(orderForm.getNotes());
         orderModel.setWuxing(orderForm.getWuxing());

@@ -29,6 +29,7 @@ public class OrderModel implements Serializable {
     private String bannedPinyin;
     private String bannedCharacter;
     private String generation;
+    private Integer generationPos;
     private String style;
     private String notes;
     private String status;

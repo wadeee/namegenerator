@@ -70,7 +70,7 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
                 }
             }
             if (flag) {
-                OrderGeneratedNameModel generatedNameModel = getNameInfoFromCharacter(generatedName, orderModel.getGeneration());
+                OrderGeneratedNameModel generatedNameModel = getNameInfoFromCharacter(generatedName, orderModel.getGeneration(), orderModel.getGenerationPos());
                 generatedNameModel.setOrderId(Integer.parseInt(orderId));
                 orderGeneratedNameModelList.add(generatedNameModel);
                 addList.add(generatedNameModel);
@@ -232,11 +232,16 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
         return null;
     }
 
-    @Override
-    public OrderGeneratedNameModel getNameInfoFromCharacter(String name, String generation) {
+    private OrderGeneratedNameModel getNameInfoFromCharacter(String name, String generation, Integer generationPos) {
         OrderGeneratedNameModel orderGeneratedNameModel = new OrderGeneratedNameModel();
         if (!Objects.isNull(generation) && !generation.isEmpty()) {
-            orderGeneratedNameModel.setName(RandomUtils.randomInsert(name, generation));
+            if (!Objects.isNull(generationPos)) {
+                StringBuilder stringBuilder = new StringBuilder(name);
+                stringBuilder.insert(generationPos-2, generation);
+                orderGeneratedNameModel.setName(stringBuilder.toString());
+            } else {
+                orderGeneratedNameModel.setName(RandomUtils.randomInsert(name, generation));
+            }
         } else {
             orderGeneratedNameModel.setName(name);
         }
