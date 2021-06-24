@@ -100,7 +100,7 @@
                 </foreach>
             </if>
             <if test="generation != null and generation != ''">
-                and `name` like concat(#{generation}, '%')
+                and `name` like concat('%', #{generation}, '%')
             </if>
             and length(`name`) = #{nameSize[0]}*3
         </where>
