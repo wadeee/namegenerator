@@ -1,9 +1,9 @@
 package com.chenhongliang.namegenerator.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.chenhongliang.namegenerator.constant.Constant;
 import com.chenhongliang.namegenerator.util.HttpUtils;
 import com.chenhongliang.namegenerator.util.LunarUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.springframework.lang.Nullable;
@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -41,8 +39,7 @@ public class HongyanController {
                          @Nullable @RequestParam(value = "payed") String payed,
                          @Nullable @RequestParam(value = "service") Set<String> service,
                          Model model) throws IOException, ParseException {
-        Map pinyinMap = getPinyinMap();
-        model.addAttribute("pinyinMap", pinyinMap);
+        model.addAttribute("pinyinMap", Constant.hongyanTranslateMap);
 
         Map<String, String> formInfo = new LinkedHashMap<>();
         formInfo.put("姓", lastName);
@@ -79,14 +76,6 @@ public class HongyanController {
         return "hongyan/result";
     }
 
-    public Map getPinyinMap() throws IOException {
-        InputStream in = this.getClass().getClassLoader().getResourceAsStream("static/translatemap.json");
-        String jsonStr = IOUtils.toString(in, StandardCharsets.UTF_8);
-        Map jsonMap=JSON.parseObject(String.valueOf(jsonStr), HashMap.class);
-
-        return jsonMap;
-    }
-
     private Map getMapFromAPI(String path, Map<String, String> querys){
         String host = "https://openapi.fatebox.cn";
         String appcode = "32cf3b4f21904b27bd7877354307b724";
@@ -106,8 +95,7 @@ public class HongyanController {
              */
             HttpResponse response = HttpUtils.doGet(host, path, headers, querys);
             String result = EntityUtils.toString(response.getEntity());
-            Map mapType = JSON.parseObject(result, LinkedHashMap.class);
-            return mapType;
+            return JSON.parseObject(result, LinkedHashMap.class);
         } catch (Exception e) {
             e.printStackTrace();
             return new HashMap();
