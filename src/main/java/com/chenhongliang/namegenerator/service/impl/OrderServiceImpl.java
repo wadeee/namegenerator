@@ -58,8 +58,8 @@ public class OrderServiceImpl implements OrderService {
         orderModel.setBirthdayLunar(solarToLunar(orderForm.getBirthday()));
         orderModel.setBirthdayHour(orderForm.getBirthdayHour());
         orderModel.setBirthdayMinute(orderForm.getBirthdayMinute());
-        orderModel.setBannedPinyin(SplitStringUtils.commaInit(PinyinUtils.getPinyin(orderForm.getBannedPinyin())));
-        orderModel.setBannedCharacter(SplitStringUtils.commaInit(orderForm.getBannedCharacter()));
+        orderModel.setBannedPinyin(SplitStringUtils.initComma(PinyinUtils.getPinyin(orderForm.getBannedPinyin())));
+        orderModel.setBannedCharacter(SplitStringUtils.initComma(orderForm.getBannedCharacter()));
         orderModel.setGeneration(orderForm.getGeneration());
         orderModel.setGenerationPos(orderForm.getGenerationPos());
         orderModel.setStyle(orderForm.getStyle());
@@ -73,7 +73,7 @@ public class OrderServiceImpl implements OrderService {
         Calendar cal = Calendar.getInstance();
         cal.setTime(dateNow);
         cal.add(Calendar.HOUR, orderForm.getTillDeliveryTime());
-        orderModel.setDeliveryTime(DateStringUtils.dateToStringLong(cal.getTime()));
+        orderModel.setDeliveryTime(DateStringUtils.dateToStringFull(cal.getTime()));
         orderMapper.insert(orderModel);
         Integer orderId = orderModel.getId();
 
@@ -180,14 +180,14 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Boolean updateOrder(OrderModel orderModel) {
-        orderModel.setBannedPinyin(SplitStringUtils.commaInit(PinyinUtils.getPinyin(orderModel.getBannedPinyin())));
-        orderModel.setBannedCharacter(SplitStringUtils.commaInit(orderModel.getBannedCharacter()));
+        orderModel.setBannedPinyin(SplitStringUtils.initComma(PinyinUtils.getPinyin(orderModel.getBannedPinyin())));
+        orderModel.setBannedCharacter(SplitStringUtils.initComma(orderModel.getBannedCharacter()));
         if (!Objects.isNull(orderModel.getTillDeliveryTime())) {
             Date dateNow = new Date();
             Calendar cal = Calendar.getInstance();
             cal.setTime(dateNow);
             cal.add(Calendar.HOUR, orderModel.getTillDeliveryTime());
-            orderModel.setDeliveryTime(DateStringUtils.dateToStringLong(cal.getTime()));
+            orderModel.setDeliveryTime(DateStringUtils.dateToStringFull(cal.getTime()));
         }
         orderModel.setUpdateTime(DateStringUtils.dateToString(new Date()));
         orderModel.setBirthdayLunar(solarToLunar(orderModel.getBirthday()));
@@ -329,15 +329,6 @@ public class OrderServiceImpl implements OrderService {
         for (int i = doc.getParagraphs().size() - 1; i >= 0; i--) {
             XWPFParagraph p = doc.getParagraphs().get(i);
             String text = p.getText();
-//            System.out.println("[p]");
-//            System.out.println(text);
-//            {
-//                List<XWPFRun> runs = p.getRuns();
-//                for (XWPFRun r : runs) {
-//                    System.out.println("[r]");
-//                    System.out.println(r.text());
-//                }
-//            }
             if (!Objects.isNull(text) && !text.isEmpty()) {
                 for (String key : replaceMap.keySet()) {
                     if (text.contains(key)) {

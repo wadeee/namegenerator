@@ -206,27 +206,27 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
     }
 
     private String newNameFromCharacter(NameConstrainForm nameConstrainForm, Map<String, List<String>> wuxingToCharactersMap) {
-        Integer nameSize = RandomUtils.randomSelect(nameConstrainForm.getNameSize());
+        Integer nameSize = RandomUtils.randomSelectFromList(nameConstrainForm.getNameSize());
         List<String> wuxingOrder;
         if (Objects.isNull(nameConstrainForm.getWuxing()) || nameConstrainForm.getWuxing().isEmpty()) {
             switch (nameSize) {
                 case 1:
-                    return RandomUtils.randomSelect(wuxingToCharactersMap.get(""));
+                    return RandomUtils.randomSelectFromList(wuxingToCharactersMap.get(""));
                 case 2:
-                    return RandomUtils.randomSelect(wuxingToCharactersMap.get("")) + RandomUtils.randomSelect(wuxingToCharactersMap.get(""));
+                    return RandomUtils.randomSelectFromList(wuxingToCharactersMap.get("")) + RandomUtils.randomSelectFromList(wuxingToCharactersMap.get(""));
                 case 3:
-                    return RandomUtils.randomSelect(wuxingToCharactersMap.get("")) + RandomUtils.randomSelect(wuxingToCharactersMap.get("")) + RandomUtils.randomSelect(wuxingToCharactersMap.get(""));
+                    return RandomUtils.randomSelectFromList(wuxingToCharactersMap.get("")) + RandomUtils.randomSelectFromList(wuxingToCharactersMap.get("")) + RandomUtils.randomSelectFromList(wuxingToCharactersMap.get(""));
             }
         } else {
             switch (nameSize) {
                 case 1:
-                    return RandomUtils.randomSelect(wuxingToCharactersMap.get(RandomUtils.randomSelect(nameConstrainForm.getWuxing())));
+                    return RandomUtils.randomSelectFromList(wuxingToCharactersMap.get(RandomUtils.randomSelectFromList(nameConstrainForm.getWuxing())));
                 case 2:
                     wuxingOrder = disorder(nameConstrainForm.getWuxing(), nameSize);
-                    return RandomUtils.randomSelect(wuxingToCharactersMap.get(wuxingOrder.get(0))) + RandomUtils.randomSelect(wuxingToCharactersMap.get(wuxingOrder.get(1)));
+                    return RandomUtils.randomSelectFromList(wuxingToCharactersMap.get(wuxingOrder.get(0))) + RandomUtils.randomSelectFromList(wuxingToCharactersMap.get(wuxingOrder.get(1)));
                 case 3:
                     wuxingOrder = disorder(nameConstrainForm.getWuxing(), nameSize);
-                    return RandomUtils.randomSelect(wuxingToCharactersMap.get(wuxingOrder.get(0))) + RandomUtils.randomSelect(wuxingToCharactersMap.get(wuxingOrder.get(1))) + RandomUtils.randomSelect(wuxingToCharactersMap.get(wuxingOrder.get(2)));
+                    return RandomUtils.randomSelectFromList(wuxingToCharactersMap.get(wuxingOrder.get(0))) + RandomUtils.randomSelectFromList(wuxingToCharactersMap.get(wuxingOrder.get(1))) + RandomUtils.randomSelectFromList(wuxingToCharactersMap.get(wuxingOrder.get(2)));
             }
         }
         return null;
@@ -283,7 +283,7 @@ public class NameGeneratorServiceImpl implements NameGeneratorService {
     private List<String> disorder(List<String> wuxing, Integer nameSize) {
         List<String> result = new ArrayList<>();
         for (int i = 0; i < nameSize; i++) {
-            result.add(RandomUtils.randomSelect(wuxing));
+            result.add(RandomUtils.randomSelectFromList(wuxing));
         }
         Set<String> resultSet = new HashSet<>(result);
         if (wuxing.size() > 1 && resultSet.size() <= 1) return disorder(wuxing, nameSize);

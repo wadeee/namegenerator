@@ -59,7 +59,7 @@ public class NameLibraryServiceImpl implements NameLibraryService {
 
     @Override
     public Boolean updatePinyin(NameLibraryPinyinForm nameLibraryPinyinForm) {
-        nameLibraryMapper.updatePinyin(nameLibraryPinyinForm.getName(), nameLibraryPinyinForm.getPinyin(), PinyinUtils.atonalPinyin(nameLibraryPinyinForm.getPinyin()));
+        nameLibraryMapper.updatePinyin(nameLibraryPinyinForm.getName(), nameLibraryPinyinForm.getPinyin(), PinyinUtils.getAtonalPinyin(nameLibraryPinyinForm.getPinyin()));
         return true;
     }
 

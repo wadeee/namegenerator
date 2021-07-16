@@ -43,7 +43,7 @@ public class SingleCharacterServiceImpl implements SingleCharacterService {
             singleCharacterModel.setFemale(false);
             singleCharacterModel.setMale(false);
             try {
-                singleCharacterModel.setAtonalPinyin(PinyinUtils.atonalPinyin(singleCharacterModel.getPinyin()));
+                singleCharacterModel.setAtonalPinyin(PinyinUtils.getAtonalPinyin(singleCharacterModel.getPinyin()));
                 singleCharacterMapper.insert(singleCharacterModel);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -55,7 +55,7 @@ public class SingleCharacterServiceImpl implements SingleCharacterService {
     @Override
     public String updatePinyin(Map<String, String> pinyinMap) {
         for (Map.Entry<String, String> entry : pinyinMap.entrySet()) {
-            singleCharacterMapper.updatePinyin(entry.getKey(), entry.getValue(), PinyinUtils.atonalPinyin(entry.getValue()));
+            singleCharacterMapper.updatePinyin(entry.getKey(), entry.getValue(), PinyinUtils.getAtonalPinyin(entry.getValue()));
         }
         return "success";
     }

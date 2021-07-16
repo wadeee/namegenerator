@@ -12,7 +12,7 @@ public class SplitStringUtils {
         return Arrays.asList(str.split("[　\\s]*[、,，　\\s][　\\s]*"));
     }
 
-    public static String commaInit(String str) {
+    public static String initComma(String str) {
         return splitString(str).toString().replace("[","").replace("]","");
     }
 

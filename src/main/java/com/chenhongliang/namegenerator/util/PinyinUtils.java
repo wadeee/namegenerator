@@ -13,7 +13,7 @@ import java.util.Objects;
 
 public class PinyinUtils {
 
-    public static String atonalPinyin(String pinyin) {
+    public static String getAtonalPinyin(String pinyin) {
         String result = pinyin;
         for (Map.Entry<Character, Character> entry : Constant.pinyinSwitchMap.entrySet()) {
             result = result.replace(entry.getKey(), entry.getValue());
